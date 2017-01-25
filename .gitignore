@@ -1,3 +1,7 @@
+# Generated files
+bin/
+gen/
+out/
 *.class
 
 # Mobile Tools for Java (J2ME)

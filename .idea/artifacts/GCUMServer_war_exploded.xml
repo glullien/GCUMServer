@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="GCUMServer:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/GCUMServer_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="GCUMServer/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="GCUMServer" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="json_simple-1.1" />
+          <element id="library" level="project" name="KotlinJavaRuntime" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
