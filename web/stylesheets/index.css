@@ -1,0 +1,48 @@
+#map {
+	height: 750px;
+	width: 100%;
+}
+
+#photos {
+	position: fixed;
+	left: 80px;
+	right: 80px;
+	top: 80px;
+	padding: 20px;
+	border: 4px solid black;
+	background: white;
+}
+
+#photos p {
+	line-height: 1px;
+	text-align: right;
+}
+
+#photosList {
+	overflow: auto;
+	height: 530px;
+	display: inline-block;
+}
+
+.photo {
+}
+
+.photoAndLegend {
+	margin-right: 10px;
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.photoDate {
+	margin-left: 20px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#infoPhoto {
+	font-size: 12px;
+}
+
+#infoPhoto p {
+	line-height: 3px;
+}

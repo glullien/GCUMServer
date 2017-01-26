@@ -1,0 +1,13 @@
+* {
+	font-family: sans-serif;
+}
+
+.close {
+	font-size: 20px;
+	text-decoration: none;
+	color: #666;
+}
+
+.close:hover {
+	color: #000;
+}
