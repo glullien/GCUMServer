@@ -22,20 +22,17 @@ class GetPointInfo : JsonServlet() {
          TimeFrame.LastMonth->after(LocalDate.now().minusMonths(1), allPhotos)
       }
       if (photos.isEmpty()) throw IllegalAccessException("Photos not found")
+      val sortedPhotos = photos.sortedByDescending {it.moment.date}
       return jsonSuccess {
-         put("ids", photos.map {it.id})
-         val dates = photos.map {it.moment.date}
-         val minDate = dates.min()?.format(DateTimeFormatter.ISO_DATE) ?: throw AssertionError("Impossible")
-         val maxDate = dates.max()?.format(DateTimeFormatter.ISO_DATE) ?: throw AssertionError("Impossible")
+         put("photos", sortedPhotos.map {sub {
+              put("date", it.moment.date.format(DateTimeFormatter.ISO_DATE))
+              put("id", it.id)
+         }})
+         val minDate = sortedPhotos.last().moment.date.format(DateTimeFormatter.ISO_DATE)
+         val maxDate = sortedPhotos.first().moment.date.format(DateTimeFormatter.ISO_DATE)
          put("dates", minDate + if (maxDate == minDate) "" else " -> $maxDate")
          put("street", htmlEncode(photos.first().location.address.street))
       }
-      /*return if (photo == null) jsonError("Photo not found") else jsonSuccess {
-         put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
-         put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
-         put("street", photo.location.address.street)
-         put("district", photo.location.address.district)
-      } */
    }
 
    private fun after(date: LocalDate, source: Collection<Photo>) = source.filterNot {it.moment.date.isBefore(date)}

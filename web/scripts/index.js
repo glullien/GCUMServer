@@ -11,40 +11,17 @@ var contentString = '<div id="infoPhoto">' +
 	'<p><img id="infoPhotoThumbnail" src=""></p>' +
 	'</div>';
 var currentPhotosIds;
-function getPhotoView(photoId) {
+function getPhotoView(photo) {
 	return '<div class="photoAndLegend">' +
-		'<img src="getPhoto?id=' + photoId + '&maxSize=400" class="photo">' +
-		'<br/><span class="photoDate" id="legendId' + photoId + '">-</span>' +
+		'<img src="getPhoto?id=' + photo.id + '&maxSize=400" class="photo">' +
+		'<br/><span class="photoDate" id="legendId' + photo.id + '">'+photo.date+'</span>' +
 		'</div>';
-}
-function downloadLegend(photoId) {
-	$.ajax({
-		url: 'getPhotoInfo',
-		type: 'POST',
-		data: {'id': photoId},
-		dataType: 'json',
-		success: function (json) {
-			console.debug("json=" + json);
-			if (json.result == 'success') {
-				var legend = json.date;
-				if (json.time != "unknown") legend += " " + json.time;
-				$("#legendId" + photoId).html(legend);
-			}
-			else {
-				$("#legendId" + photoId).html("error " + json.message);
-			}
-		},
-		error: function () {
-			$("#legendId" + photoId).html("error");
-		}
-	});
 }
 function viewPhotos() {
 	var content = "";
 	for (var i = 0; i < currentPhotosIds.length; i++) content += getPhotoView(currentPhotosIds[i]);
 	$("#photosList").html(content);
 	$("#photos").show();
-	for (var i = 0; i < currentPhotosIds.length; i++) downloadLegend(currentPhotosIds[i]);
 }
 
 function createMarker(latitude, longitude) {
@@ -65,11 +42,11 @@ function createMarker(latitude, longitude) {
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
-					currentPhotosIds = json.ids;
-					$("#infoPhotoCount").html(json.ids.length);
+					currentPhotosIds = json.photos;
+					$("#infoPhotoCount").html(json.photos.length);
 					$("#infoPhotoDates").html(json.dates);
 					$("#infoPhotoStreet").html(json.street)
-					$("#infoPhotoThumbnail").attr("src", "getPhoto?id=" + json.ids[0] + "&maxSize=150")
+					$("#infoPhotoThumbnail").attr("src", "getPhoto?id=" + json.photos[0].id + "&maxSize=150")
 				}
 				else {
 					$("#infoPhotoCount").html(json.message)
