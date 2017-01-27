@@ -23,4 +23,4 @@ class Logger(val java: java.util.logging.Logger) {
 
 fun getLogger(name: String) = Logger(java.util.logging.Logger.getLogger(name))
 
-fun getLogger() = getLogger(getClassName("fr.besoindunconseil.util.LogKt"))
+fun getLogger() = getLogger(getClassName("gcum.utils.LogKt"))

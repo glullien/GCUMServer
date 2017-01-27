@@ -8,7 +8,18 @@
     <script type="text/javascript" src="scripts/index.js"></script>
 </head>
 <body>
+<div id="controls">
+    <div class="controlBox">
+        <span class="label">Afficher:</span><a href="#" id="display">tous</a>
+    </div>
+</div>
 <div id="map"></div>
+<div id="displayChoices">
+    <a id="displayAll" href="#">Tous</a>
+    <a id="displayLastDay" href="#">Dernier jour</a>
+    <a id="displayLastWeek" href="#">Dernière semaine</a>
+    <a id="displayLastMonth" href="#">Dernière mois</a>
+</div>
 <div id="photos">
     <p><a id="photosClose" href="#" class="close">&#10006;</a></p>
     <div id="photosList"></div>

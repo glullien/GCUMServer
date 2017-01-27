@@ -2,6 +2,31 @@
 	font-family: sans-serif;
 }
 
+body {
+	margin: 0;
+	padding: 0
+}
+
+.controlBox {
+	padding: 2px;
+	background: lightgrey;
+	border: 1px outset darkgrey;
+}
+
+.controlBox .label {
+	padding: 2px;
+}
+
+.controlBox a {
+	font-weight: bold;
+	text-decoration: none;
+	padding: 2px;
+}
+
+.controlBox a:hover {
+	background: white;
+}
+
 .close {
 	font-size: 20px;
 	text-decoration: none;

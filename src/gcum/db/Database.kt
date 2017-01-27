@@ -3,12 +3,11 @@ package gcum.db
 import gcum.conf.Configuration
 import gcum.conf.KProperties
 import gcum.geo.Point
+import gcum.utils.time
 import java.io.File
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 object Database {
 
@@ -31,7 +30,7 @@ object Database {
                dateDir.listFiles(File::isImageFile).forEach {
                   imageFile->
                   //addDicoveredPhotoExecPool.execute {
-                     add(districtDir, streetDir, dateDir, auxDir, imageFile)
+                  add(districtDir, streetDir, dateDir, auxDir, imageFile)
                   //}
                }
             }
@@ -61,5 +60,5 @@ object Database {
 }
 
 fun main(args: Array<String>) {
-   Database.shutdown()
+   time("Database loading") {Database.shutdown()}
 }

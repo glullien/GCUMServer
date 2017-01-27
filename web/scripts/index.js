@@ -45,14 +45,14 @@ function viewPhotos() {
 	$("#photos").show();
 	for (var i = 0; i < currentPhotosIds.length; i++) downloadLegend(currentPhotosIds[i]);
 }
-function closePhotos() {
-	$("#photos").hide();
-}
+
+var markers = [];
 function addMarker(latitude, longitude) {
 	var marker = new google.maps.Marker({
 		position: {lat: latitude * 1.0 / 1E10, lng: longitude * 1.0 / 1E10},
 		map: map
 	});
+	markers.push(marker);
 	marker.addListener('click', function () {
 
 		infoWindow.open(map, marker);
@@ -63,7 +63,7 @@ function addMarker(latitude, longitude) {
 		$.ajax({
 			url: 'getPointInfo',
 			type: 'POST',
-			data: {'latitude': latitude, 'longitude': longitude},
+			data: {'latitude': latitude, 'longitude': longitude, 'timeFrame': timeFrame},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
@@ -84,35 +84,33 @@ function addMarker(latitude, longitude) {
 	});
 }
 
-function initMap() {
-	closePhotos();
-	$("#photosClose").click(function () {
-		closePhotos();
-	});
-	$(document).keyup(function (e) {
-		if (e.keyCode === 27) $('#photosClose').click();
-	});
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 48.858607, lng: 2.345113},
-		scrollwheel: false,
-		zoom: 13
-	});
-	infoWindow = new google.maps.InfoWindow({
-		content: contentString
-	});
+var timeFrame = 'All';
+function changeTimeFrame(text, serverArg) {
+	$("#display").html(text)
+	$("#displayChoices").hide();
+	timeFrame = serverArg;
+	refreshMarkers();
+}
+
+function cleanMarkers () {
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	markers = [];
+}
+
+function refreshMarkers() {
+	cleanMarkers();
 	$.ajax({
 		url: 'getPoints',
 		type: 'POST',
-		data: {'type': 'All'},
+		data: {'zone': 'All', 'timeFrame': timeFrame},
 		dataType: 'json',
 		success: function (json) {
-			console.debug("success " + json);
 			if (json.result == 'success') {
-				//var markers = [];
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
 					addMarker(photo.latitude, photo.longitude);
-					//markers += marker;
 				}
 				//new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 			}
@@ -139,4 +137,39 @@ function initMap() {
 	 map.setZoom(8);
 	 map.setCenter(marker.getPosition());
 	 });   */
+}
+
+function initMap() {
+	$("#photos").hide();
+	$("#displayChoices").hide();
+	$("#photosClose").click(function () {
+		$("#photos").hide();
+	});
+	$(document).keyup(function (e) {
+		if (e.keyCode === 27) $('#photosClose').click();
+	});
+	$("#display").click(function (e) {
+		$("#displayChoices").show();
+	});
+	$("#displayAll").click(function (e) {
+		changeTimeFrame("tous", "All");
+	});
+	$("#displayLastDay").click(function (e) {
+		changeTimeFrame("dernier jour", "LastDay");
+	});
+	$("#displayLastWeek").click(function (e) {
+		changeTimeFrame("dernière semaine", "LastWeek");
+	});
+	$("#displayLastMonth").click(function (e) {
+		changeTimeFrame("dernier mois", "LastMonth");
+	});
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 48.858607, lng: 2.345113},
+		scrollwheel: false,
+		zoom: 13
+	});
+	infoWindow = new google.maps.InfoWindow({
+		content: contentString
+	});
+	refreshMarkers();
 }

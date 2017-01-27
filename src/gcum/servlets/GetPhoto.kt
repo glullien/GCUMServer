@@ -2,7 +2,6 @@ package gcum.servlets
 
 import gcum.db.Database
 import java.io.IOException
-import javax.imageio.ImageIO
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
@@ -17,9 +16,8 @@ class GetPhoto : HttpServlet() {
       val id = request.getLong("id")
       val maxSize = request.getIntOrNull("maxSize")
       val photo = Database.getPhoto(id) ?: throw ServletException("Photo $id not found")
-      val image = photo.getImage(maxSize ?: Int.MAX_VALUE)
       response.contentType = "image/jpeg"
-      response.outputStream.use {ImageIO.write(image, "JPG", it)}
+      response.outputStream.use {photo.writeImage(it, maxSize ?: Int.MAX_VALUE)}
    }
 
 }

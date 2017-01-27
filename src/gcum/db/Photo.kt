@@ -5,6 +5,9 @@ import gcum.geo.Point
 import gcum.opendata.Voies
 import java.awt.image.BufferedImage
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.concurrent.atomic.AtomicLong
@@ -17,6 +20,8 @@ private val PROPERTIES_DATE = "date"
 private val PROPERTIES_LATITUDE = "latitude"
 private val PROPERTIES_LONGITUDE = "longitude"
 private val PROPERTIES_COORDINATES_SOURCE = "coordinates.source"
+private val PROPERTIES_WIDTH = "width"
+private val PROPERTIES_HEIGHT = "height"
 private val PARIS = "Paris"
 
 enum class CoordinatesSource {Street }
@@ -24,21 +29,30 @@ data class Moment(val date: LocalDate, val time: LocalTime?)
 data class Address(val street: String, val district: Int, val city: String)
 data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)
+data class Details(val width: Int, val height: Int)
 
-data class Photo(val id: Long, val moment: Moment, val location: Location, val file: File) {
+data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val file: File) {
    fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
-   fun getImage(maxSize: Int): BufferedImage {
-      val full = ImageIO.read(file)
-      val fullW = full.width
-      val fullH = full.height
-      if ((fullW <= maxSize) && (fullH <= maxSize)) return full else {
+
+   fun writeImage(out: OutputStream, maxSize: Int) {
+      val fullW = details.width
+      val fullH = details.height
+      if ((fullW <= maxSize) && (fullH <= maxSize)) FileInputStream(file).use {it.copyTo(out)}
+      else {
          val targetWidth = if (fullH <= fullW) maxSize else maxSize * fullW / fullH
          val targetHeight = if (fullW <= fullH) maxSize else maxSize * fullH / fullW
-         val resizedImage = BufferedImage(targetWidth, targetHeight, full.type)
-         resizedImage.createGraphics().drawImage(full, 0, 0, targetWidth, targetHeight, null)
-         return resizedImage
+         val sep = File.separator
+         val resizedFileName = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-$targetWidth-$targetHeight.JPG")
+         if (!resizedFileName.exists()) {
+            val full = ImageIO.read(file)
+            val resizedImage = BufferedImage(targetWidth, targetHeight, full.type)
+            resizedImage.createGraphics().drawImage(full, 0, 0, targetWidth, targetHeight, null)
+            FileOutputStream(resizedFileName).use {ImageIO.write(resizedImage, "JPG", it)}
+         }
+         FileInputStream(resizedFileName).use {it.copyTo(out)}
       }
    }
+
 }
 
 private val nextPhotoId = AtomicLong()
@@ -50,7 +64,8 @@ fun createPhoto(imageFile: File, auxData: KProperties): Photo {
    val point = Point(auxData.getLong(PROPERTIES_LATITUDE), auxData.getLong(PROPERTIES_LONGITUDE))
    val coordinates = Coordinates(point, auxData.getEnum(PROPERTIES_COORDINATES_SOURCE))
    val location = Location(address, coordinates)
-   return Photo(getNextPhotoId(), moment, location, imageFile)
+   val details = Details(auxData.getInt(PROPERTIES_WIDTH), auxData.getInt(PROPERTIES_HEIGHT))
+   return Photo(getNextPhotoId(), moment, location, details, imageFile)
 }
 
 fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir: File, dateDir: File): KProperties {
@@ -60,9 +75,7 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
       else return m.group(1).toInt()
    }
 
-   fun streetFromDirName(name: String): String {
-      return name.replace('_', ' ')
-   }
+   fun streetFromDirName(name: String) = name.replace('_', ' ')
 
    fun dateFromDirName(name: String): LocalDate {
       val m = Pattern.compile("(\\d*)_(\\d*)_(\\d*)").matcher(name)
@@ -75,12 +88,16 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    val date = dateFromDirName(dateDir.name)
    val res = KProperties(auxFile)
    val voie = Voies.search(street)
+   val full = ImageIO.read(imageFile)
    res.setInt(PROPERTIES_DISTRICT, district)
    res.setString(PROPERTIES_STREET, voie.name)
    res.setDate(PROPERTIES_DATE, date)
    res.setLong(PROPERTIES_LONGITUDE, voie.point.longitude)
    res.setLong(PROPERTIES_LATITUDE, voie.point.latitude)
    res.setEnum(PROPERTIES_COORDINATES_SOURCE, CoordinatesSource.Street)
+   res.setInt(PROPERTIES_WIDTH, full.width)
+   res.setInt(PROPERTIES_HEIGHT, full.height)
    println(res.toString())
+   res.save()
    return res
 }
