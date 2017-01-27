@@ -3,6 +3,7 @@ function displayError(error) {
 }
 var map;
 var infoWindow;
+var markerCluster;
 var contentString = '<div id="infoPhoto">' +
 	'<p><a href="#" onclick="viewPhotos();return;">Nb photos: <span id="infoPhotoCount"/></a></p>' +
 	'<p>Dates: <span id="infoPhotoDates"/></p>' +
@@ -46,13 +47,10 @@ function viewPhotos() {
 	for (var i = 0; i < currentPhotosIds.length; i++) downloadLegend(currentPhotosIds[i]);
 }
 
-var markers = [];
-function addMarker(latitude, longitude) {
+function createMarker(latitude, longitude) {
 	var marker = new google.maps.Marker({
 		position: {lat: latitude * 1.0 / 1E10, lng: longitude * 1.0 / 1E10},
-		map: map
 	});
-	markers.push(marker);
 	marker.addListener('click', function () {
 
 		infoWindow.open(map, marker);
@@ -82,6 +80,7 @@ function addMarker(latitude, longitude) {
 			}
 		});
 	});
+	return marker;
 }
 
 var timeFrame = 'All';
@@ -92,15 +91,8 @@ function changeTimeFrame(text, serverArg) {
 	refreshMarkers();
 }
 
-function cleanMarkers () {
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
-	markers = [];
-}
-
 function refreshMarkers() {
-	cleanMarkers();
+	markerCluster.clearMarkers();
 	$.ajax({
 		url: 'getPoints',
 		type: 'POST',
@@ -108,11 +100,12 @@ function refreshMarkers() {
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
+				var markers = [];
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
-					addMarker(photo.latitude, photo.longitude);
+					markers.push(createMarker(photo.latitude, photo.longitude));
 				}
-				//new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+				markerCluster.addMarkers(markers);
 			}
 			else {
 				displayError(json.message)
@@ -122,21 +115,6 @@ function refreshMarkers() {
 			displayError("Cannot connect to server")
 		}
 	});
-	/* var marker1 = new google.maps.Marker({
-	 position: {lat: 48.862447, lng: 2.349093},
-	 label: "coucou"
-	 });
-	 var marker2 = new google.maps.Marker({
-	 position: {lat: 48.862235, lng: 2.356024},
-	 label: "caca"
-	 });
-	 var markers = [marker1, marker2];
-	 var markerCluster = new MarkerClusterer(map, markers,
-	 {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-	 marker1.addListener('click', function() {
-	 map.setZoom(8);
-	 map.setCenter(marker.getPosition());
-	 });   */
 }
 
 function initMap() {
@@ -171,5 +149,6 @@ function initMap() {
 	infoWindow = new google.maps.InfoWindow({
 		content: contentString
 	});
+	markerCluster = new MarkerClusterer(map, null, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 	refreshMarkers();
 }
