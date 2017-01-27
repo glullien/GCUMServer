@@ -6,14 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d519c121-4280-440e-b5bb-7d50bc5715f8" name="Default" comment="Speed improvment (less queries)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/glullien.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/sanselan_0_97_incubator.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/GCUMServer_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/GCUMServer_war_exploded.xml" />
+    <list default="true" id="d519c121-4280-440e-b5bb-7d50bc5715f8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GCUMServer.iml" afterPath="$PROJECT_DIR$/GCUMServer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/db/Photo.kt" afterPath="$PROJECT_DIR$/src/gcum/db/Photo.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -840,7 +834,8 @@
     <MESSAGE value="Add cache and timeFrame" />
     <MESSAGE value="Use markercluster" />
     <MESSAGE value="Speed improvment (less queries)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Speed improvment (less queries)" />
+    <MESSAGE value="Fix orientation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix orientation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
