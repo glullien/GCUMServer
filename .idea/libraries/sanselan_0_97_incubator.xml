@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sanselan-0.97-incubator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/sanselan-0.97-incubator.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/sanselan-0.97-incubator-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/sanselan-0.97-incubator-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

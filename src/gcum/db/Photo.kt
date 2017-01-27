@@ -3,6 +3,10 @@ package gcum.db
 import gcum.conf.KProperties
 import gcum.geo.Point
 import gcum.opendata.Voies
+import org.apache.sanselan.Sanselan
+import org.apache.sanselan.formats.jpeg.JpegImageMetadata
+import org.apache.sanselan.formats.tiff.constants.ExifTagConstants
+import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileInputStream
@@ -31,6 +35,32 @@ data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)
 data class Details(val width: Int, val height: Int)
 
+private fun BufferedImage.rotate(angle: Double): BufferedImage {
+   val destImg = when (angle.toInt()) {
+      0, 180->BufferedImage(width, height, type)
+      90, 270->BufferedImage(height, width, type)
+      else->throw Exception("Illegal value")
+   }
+   val g = destImg.createGraphics()
+   val at = AffineTransform()
+   at.translate(destImg.width / 2.0, destImg.height / 2.0)
+   at.rotate(Math.toRadians(angle))
+   at.translate(-width / 2.0, -height / 2.0)
+   g.drawImage(this, at, null)
+   return destImg
+}
+
+private fun readImage(file: File): BufferedImage {
+   val brut = ImageIO.read(file)
+   return when (getMetaData(file)?.orientation) {
+      ExifTagConstants.ORIENTATION_VALUE_ROTATE_90_CW->brut.rotate(90.0)
+      ExifTagConstants.ORIENTATION_VALUE_ROTATE_270_CW->brut.rotate(270.0)
+      ExifTagConstants.ORIENTATION_VALUE_ROTATE_180->brut.rotate(180.0)
+      else->brut
+   }
+
+}
+
 data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val file: File) {
    fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
 
@@ -44,7 +74,7 @@ data class Photo(val id: Long, val moment: Moment, val location: Location, val d
          val sep = File.separator
          val resizedFileName = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-$targetWidth-$targetHeight.JPG")
          if (!resizedFileName.exists()) {
-            val full = ImageIO.read(file)
+            val full = readImage(file)
             val resizedImage = BufferedImage(targetWidth, targetHeight, full.type)
             resizedImage.createGraphics().drawImage(full, 0, 0, targetWidth, targetHeight, null)
             FileOutputStream(resizedFileName).use {ImageIO.write(resizedImage, "JPG", it)}
@@ -88,7 +118,7 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    val date = dateFromDirName(dateDir.name)
    val res = KProperties(auxFile)
    val voie = Voies.search(street)
-   val full = ImageIO.read(imageFile)
+   val full = readImage(imageFile)
    res.setInt(PROPERTIES_DISTRICT, district)
    res.setString(PROPERTIES_STREET, voie.name)
    res.setDate(PROPERTIES_DATE, date)
@@ -100,4 +130,29 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    println(res.toString())
    res.save()
    return res
+}
+
+private data class MetaData(val orientation: Int?)
+
+private fun getMetaData(file: File): MetaData? {
+   try {
+      val metadata = Sanselan.getMetadata(file)
+      if (metadata !is JpegImageMetadata) return null else {
+         // val device = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_MODEL)?.stringValue
+
+         /*val dateField = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_DATE_TIME_ORIGINAL)
+            val dateTime = try {
+               if (dateField == null) null else null //dtf.parse(dateField.value.toString().trim(), LocalDateTime::from)
+            } catch (e: Exception) {
+               println("Cannot parse date field ${dateField?.value}")
+               null
+            } */
+
+         val orientation = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_ORIENTATION)?.intValue
+         return MetaData(orientation)
+      }
+   } catch (e: Exception) {
+      e.printStackTrace()
+      return null
+   }
 }

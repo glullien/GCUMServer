@@ -10,6 +10,7 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="json_simple-1.1" />
           <element id="library" level="project" name="KotlinJavaRuntime" />
+          <element id="library" level="project" name="sanselan-0.97-incubator" />
         </element>
       </element>
     </root>
