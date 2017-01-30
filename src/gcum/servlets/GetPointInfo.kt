@@ -1,5 +1,6 @@
 package gcum.servlets
 
+import gcum.db.CoordinatesSource
 import gcum.db.Database
 import gcum.db.Photo
 import gcum.geo.Point
@@ -15,19 +16,25 @@ class GetPointInfo : JsonServlet() {
       val longitude = request.getLong("longitude")
       val allPhotos = Database.points[Point(latitude, longitude)]
       if ((allPhotos == null) || allPhotos.isEmpty()) throw IllegalAccessException("Photo not found")
-      val photos = when (request.getEnum<TimeFrame>("timeFrame")) {
+      val inTimeFrame = when (request.getEnum<TimeFrame>("timeFrame")) {
          TimeFrame.All->allPhotos
          TimeFrame.LastDay->after(LocalDate.now().minusDays(1), allPhotos)
          TimeFrame.LastWeek->after(LocalDate.now().minusDays(7), allPhotos)
          TimeFrame.LastMonth->after(LocalDate.now().minusMonths(1), allPhotos)
       }
+      val locationSources = request.getEnums<CoordinatesSource>("locationSources")
+      val photos = inTimeFrame.filter {locationSources.contains(it.location.coordinates.source)}
       if (photos.isEmpty()) throw IllegalAccessException("Photos not found")
       val sortedPhotos = photos.sortedByDescending {it.moment.date}
       return jsonSuccess {
-         put("photos", sortedPhotos.map {sub {
-              put("date", it.moment.date.format(DateTimeFormatter.ISO_DATE))
-              put("id", it.id)
-         }})
+         put("photos", sortedPhotos.map {
+            sub {
+               put("date", it.moment.date.format(DateTimeFormatter.ISO_DATE))
+               put("time", it.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
+               put("locationSource", it.location.coordinates.source.toString())
+               put("id", it.id)
+            }
+         })
          val minDate = sortedPhotos.last().moment.date.format(DateTimeFormatter.ISO_DATE)
          val maxDate = sortedPhotos.first().moment.date.format(DateTimeFormatter.ISO_DATE)
          put("dates", minDate + if (maxDate == minDate) "" else " -> $maxDate")

@@ -12,9 +12,14 @@ var contentString = '<div id="infoPhoto">' +
 	'</div>';
 var currentPhotosIds;
 function getPhotoView(photo) {
+	var dateTime = photo.date;
+	if (photo.time != "unknown") dateTime += " "+photo.time;
+	var locationSource = "";
+	if (photo.locationSource == "Device") locationSource = "GPS";
 	return '<div class="photoAndLegend">' +
 		'<img src="getPhoto?id=' + photo.id + '&maxSize=400" class="photo">' +
-		'<br/><span class="photoDate" id="legendId' + photo.id + '">'+photo.date+'</span>' +
+		'<br/><span class="photoDate">'+dateTime+'</span>' +
+		'<span class="photoLocationSource">'+locationSource+'</span>' +
 		'</div>';
 }
 function viewPhotos() {
@@ -38,7 +43,7 @@ function createMarker(latitude, longitude) {
 		$.ajax({
 			url: 'getPointInfo',
 			type: 'POST',
-			data: {'latitude': latitude, 'longitude': longitude, 'timeFrame': timeFrame},
+			data: {'latitude': latitude, 'longitude': longitude, 'timeFrame': timeFrame, 'locationSources': locationSources},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
@@ -62,9 +67,17 @@ function createMarker(latitude, longitude) {
 
 var timeFrame = 'All';
 function changeTimeFrame(text, serverArg) {
-	$("#display").html(text)
-	$("#displayChoices").hide();
+	$("#date").html(text);
+	$("#dateChoices").hide();
 	timeFrame = serverArg;
+	refreshMarkers();
+}
+
+var locationSources = 'Street,Device';
+function changeLocationSource(text, serverArg) {
+	$("#locationSource").html(text);
+	$("#locationSourceChoices").hide();
+	locationSources = serverArg;
 	refreshMarkers();
 }
 
@@ -73,7 +86,7 @@ function refreshMarkers() {
 	$.ajax({
 		url: 'getPoints',
 		type: 'POST',
-		data: {'zone': 'All', 'timeFrame': timeFrame},
+		data: {'zone': 'All', 'timeFrame': timeFrame, 'locationSources': locationSources},
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
@@ -96,27 +109,39 @@ function refreshMarkers() {
 
 function initMap() {
 	$("#photos").hide();
-	$("#displayChoices").hide();
+	$("#dateChoices").hide();
+	$("#locationSourceChoices").hide();
 	$("#photosClose").click(function () {
 		$("#photos").hide();
 	});
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
 	});
-	$("#display").click(function (e) {
-		$("#displayChoices").show();
+	$("#date").click(function (e) {
+		$("#locationSourceChoices").hide();
+		$("#dateChoices").show();
 	});
-	$("#displayAll").click(function (e) {
-		changeTimeFrame("tous", "All");
+	$("#dateAll").click(function (e) {
+		changeTimeFrame("Tout", "All");
 	});
-	$("#displayLastDay").click(function (e) {
-		changeTimeFrame("dernier jour", "LastDay");
+	$("#dateLastDay").click(function (e) {
+		changeTimeFrame("Dernier jour", "LastDay");
 	});
-	$("#displayLastWeek").click(function (e) {
-		changeTimeFrame("dernière semaine", "LastWeek");
+	$("#dateLastWeek").click(function (e) {
+		changeTimeFrame("Dernière semaine", "LastWeek");
 	});
-	$("#displayLastMonth").click(function (e) {
-		changeTimeFrame("dernier mois", "LastMonth");
+	$("#dateLastMonth").click(function (e) {
+		changeTimeFrame("Dernier mois", "LastMonth");
+	});
+	$("#locationSource").click(function (e) {
+		$("#dateChoices").hide();
+		$("#locationSourceChoices").show();
+	});
+	$("#locationSourceAll").click(function (e) {
+		changeLocationSource("Tout", "Street,Device");
+	});
+	$("#locationSourceGPS").click(function (e) {
+		changeLocationSource("Par GPS", "Device");
 	});
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 48.858607, lng: 2.345113},
@@ -126,6 +151,6 @@ function initMap() {
 	infoWindow = new google.maps.InfoWindow({
 		content: contentString
 	});
-	markerCluster = new MarkerClusterer(map, null, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+	markerCluster = new MarkerClusterer(map, null, {maxZoom: 16, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 	refreshMarkers();
 }

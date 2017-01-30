@@ -1,5 +1,6 @@
 package gcum.servlets
 
+import gcum.db.CoordinatesSource
 import gcum.db.Database
 import gcum.db.Photo
 import gcum.geo.Point
@@ -21,7 +22,9 @@ class GetPoints : JsonServlet() {
          TimeFrame.LastWeek->after(LocalDate.now().minusDays(7), inZone)
          TimeFrame.LastMonth->after(LocalDate.now().minusMonths(1), inZone)
       }
-      return encode(inTimeFrame.keys)
+      val locationSources = request.getEnums<CoordinatesSource>("locationSources")
+      val locationSourceOk = inTimeFrame.filterValues {it.any {locationSources.contains(it.location.coordinates.source)}}
+      return encode(locationSourceOk.keys)
    }
 
    private fun after(date: LocalDate, source: Map<Point, Collection<Photo>>) = source.filterValues {it.any {!it.moment.date.isBefore(date)}}

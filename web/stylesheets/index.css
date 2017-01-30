@@ -4,7 +4,7 @@
 	margin: 0;
 }
 
-#displayChoices {
+.displayChoices {
 	position: fixed;
 	left: 80px;
 	top: 40px;
@@ -14,7 +14,7 @@
 	background: white;
 }
 
-#displayChoices a {
+.displayChoices a {
 	padding: 10px 4px;
 	text-decoration: none;
 	border: 1px solid grey;
@@ -22,7 +22,7 @@
 	border-radius: 4px;
 }
 
-#displayChoices a:hover {
+.displayChoices a:hover {
 	background: lightgrey;
 }
 
@@ -58,8 +58,15 @@
 
 .photoDate {
 	margin-left: 20px;
+	margin-right: 20px;
 	font-size: 16px;
 	font-weight: bold;
+}
+
+.photoLocationSource {
+	font-size: 16px;
+	font-weight: bold;
+	color: red;
 }
 
 #infoPhoto {

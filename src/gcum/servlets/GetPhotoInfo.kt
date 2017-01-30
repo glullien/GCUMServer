@@ -19,8 +19,8 @@ class GetPhotoInfo : JsonServlet() {
          put("district", photo.location.address.district)
          put("city", photo.location.address.city)
          put("latitude", photo.location.coordinates.point.latitude)
-         put("longitude", photo.location.coordinates.point.longitude)
-         put("locationSource", photo.location.coordinates.source)  */
+         put("longitude", photo.location.coordinates.point.longitude)*/
+         put("locationSource", photo.location.coordinates.source.toString())
       }
    }
 }

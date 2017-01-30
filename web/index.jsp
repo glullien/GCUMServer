@@ -10,15 +10,20 @@
 <body>
 <div id="controls">
     <div class="controlBox">
-        <span class="label">Afficher:</span><a href="#" id="display">tous</a>
+        <span class="label">Dates :</span><a href="#" id="date">Tout</a>
+        <span class="label">Précision géographique :</span><a href="#" id="locationSource">Tout</a>
     </div>
 </div>
 <div id="map"></div>
-<div id="displayChoices">
-    <a id="displayAll" href="#">Tous</a>
-    <a id="displayLastDay" href="#">Dernier jour</a>
-    <a id="displayLastWeek" href="#">Dernière semaine</a>
-    <a id="displayLastMonth" href="#">Dernière mois</a>
+<div id="dateChoices" class="displayChoices">
+    <a id="dateAll" href="#">Tout</a>
+    <a id="dateLastDay" href="#">Dernier jour</a>
+    <a id="dateLastWeek" href="#">Dernière semaine</a>
+    <a id="dateLastMonth" href="#">Dernière mois</a>
+</div>
+<div id="locationSourceChoices" class="displayChoices">
+    <a id="locationSourceAll" href="#">Tout</a>
+    <a id="locationSourceGPS" href="#">Par GPS</a>
 </div>
 <div id="photos">
     <p><a id="photosClose" href="#" class="close">&#10006;</a></p>

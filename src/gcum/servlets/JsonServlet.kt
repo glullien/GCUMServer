@@ -72,6 +72,7 @@ fun ServletRequest.getStringOrNull(key: String, pattern: Pattern): String? {
 }
 fun ServletRequest.getString(key: String, pattern: Pattern): String = getStringOrNull(key, pattern) ?: throw IllegalArgumentException("Missing $key")
 inline fun <reified T : Enum<T>> ServletRequest.getEnum(key: String): T = java.lang.Enum.valueOf(T::class.java, getString(key, Pattern.compile(".*")))
+inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key, Pattern.compile(".*")).split(',').map { java.lang.Enum.valueOf(T::class.java, it)}
 
 private val DOUBLE = Pattern.compile("^\\d+\\.\\d+$")
 fun ServletRequest.getDoubleOrNull(name: String): Double? {
