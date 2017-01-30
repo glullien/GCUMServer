@@ -41,6 +41,8 @@ data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)
 data class Details(val width: Int, val height: Int)
 
+fun coordinateToLong(d:Double) = (d*1E5).toLong()
+
 private fun BufferedImage.rotate(angle: Double): BufferedImage {
    val destImg = when (angle.toInt()) {
       0, 180->BufferedImage(width, height, type)
@@ -171,30 +173,7 @@ private fun getMetaData(file: File): MetaData? {
          }
 
          val gps = metadata.exif.gps
-         val point = if (gps == null) null else Point((gps.latitudeAsDegreesNorth * 1E10).toLong(), (gps.longitudeAsDegreesEast * 1E10).toLong())
-         /* val latitude = metadata.findEXIFValue(GPSTagConstants.GPS_TAG_GPS_LATITUDE)
-          val latitudeRef = metadata.findEXIFValue(GPSTagConstants.GPS_TAG_GPS_LATITUDE_REF)
-          val longitude = metadata.findEXIFValue(GPSTagConstants.GPS_TAG_GPS_LONGITUDE)
-          val longitudeRef = metadata.findEXIFValue(GPSTagConstants.GPS_TAG_GPS_LONGITUDE_REF)
-
-          val point = if (latitude == null || latitudeRef == null || longitude == null || longitudeRef == null) null else {
-             fun ref(o: Any) = o.toString().trim {!it.isLetterOrDigit()}
-             fun degree(o: Any): Long {
-                fun d(o: List<RationalNumber>, f: Double): Double = if (o.isEmpty()) 0.0 else ((f * o[0].numerator) / o[0].divisor) + d(o.drop(1), f / 60)
-                return if (o is Array<*>) {
-                   if (o[0] is RationalNumber) (d((o as Array<RationalNumber>).toList(), 1.0) * 1E10).toLong()
-                   else{
-                      throw IllegalArgumentException("o[bytes= ${o as Array<Byte>}")
-                   }
-                } else {
-                   throw IllegalArgumentException("o = $o")
-                }
-             }
-
-             val latitudeDegree = degree(latitude.value) * if (ref(latitudeRef.value) == "N") 1 else -1
-             val longitudeDegree = degree(longitude.value) * if (ref(longitudeRef.value) == "E") 1 else -1
-             Point(latitudeDegree, longitudeDegree)
-          }                       */
+         val point = if (gps == null) null else Point(coordinateToLong(gps.latitudeAsDegreesNorth), coordinateToLong(gps.longitudeAsDegreesEast ))
          val orientation = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_ORIENTATION)?.intValue
          return MetaData(orientation, dateTime, point)
       }

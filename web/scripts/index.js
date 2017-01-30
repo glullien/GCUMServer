@@ -31,7 +31,7 @@ function viewPhotos() {
 
 function createMarker(latitude, longitude) {
 	var marker = new google.maps.Marker({
-		position: {lat: latitude * 1.0 / 1E10, lng: longitude * 1.0 / 1E10},
+		position: {lat: latitude * 1.0 / 1E5, lng: longitude * 1.0 / 1E5}
 	});
 	marker.addListener('click', function () {
 

@@ -1,6 +1,7 @@
 package gcum.opendata
 
 import gcum.chars.bestLevenshteinIn
+import gcum.db.coordinateToLong
 import gcum.geo.Point
 import gcum.utils.Cache
 
@@ -16,7 +17,7 @@ object Voies {
          line->
          if (line[4].trim().toInt() in 75000..75999) {
             val geo = line[0].split(',')
-            fun getCoordinate(s: String) = (s.trim().toDouble() * 1E10).toLong()
+            fun getCoordinate(s: String) = coordinateToLong(s.trim().toDouble())
             Voie(Point(getCoordinate(geo[0]), getCoordinate(geo[1])), line[9].trim())
          } else null
       }.filterNotNull().toList()
