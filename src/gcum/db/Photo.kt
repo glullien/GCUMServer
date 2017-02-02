@@ -2,6 +2,7 @@ package gcum.db
 
 import gcum.conf.KProperties
 import gcum.geo.Point
+import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.utils.getLogger
 import org.apache.sanselan.Sanselan
@@ -21,9 +22,9 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.regex.Pattern
 import javax.imageio.ImageIO
 
-private val PROPERTIES_DISTRICT = "district"
-private val PROPERTIES_STREET = "street"
-private val PROPERTIES_DATE = "date"
+val PROPERTIES_DISTRICT = "district"
+val PROPERTIES_STREET = "street"
+val PROPERTIES_DATE = "date"
 private val PROPERTIES_TIME = "time"
 private val PROPERTIES_LATITUDE = "latitude"
 private val PROPERTIES_LONGITUDE = "longitude"
@@ -41,9 +42,9 @@ data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)
 data class Details(val width: Int, val height: Int)
 
-fun coordinateToLong(d:Double) = (d*1E5).toLong()
+fun coordinateToLong(d: Double) = (d * 1E5).toLong()
 
-private fun BufferedImage.rotate(angle: Double): BufferedImage {
+fun BufferedImage.rotate(angle: Double): BufferedImage {
    val destImg = when (angle.toInt()) {
       0, 180->BufferedImage(width, height, type)
       90, 270->BufferedImage(height, width, type)
@@ -58,7 +59,7 @@ private fun BufferedImage.rotate(angle: Double): BufferedImage {
    return destImg
 }
 
-private fun readImage(file: File, metaData: MetaData? = getMetaData(file)): BufferedImage {
+fun readImage(file: File, metaData: MetaData? = getMetaData(file)): BufferedImage {
    val brut = ImageIO.read(file)
    return when (metaData?.orientation) {
       ExifTagConstants.ORIENTATION_VALUE_ROTATE_90_CW->brut.rotate(90.0)
@@ -124,8 +125,12 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    val district = districtFromDirName(districtDir.name)
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
-   val res = KProperties(auxFile)
    val voie = Voies.search(street)
+   return buildProperties(imageFile, auxFile, district, voie, date)
+}
+
+fun buildProperties(imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate): KProperties {
+   val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
    val full = readImage(imageFile, metaData)
@@ -154,11 +159,11 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    return res
 }
 
-private data class MetaData(val orientation: Int?, val originalDateTime: LocalDateTime?, val location: Point?)
+data class MetaData(val orientation: Int?, val originalDateTime: LocalDateTime?, val location: Point?)
 
 private val exitDateTimeFormat = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
 
-private fun getMetaData(file: File): MetaData? {
+fun getMetaData(file: File): MetaData? {
    try {
       val metadata = Sanselan.getMetadata(file)
       if (metadata !is JpegImageMetadata) return null else {
@@ -173,7 +178,7 @@ private fun getMetaData(file: File): MetaData? {
          }
 
          val gps = metadata.exif.gps
-         val point = if (gps == null) null else Point(coordinateToLong(gps.latitudeAsDegreesNorth), coordinateToLong(gps.longitudeAsDegreesEast ))
+         val point = if (gps == null) null else Point(coordinateToLong(gps.latitudeAsDegreesNorth), coordinateToLong(gps.longitudeAsDegreesEast))
          val orientation = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_ORIENTATION)?.intValue
          return MetaData(orientation, dateTime, point)
       }

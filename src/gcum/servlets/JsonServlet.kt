@@ -3,6 +3,7 @@ package gcum.servlets
 import gcum.utils.getLogger
 import org.json.simple.JSONObject
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
 import javax.servlet.ServletException
@@ -21,12 +22,13 @@ abstract class JsonServlet : HttpServlet() {
    @Throws(ServletException::class, IOException::class)
    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
       request.characterEncoding = "UTF-8"
-      response.contentType = "text/html"
-      response.characterEncoding = "UTF-8"
+      response.contentType = "application/json; charset=UTF-16"
+      response.characterEncoding = "UTF-16"
       response.outputStream.use {
          try {
             val jsonResult = doPost(request)
-            it.println(JSONObject.toJSONString(jsonResult))
+            //it.println(JSONObject.toJSONString(jsonResult))
+            it.write(JSONObject.toJSONString(jsonResult).toByteArray(Charset.forName("UTF-16")))
          } catch (e: Exception) {
             log.severe("Cannot process request", e)
             it.println(JSONObject.toJSONString(jsonError("internalError")))
@@ -64,15 +66,16 @@ fun sub(init: MutableMap<String, Any>.() -> Unit): Map<String, Any> {
    return res
 }
 
-fun ServletRequest.getStringOrNull(key: String, pattern: Pattern): String? {
+private val ALL = Pattern.compile(".*")
+fun ServletRequest.getStringOrNull(key: String, pattern: Pattern = ALL): String? {
    val parameter = getParameter(key)
    return if ((parameter == null) || (parameter.isEmpty())) null
    else if (pattern.matcher(parameter).matches()) parameter
    else throw IllegalArgumentException("Invalid $key:$parameter")
 }
-fun ServletRequest.getString(key: String, pattern: Pattern): String = getStringOrNull(key, pattern) ?: throw IllegalArgumentException("Missing $key")
-inline fun <reified T : Enum<T>> ServletRequest.getEnum(key: String): T = java.lang.Enum.valueOf(T::class.java, getString(key, Pattern.compile(".*")))
-inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key, Pattern.compile(".*")).split(',').map { java.lang.Enum.valueOf(T::class.java, it)}
+fun ServletRequest.getString(key: String, pattern: Pattern = ALL): String = getStringOrNull(key, pattern) ?: throw IllegalArgumentException("Missing $key")
+inline fun <reified T : Enum<T>> ServletRequest.getEnum(key: String): T = java.lang.Enum.valueOf(T::class.java, getString(key))
+inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key).split(',').map { java.lang.Enum.valueOf(T::class.java, it)}
 
 private val DOUBLE = Pattern.compile("^\\d+\\.\\d+$")
 fun ServletRequest.getDoubleOrNull(name: String): Double? {

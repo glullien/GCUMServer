@@ -7,10 +7,18 @@ body {
 	padding: 0
 }
 
-.controlBox {
+#controls {
 	padding: 2px;
+	height: 26px;
 	background: lightgrey;
+}
+
+.controlBox {
+	float: left;
+	padding: 2px;
 	border: 1px outset darkgrey;
+	border-radius: 6px;
+	display: inline;
 }
 
 .controlBox .label {
@@ -20,10 +28,28 @@ body {
 .controlBox a {
 	font-weight: bold;
 	text-decoration: none;
+	border-radius: 6px;
 	padding: 2px;
 }
 
 .controlBox a:hover {
+	background: white;
+}
+
+.links {
+	float: right;
+	display: inline;
+	padding: 2px;
+}
+
+.links a {
+	border: 1px outset darkgrey;
+	text-decoration: none;
+	border-radius: 6px;
+	padding: 2px;
+}
+
+.links a:hover {
 	background: white;
 }
 

@@ -1,0 +1,174 @@
+#uploadZone {
+	margin-top: 30px;
+}
+
+#uploaded {
+	border: 1px solid gray;
+	margin: 15px 10px;
+	overflow: auto;
+	height: 530px;
+	display: inline-block;
+}
+
+.photoAndLegend {
+	margin-right: 10px;
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.photoDate {
+	margin-left: 20px;
+	margin-right: 20px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.street {
+	margin-left: 25px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.district {
+	font-size: 16px;
+	font-weight: bold;
+	color: gray;
+}
+
+.fileinput-button {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.fileinput-button input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	opacity: 0;
+	-ms-filter: 'alpha(opacity=0)';
+	font-size: 200px !important;
+	direction: ltr;
+	cursor: pointer;
+}
+
+#reportZone {
+	margin: 10px;
+	padding: 15px;
+	border: 1px solid gray;
+	font-size: 18px;
+	border-radius: 15px;
+}
+
+#reportZone input {
+	padding: 5px;
+	font-size: 24px;
+	background: lightgrey;
+}
+
+#reportZone a {
+	margin: 5px;
+	padding: 10px 4px;
+	text-decoration: none;
+	border: 1px solid grey;
+	background: darkgrey;
+	border-radius: 4px;
+}
+
+#reportZone a:hover {
+	background: lightgrey;
+}
+
+#streetZone {
+	position: relative;
+	top: -350px;
+	height: 250px;
+	left: 60px;
+	width: 300px;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
+	background: white;
+	overflow: auto;
+}
+
+#streets {
+	margin-right: 7px;
+}
+
+#streets a {
+	display: block;
+	text-decoration: none;
+}
+
+#streets a:hover {
+	background: lightgrey;
+}
+
+#streetsClose {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
+#district {
+	width: 60px;
+}
+
+#districtZone {
+	position: relative;
+	top: -350px;
+	height: 250px;
+	left: 500px;
+	width: 80px;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
+	background: white;
+	overflow: auto;
+}
+
+#districts {
+	margin-right: 7px;
+}
+
+#districts a {
+	display: block;
+	text-decoration: none;
+}
+
+#districts a:hover {
+	background: lightgrey;
+}
+
+#districtsClose {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
+#date {
+	width: 140px;
+}
+
+#dateHelp {
+	font-size: 12px;
+	color: gray;
+}
+
+#status {
+	font-size: 20px;
+	color: red;
+	font-weight: bold;
+	margin-left: 50px;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+	.fileinput-button input {
+		filter: alpha(opacity=0);
+		font-size: 100%;
+		height: 100%;
+	}
+}

@@ -13,6 +13,10 @@
         <span class="label">Dates :</span><a href="#" id="date">Tout</a>
         <span class="label">Précision géographique :</span><a href="#" id="locationSource">Tout</a>
     </div>
+    <div class="links">
+        <a href="extract.jsp">Extrait</a>
+        <a href="add.jsp">Ajouter</a>
+    </div>
 </div>
 <div id="map"></div>
 <div id="dateChoices" class="displayChoices">
