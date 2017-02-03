@@ -40,6 +40,11 @@
 </div>
 <span id="status">.</span>
 
+<div id="successZone">
+    Photos archivées avec succès !
+    <a id="successClose" href="#">Ok</a>
+</div>
+
 <div id="streetZone">
     <div id="streets"></div>
     <a id="streetsClose" href="#" class="close">&#10006;</a>
@@ -88,6 +93,10 @@
 		$('#districtZone').hide();
 		$('#districtsClose').click(function () {
 			$('#districtZone').hide();
+		});
+		$('#successZone').hide();
+		$('#successClose').click(function () {
+			$('#successZone').hide();
 		});
 		$('#street').on("input", function () {
 			var street = $('#street').val();
@@ -159,14 +168,12 @@
 					dataType: 'json',
 					success: function (json) {
 						if (json.result == 'success') {
-							var content = "";
-							for (var i = 0; i < json.streets.length; i++) {
-								var s = json.streets[i];
-								content += '<a href="#" onclick="setStreet(\'' + s.name + '\');return false;">' + s.name + '</a>';
-							}
-							$('#streets').html(content);
-							$('#districtZone').hide();
-							$('#streetZone').show();
+							$("#uploaded").html("");
+							$("#street").val("");
+							$("#district").val("");
+							$("#date").val("");
+							$("#status").html(".");
+							$("#successZone").show();
 						}
 						else {
 							$("#status").html(json.message);
