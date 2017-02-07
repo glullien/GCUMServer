@@ -4,6 +4,7 @@
     <title>GCUM</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
 </head>
@@ -15,8 +16,8 @@
         <span class="label">Précision géographique :</span><a href="#" id="locationSource">Tout</a>
     </div>
     <div class="links">
-        <a href="extract.jsp">Extrait</a>
-        <a href="add.jsp">Ajouter</a>
+        <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+        <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
     </div>
 </div>
 <div id="map"></div>

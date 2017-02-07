@@ -5,6 +5,7 @@
     <title>Ajouter GCUM</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/add.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
@@ -14,8 +15,8 @@
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
-        <a href="extract.jsp">Extrait</a>
-        <a href="index.jsp">Carte</a>
+        <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+        <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
     </div>
 </div>
 <div id="uploadZone">
@@ -29,16 +30,24 @@
 
 </div>
 
-<div id="reportZone">
-    <label for="street">Rue :</label>
-    <input type="text" id="street">
-    <label for="district">Arrondissement :</label>
-    <input type="text" id="district">
-    <label for="date">Date :</label>
-    <input type="text" id="date">
-    <span id="dateHelp">yyyy-mm-dd</span>
-    <a href="#" id="report">Envoyer</a>
-</div>
+<form class="form-inline">
+    <div id="reportZone">
+        <div class="form-group">
+            <label for="street">Rue :</label>
+            <input type="text" id="street" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="district">Arrondissement :</label>
+            <input type="text" id="district" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="date">Date :</label>
+            <input type="text" id="date" class="form-control">
+            <span id="dateHelp">yyyy-mm-dd</span>
+        </div>
+        <button type="button" id="report" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-cloud-upload"></i> Envoyer</button>
+    </div>
+</form>
 <span id="status">.</span>
 
 <div id="successZone">

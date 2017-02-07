@@ -9,7 +9,7 @@ body {
 
 #controls {
 	padding: 2px;
-	height: 26px;
+	height: 30px;
 	background: lightgrey;
 }
 
@@ -19,6 +19,7 @@ body {
 	margin-right: 3px;
 	display: inline;
 }
+
 .controlBox {
 	float: left;
 	padding: 2px;
@@ -45,18 +46,7 @@ body {
 .links {
 	float: right;
 	display: inline;
-	padding: 2px;
-}
-
-.links a {
-	border: 1px outset darkgrey;
-	text-decoration: none;
-	border-radius: 6px;
-	padding: 2px;
-}
-
-.links a:hover {
-	background: white;
+	margin-top: -3px;
 }
 
 .close {
