@@ -21,8 +21,8 @@
 </div>
 <div id="uploadZone">
 <span class="btn btn-success fileinput-button">
-     <i class="glyphicon glyphicon-plus"></i>
-    <span>Ajouter une photo (JPG)...</span>
+     <i class="glyphicon glyphicon-camera"></i>
+    <span>Sélectionner les photos (JPG)...</span>
     <input id="fileupload" type="file" name="files[]" multiple>
 </span>
 </div>
