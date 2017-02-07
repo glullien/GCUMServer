@@ -68,7 +68,6 @@ function createMarker(latitude, longitude) {
 var timeFrame = 'All';
 function changeTimeFrame(text, serverArg) {
 	$("#date").html(text);
-	$("#dateChoices").hide();
 	timeFrame = serverArg;
 	refreshMarkers();
 }
@@ -76,7 +75,6 @@ function changeTimeFrame(text, serverArg) {
 var locationSources = 'Street,Device';
 function changeLocationSource(text, serverArg) {
 	$("#locationSource").html(text);
-	$("#locationSourceChoices").hide();
 	locationSources = serverArg;
 	refreshMarkers();
 }
@@ -109,18 +107,12 @@ function refreshMarkers() {
 
 function initMap() {
 	$("#photos").hide();
-	$("#dateChoices").hide();
-	$("#locationSourceChoices").hide();
 	$("#photosClose").click(function () {
 		$("#photos").hide();
 	});
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
-	});
-	$("#date").click(function (e) {
-		$("#locationSourceChoices").hide();
-		$("#dateChoices").show();
-	});
+	});;
 	$("#dateAll").click(function (e) {
 		changeTimeFrame("Tout", "All");
 	});
@@ -132,10 +124,6 @@ function initMap() {
 	});
 	$("#dateLastMonth").click(function (e) {
 		changeTimeFrame("Dernier mois", "LastMonth");
-	});
-	$("#locationSource").click(function (e) {
-		$("#dateChoices").hide();
-		$("#locationSourceChoices").show();
 	});
 	$("#locationSourceAll").click(function (e) {
 		changeLocationSource("Tout", "Street,Device");
