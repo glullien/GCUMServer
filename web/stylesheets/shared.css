@@ -13,6 +13,12 @@ body {
 	background: lightgrey;
 }
 
+#logo {
+	margin-top: -2px;
+	float: left;
+	margin-right: 3px;
+	display: inline;
+}
 .controlBox {
 	float: left;
 	padding: 2px;

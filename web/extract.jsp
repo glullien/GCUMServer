@@ -9,6 +9,7 @@
 </head>
 <body>
 <div id="controls">
+    <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
         <a href="index.jsp">Carte</a>
         <a href="add.jsp">Ajouter</a>
@@ -17,7 +18,7 @@
 <div id="extractZone">
     <a href="extract?district=all">Tout</a>
     <a href="extract?district=1">1er</a>
-    <a href="extract?district=2">2nd</a>
+    <a href="extract?district=2">2e</a>
     <a href="extract?district=3">3e</a>
     <a href="extract?district=4">4e</a>
     <a href="extract?district=5">5e</a>

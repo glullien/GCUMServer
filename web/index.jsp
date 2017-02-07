@@ -9,6 +9,7 @@
 </head>
 <body>
 <div id="controls">
+    <span id="logo"><img src="images/logo.png"></span>
     <div class="controlBox">
         <span class="label">Dates :</span><a href="#" id="date">Tout</a>
         <span class="label">Précision géographique :</span><a href="#" id="locationSource">Tout</a>
@@ -36,7 +37,7 @@
 <p>
     <span id="error"></span>
 </p>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script src="lib/markerclusterer.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRoTk_Xjx_YTlXUWifpsBr4GnEcL2txJc&callback=initMap" async defer></script>
 </body>
 </html>
