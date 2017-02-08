@@ -12,15 +12,14 @@ var contentString = '<div id="infoPhoto">' +
 	'</div>';
 var currentPhotosIds;
 function getPhotoView(photo) {
+	var content = '<div class="photoAndLegend">';
+	content += '<img src="getPhoto?id=' + photo.id + '&maxSize=400" class="photo">';
 	var dateTime = photo.date;
-	if (photo.time != "unknown") dateTime += " "+photo.time;
-	var locationSource = "";
-	if (photo.locationSource == "Device") locationSource = "GPS";
-	return '<div class="photoAndLegend">' +
-		'<img src="getPhoto?id=' + photo.id + '&maxSize=400" class="photo">' +
-		'<br/><span class="photoDate">'+dateTime+'</span>' +
-		'<span class="photoLocationSource">'+locationSource+'</span>' +
-		'</div>';
+	if (photo.time != "unknown") dateTime += " " + photo.time;
+	content += '<span class="photoDate">' + dateTime + '</span>';
+	if (photo.locationSource == "Device") content += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
+	content += '</div>';
+	return content;
 }
 function viewPhotos() {
 	var content = "";
@@ -112,7 +111,8 @@ function initMap() {
 	});
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
-	});;
+	});
+	;
 	$("#dateAll").click(function (e) {
 		changeTimeFrame("Tout", "All");
 	});
@@ -139,6 +139,9 @@ function initMap() {
 	infoWindow = new google.maps.InfoWindow({
 		content: contentString
 	});
-	markerCluster = new MarkerClusterer(map, null, {maxZoom: 16, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+	markerCluster = new MarkerClusterer(map, null, {
+		maxZoom: 16,
+		imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+	});
 	refreshMarkers();
 }

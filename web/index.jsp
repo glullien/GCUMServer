@@ -13,7 +13,7 @@
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
     <div class="controlBox">
-        <form class="form-inline">
+        <form class="form-inline" style="margin: 0; padding: 0;">
             <div class="form-group">
                 <span>Dates :</span>
                 <div class="dropdown" style="display: inline;">

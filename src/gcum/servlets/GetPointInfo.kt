@@ -32,6 +32,8 @@ class GetPointInfo : JsonServlet() {
                put("date", it.moment.date.format(DateTimeFormatter.ISO_DATE))
                put("time", it.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
                put("locationSource", it.location.coordinates.source.toString())
+               put("latitude", it.location.coordinates.point.latitude)
+               put("longitude", it.location.coordinates.point.longitude)
                put("id", it.id)
             }
          })

@@ -1,29 +1,13 @@
+@font-face {
+	font-family: 'digital-clock-font';
+	src: url('../fonts/digital-7.ttf');
+}
+
 #map {
-	height: 100%;
+	position: absolute;
+	top: 30px;
+	bottom: 0;
 	width: 100%;
-	margin: 0;
-}
-
-.displayChoices {
-	position: fixed;
-	left: 80px;
-	top: 40px;
-	border: 4px solid black;
-	border-radius: 13px;
-	padding: 0 8px;
-	background: white;
-}
-
-.displayChoices a {
-	padding: 10px 4px;
-	text-decoration: none;
-	border: 1px solid grey;
-	background: darkgrey;
-	border-radius: 4px;
-}
-
-.displayChoices a:hover {
-	background: lightgrey;
 }
 
 #photos {
@@ -51,22 +35,35 @@
 }
 
 .photoAndLegend {
+	position: relative;
 	margin-right: 10px;
 	margin-top: 10px;
 	display: inline-block;
 }
 
 .photoDate {
-	margin-left: 20px;
-	margin-right: 20px;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-family: 'digital-clock-font', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-.photoLocationSource {
-	font-size: 16px;
-	font-weight: bold;
-	color: red;
+.photoCoordinates {
+	position: absolute;
+	bottom: 50px;
+	left: 15px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-family: 'digital-clock-font', sans-serif;
+	font-size: 13px;
 }
 
 #infoPhoto {
