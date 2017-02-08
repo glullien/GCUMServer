@@ -1,36 +1,69 @@
+@font-face {
+	font-family: 'digital-clock-font';
+	src: url('../fonts/digital-7.ttf');
+}
+
 #uploadZone {
 	margin-top: 30px;
 }
 
-#uploaded {
+#uploadedZone {
 	background-color: lightgrey;
 	margin: 15px 10px;
+	display: block;
+}
+
+#uploadedProgress {
+	margin: 4px;
+}
+
+#uploaded {
 	overflow: auto;
-	height: 530px;
+	height: 380px;
+	width: 100%;
 	display: inline-block;
 }
 
 .photoAndLegend {
+	position: relative;
 	margin-right: 10px;
 	margin-top: 10px;
 	display: inline-block;
 }
 
 .photoDate {
-	margin-left: 20px;
-	margin-right: 20px;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-family: 'digital-clock-font', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-.street {
-	margin-left: 25px;
-	font-size: 16px;
+.photoCoordinates {
+	position: absolute;
+	bottom: 50px;
+	left: 15px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-family: 'digital-clock-font', sans-serif;
+	font-size: 13px;
+}
+
+.photoStreet {
+	margin-left: 5px;
+	font-size: 14px;
 	font-weight: bold;
 }
 
-.district {
-	font-size: 16px;
+.photoDistrict {
+	font-size: 14px;
 	font-weight: bold;
 	color: gray;
 }
@@ -58,32 +91,6 @@
 	padding: 15px;
 	border: 1px solid gray;
 	border-radius: 15px;
-}
-
-#successZone {
-	position: absolute;
-	top: 100px;
-	left: 100px;
-	padding: 10px;
-	border: 2px solid black;
-	border-radius: 10px;
-	background: white;
-	font-size: 24px;
-	color: black;
-}
-
-#successClose {
-	margin: 5px;
-	padding: 10px 4px;
-	text-decoration: none;
-	border: 1px solid grey;
-	background: green;
-	border-radius: 4px;
-	color: white;
-}
-
-#successClose:hover {
-	background: lightgreen;
 }
 
 #streetZone {
@@ -161,11 +168,4 @@
 #dateHelp {
 	font-size: 12px;
 	color: gray;
-}
-
-#status {
-	font-size: 20px;
-	color: red;
-	font-weight: bold;
-	margin-left: 50px;
 }

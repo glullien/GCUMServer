@@ -9,6 +9,7 @@ import gcum.opendata.Arrondissements
 import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
+import gcum.utils.getLogger
 import java.awt.image.BufferedImage
 import java.io.*
 import java.time.Duration
@@ -24,6 +25,8 @@ import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+
+private val log = getLogger()
 
 private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploaded>) {
    val date: LocalDate? get() {
@@ -97,6 +100,7 @@ private fun addPost(uploaded: List<Uploaded>): Post {
 @MultipartConfig
 class Upload : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
+      log.info("upload post ${request.parts.size} files")
       cleanOldUploaded()
       val uploaded = request.parts.map {
          p->

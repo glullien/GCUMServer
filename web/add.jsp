@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/add.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
     <script type="text/javascript" src="scripts/add.js"></script>
@@ -26,33 +27,53 @@
     <input id="fileupload" type="file" name="files[]" multiple>
 </span>
 </div>
-<div id="uploaded">
-
+<div id="uploadedZone">
+    <div class="progress" id="uploadedProgress">
+        <div class="progress-bar" role="progressbar" style="width:0%" id="uploadedProgressBar">
+            <span class="sr-only">70% Complete</span>
+        </div>
+    </div>
+    <div id="uploaded"></div>
 </div>
 
 <form class="form-inline">
     <div id="reportZone">
-        <div class="form-group">
+        <div class="form-group" id="streetGroup">
             <label for="street">Rue :</label>
             <input type="text" id="street" class="form-control">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="districtGroup">
             <label for="district">Arrondissement :</label>
             <input type="text" id="district" class="form-control">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="dateGroup">
             <label for="date">Date :</label>
             <input type="text" id="date" class="form-control">
             <span id="dateHelp">yyyy-mm-dd</span>
         </div>
         <button type="button" id="report" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-cloud-upload"></i> Envoyer</button>
+        <div class="alert alert-warning">
+            <span id="status"></span>
+        </div>
     </div>
 </form>
-<span id="status">.</span>
 
 <div id="successZone">
     Photos archivées avec succès !
-    <a id="successClose" href="#">Ok</a>
+    <a id="successClose" href="#" class="btn btn-success">Ok</a>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Photos archivées avec succès !</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="streetZone">
