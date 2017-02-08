@@ -11,7 +11,8 @@ import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
 import gcum.utils.getLogger
 import java.awt.image.BufferedImage
-import java.io.*
+import java.io.IOException
+import java.io.OutputStream
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -43,13 +44,13 @@ private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploa
    }
 }
 
-private class Uploaded(val id: Int, val file: File, val width: Int, val height: Int, val voie: Voie?, val district: Int?, val metaData: MetaData?) {
+private class Uploaded(val id: Int, val bytes: ByteArray, val width: Int, val height: Int, val voie: Voie?, val district: Int?, val metaData: MetaData?) {
    fun writeImage(out: OutputStream, maxSize: Int) {
-      if ((width <= maxSize) && (height <= maxSize)) FileInputStream(file).use {it.copyTo(out)}
+      if ((width <= maxSize) && (height <= maxSize)) bytes.inputStream().use {it.copyTo(out)}
       else {
          val targetWidth = if (height <= width) maxSize else maxSize * width / height
          val targetHeight = if (width <= height) maxSize else maxSize * height / width
-         val full = readImage(file, metaData)
+         val full = readImage(bytes, metaData)
          val resizedImage = BufferedImage(targetWidth, targetHeight, full.type)
          resizedImage.createGraphics().drawImage(full, 0, 0, targetWidth, targetHeight, null)
          ImageIO.write(resizedImage, "JPG", out)
@@ -62,7 +63,7 @@ private val postsList = mutableMapOf<Int, Post>()
 private val uploadedList = mutableMapOf<Int, Uploaded>()
 
 private fun cleanOldUploaded() {
-   val timeOut = Duration.ofHours(1)
+   val timeOut = Duration.ofMinutes(15)
    val toRemove = postsList.filterValues {timeOut < Duration.between(it.timeStamp, Instant.now())}
    toRemove.keys.forEach {
       postKey->
@@ -71,7 +72,7 @@ private fun cleanOldUploaded() {
    }
 }
 
-private fun addUpload(file: File): Uploaded {
+private fun addUpload(bytes: ByteArray): Uploaded {
    fun district(point: Point, street: String): Int? {
       val districtsFromPoint = Arrondissements.search(point)
       val districtsFromStreet = VoiesArrondissements.search(street).map {it.district}
@@ -80,11 +81,11 @@ private fun addUpload(file: File): Uploaded {
    }
 
    val id = nextId.andIncrement
-   val metaData = getMetaData(file)
-   val image = readImage(file, metaData)
+   val metaData = getMetaData(bytes)
+   val image = readImage(bytes, metaData)
    val voie = if (metaData?.location == null) null else Voies.search(metaData?.location)
    val district = if ((metaData?.location == null) || (voie == null)) null else district(metaData?.location, voie.name)
-   val uploaded = Uploaded(id, file, image.width, image.height, voie, district, metaData)
+   val uploaded = Uploaded(id, bytes, image.width, image.height, voie, district, metaData)
    uploadedList[id] = uploaded
    return uploaded
 }
@@ -102,14 +103,15 @@ class Upload : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       log.info("upload post ${request.parts.size} files")
       cleanOldUploaded()
+      log.info("Start store")
       val uploaded = request.parts.map {
          p->
          if (p.contentType != "image/jpeg") throw ServletException("Must be an image")
-         val tmpFile = File.createTempFile("uploaded", "image")
-         p.inputStream.use {i-> FileOutputStream(tmpFile).use {i.copyTo(it)}}
-         addUpload(tmpFile)
+         addUpload(p.inputStream.readBytes())
       }
+      log.info("Start post")
       val post = addPost(uploaded)
+      log.info("End")
       return jsonSuccess {
          put("id", post.id)
          put("date", post.date?.format(DateTimeFormatter.ISO_DATE) ?: "unknown")
@@ -166,7 +168,7 @@ class ReportUploaded : JsonServlet() {
       if (!dateMatcher.matches()) return jsonError("Mauvaise date")
       val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
 
-      Database.put(street, localDate, districtInt, post.uploaded.map {it.file})
+      Database.put(street, localDate, districtInt, post.uploaded.map {it.bytes})
       return jsonSuccess {}
    }
 }

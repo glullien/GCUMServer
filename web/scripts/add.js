@@ -78,7 +78,6 @@ $(function () {
 				if (uploaded.district != -1) content += '<span class="photoDistrict"> dans le ' + uploaded.district + 'e</span>';
 				content += '</div>';
 			}
-			console.debug("content " + content);
 			$('#uploadedProgressBar').css("width", '0%');
 			$("#uploaded").html(content);
 			$("#street").val(result.street);
@@ -88,6 +87,7 @@ $(function () {
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
+			console.debug("progress " + progress);
 			$('#uploadedProgressBar').css("width", progress + '%');
 		}
 	});

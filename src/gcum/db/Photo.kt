@@ -6,6 +6,7 @@ import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.utils.getLogger
 import org.apache.sanselan.Sanselan
+import org.apache.sanselan.common.IImageMetadata
 import org.apache.sanselan.formats.jpeg.JpegImageMetadata
 import org.apache.sanselan.formats.tiff.constants.ExifTagConstants
 import java.awt.geom.AffineTransform
@@ -59,15 +60,13 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
    return destImg
 }
 
-fun readImage(file: File, metaData: MetaData? = getMetaData(file)): BufferedImage {
-   val brut = ImageIO.read(file)
-   return when (metaData?.orientation) {
-      ExifTagConstants.ORIENTATION_VALUE_ROTATE_90_CW->brut.rotate(90.0)
-      ExifTagConstants.ORIENTATION_VALUE_ROTATE_270_CW->brut.rotate(270.0)
-      ExifTagConstants.ORIENTATION_VALUE_ROTATE_180->brut.rotate(180.0)
-      else->brut
-   }
-
+fun readImage(file: File, metaData: MetaData? = getMetaData(file)) = readImage(ImageIO.read(file), metaData)
+fun readImage(bytes: ByteArray, metaData: MetaData? = getMetaData(bytes)) = bytes.inputStream().use {readImage(ImageIO.read(it), metaData)}
+private fun readImage(brut: BufferedImage, metaData: MetaData?) = when (metaData?.orientation) {
+   ExifTagConstants.ORIENTATION_VALUE_ROTATE_90_CW->brut.rotate(90.0)
+   ExifTagConstants.ORIENTATION_VALUE_ROTATE_270_CW->brut.rotate(270.0)
+   ExifTagConstants.ORIENTATION_VALUE_ROTATE_180->brut.rotate(180.0)
+   else->brut
 }
 
 data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val file: File) {
@@ -163,9 +162,11 @@ data class MetaData(val orientation: Int?, val originalDateTime: LocalDateTime?,
 
 private val exitDateTimeFormat = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
 
-fun getMetaData(file: File): MetaData? {
+fun getMetaData(file: File) = getMetaData({Sanselan.getMetadata(file)})
+fun getMetaData(bytes: ByteArray) = getMetaData({Sanselan.getMetadata(bytes)})
+private fun getMetaData(sanselanGetMetaData: () -> IImageMetadata): MetaData? {
    try {
-      val metadata = Sanselan.getMetadata(file)
+      val metadata = sanselanGetMetaData()
       if (metadata !is JpegImageMetadata) return null else {
          // val device = metadata.findEXIFValue(ExifTagConstants.EXIF_TAG_MODEL)?.stringValue
 

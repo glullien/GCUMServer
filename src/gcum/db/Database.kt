@@ -67,7 +67,7 @@ object Database {
    fun getPhoto(id: Long) = photos.find {it.id == id}
 
    private val random = Random()
-   fun put(street: String, date: LocalDate, district: Int, files: List<File>) {
+   fun put(street: String, date: LocalDate, district: Int, images: List<ByteArray>) {
       fun imageFileName(dir: Path): String {
          val fileName = "GCUM${random.nextInt(100000)}.JPG"
          return if (!dir.resolve(fileName).toFile().exists()) fileName else imageFileName(dir)
@@ -81,11 +81,11 @@ object Database {
       val path = root.resolve(districtDir).resolve(streetDir).resolve(dateDir)
       val aux = path.resolve(auxDirName)
       aux.toFile().mkdirs()
-      for (file in files) {
+      for (image in images) {
          val fileName = imageFileName(path)
          val imageFile = path.resolve(fileName).toFile()
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
-         file.inputStream().use {i-> imageFile.outputStream().use {o-> i.copyTo(o)}}
+         imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
          val auxData = buildProperties(imageFile, auxFile, district, voie, date)
          add(createPhoto(imageFile, auxData))
