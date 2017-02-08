@@ -106,7 +106,10 @@ $(function () {
 		else if (street == "") $("#status").html("Précisez la rue");
 		else if (district == "") $("#status").html("Précisez l'arrondissement");
 		else if (!dateRegex.test(date)) $("#status").html("Précisez la date");
-		else $.ajax({
+		else {
+			$('#report').prop("disabled", true);
+			$("#status").html("Mise à jour de la base de données");
+			$.ajax({
 				url: 'reportUploaded',
 				type: 'POST',
 				data: {'id': postId, 'street': street, 'district': district, 'date': date},
@@ -123,11 +126,14 @@ $(function () {
 					else {
 						$("#status").html(json.message);
 					}
+					$('#report').prop("disabled", false);
 				},
 				error: function () {
 					$("#status").html("Internal error");
+					$('#report').prop("disabled", false);
 				}
 			});
+		}
 	});
 });
 
