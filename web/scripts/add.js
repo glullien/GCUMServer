@@ -21,10 +21,6 @@ $(function () {
 	$('#districtsClose').click(function () {
 		$('#districtZone').hide();
 	});
-	$('#successZone').hide();
-	$('#successClose').click(function () {
-		$('#successZone').hide();
-	});
 	$('#street').on("input", function () {
 		var street = $('#street').val();
 		if (street.length < 2) $('#streetZone').hide();

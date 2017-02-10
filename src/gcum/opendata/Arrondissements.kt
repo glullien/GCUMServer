@@ -29,7 +29,7 @@ object Arrondissements {
    val arrondissements: List<Arrondissement>
 
    init {
-      val brut = readCsv(Voies.javaClass.getResourceAsStream("arrondissements.csv"))
+      val brut = Voies.javaClass.getResourceAsStream("arrondissements.csv").use(::readCsv)
       val coordinates = Pattern.compile(".*\"Polygon\".*(\\[\\[\\[.*\\]\\]\\]).*")
       fun getPoint(source: String): Point {
          fun getCoordinate(s: String) = coordinateToLong(s.trim().toDouble())

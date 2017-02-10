@@ -1,12 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@taglib prefix="gcum" uri="http://www.gcum.lol/gcum" %>
+<!doctype html>
 <html>
 <head>
+    <c:if test="${not gcum:isAdmin(sessionScope.sessionId)}">
+        <meta http-equiv="refresh" content="0; url=index.jsp"/>
+    </c:if>
     <title>GCUM Extraits</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/extract.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/extract.js"></script>
+    <script type="text/javascript" src="scripts/shared.js"></script>
 </head>
 <body>
 <div id="controls">
@@ -15,6 +23,16 @@
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
         <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
         <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
+        <div class="dropdown" style="display: inline; margin: 0; padding: 0;">
+            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-user"></i>
+                <span>${gcum:username(sessionScope.sessionId)}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a id="disconnect" href="#">Se déconnecter</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <div id="extractZone">

@@ -8,7 +8,7 @@ object VoiesArrondissements {
    val addresses: List<Address>
 
    init {
-      val brut = readCsv(Voies.javaClass.getResourceAsStream("streets.csv"))
+      val brut = Voies.javaClass.getResourceAsStream("streets.csv").use(::readCsv)
       addresses = brut.filter {it[0] != "TYPE DE VOIE"}.map {
          line->
          Address(line [0].trim(), line[1].toInt(), "Paris")

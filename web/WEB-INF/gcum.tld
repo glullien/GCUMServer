@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>format</short-name>
+    <uri>http://www.gcum.lol/gcum</uri>
+    <function>
+        <name>isLogin</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>
+            boolean isLogin(int)
+        </function-signature>
+    </function>
+    <function>
+        <name>isAdmin</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>
+            boolean isAdmin(int)
+        </function-signature>
+    </function>
+    <function>
+        <name>username</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>
+            java.lang.String username(int)
+        </function-signature>
+    </function>
+</taglib>

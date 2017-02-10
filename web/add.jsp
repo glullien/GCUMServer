@@ -1,7 +1,12 @@
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@taglib prefix="gcum" uri="http://www.gcum.lol/gcum" %>
+<!doctype html>
 <html>
 <head>
+    <c:if test="${not gcum:isAdmin(sessionScope.sessionId)}">
+        <meta http-equiv="refresh" content="0; url=index.jsp"/>
+    </c:if>
     <title>Ajouter GCUM</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/add.css">
@@ -11,14 +16,27 @@
     <script type="text/javascript" src="lib/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
     <script type="text/javascript" src="scripts/add.js"></script>
+    <script type="text/javascript" src="scripts/shared.js"></script>
 </head>
 <body>
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
-        <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
-        <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
+        <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
+            <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+            <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
+        </c:if>
+        <div class="dropdown" style="display: inline; margin: 0; padding: 0;">
+            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-user"></i>
+                <span>${gcum:username(sessionScope.sessionId)}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a id="disconnect" href="#">Se déconnecter</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <div id="uploadZone">
@@ -58,11 +76,6 @@
         </div>
     </div>
 </form>
-
-<div id="successZone">
-    Photos archivées avec succès !
-    <a id="successClose" href="#" class="btn btn-success">Ok</a>
-</div>
 
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

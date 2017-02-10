@@ -16,7 +16,7 @@ object Voies {
    val voies: List<Voie>
 
    init {
-      val brut = readCsv(Voies.javaClass.getResourceAsStream("voies-paris-et-petite-couronne.csv"))
+      val brut = Voies.javaClass.getResourceAsStream("voies-paris-et-petite-couronne.csv").use(::readCsv)
       val coordinates = Pattern.compile(".*\"LineString\".*(\\[\\[.*\\]\\]).*")
       fun getPoint(source: String, latitudeFirst: Boolean): Point {
          fun getCoordinate(s: String) = coordinateToLong(s.trim().toDouble())

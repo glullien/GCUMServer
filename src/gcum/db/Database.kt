@@ -4,9 +4,7 @@ import gcum.chars.toStdChars
 import gcum.conf.Configuration
 import gcum.conf.KProperties
 import gcum.geo.Point
-import gcum.opendata.Arrondissements
-import gcum.opendata.Voies
-import gcum.opendata.VoiesArrondissements
+import gcum.opendata.*
 import gcum.utils.time
 import java.io.File
 import java.nio.file.Path
@@ -15,17 +13,28 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
+
+class UserExistsException : Exception("User exists")
 
 object Database {
 
    val root: Path = Configuration.getPath("root")
+   val users = ConcurrentHashMap<String, User>()
+   val usersLock = ReentrantLock()
    val photos = ConcurrentLinkedQueue<Photo>()
    val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<Photo>>()
+   val photosLock = ReentrantLock()
+   val usersFileName = "users.csv"
    val auxDirName = "aux"
 
-   //val addDicoveredPhotoExecPool = Executors.newSingleThreadExecutor()
-
    init {
+      val usersFile = root.resolve(usersFileName).toFile()
+      if (usersFile.exists()) {
+         val usersFileBrut = usersFile.inputStream().use(::readCsv)
+         users.putAll(usersFileBrut.map {line-> User(line [0], line[1], if (line[2].isEmpty()) null else line[2], UserRole.valueOf(line[3]))}.associateBy {it.username})
+      }
       fun File.isImageFile() = name.toLowerCase().matches(Regex(".*\\.(jpg|jpeg)"))
       root.toFile().listFiles {file: File-> file.isDirectory}.forEach {
          districtDir->
@@ -37,23 +46,32 @@ object Database {
                if (!auxDir.exists()) auxDir.mkdir()
                dateDir.listFiles(File::isImageFile).forEach {
                   imageFile->
-                  //addDicoveredPhotoExecPool.execute {
                   add(districtDir, streetDir, dateDir, auxDir, imageFile)
-                  //}
                }
             }
          }
       }
    }
 
-   fun shutdown() {
-      //addDicoveredPhotoExecPool.shutdown()
-      //addDicoveredPhotoExecPool.awaitTermination(1, TimeUnit.HOURS)
+   fun addUser(username: String, password: String, email: String?) {
+      usersLock.withLock {
+         if (users.contains(username)) throw UserExistsException()
+         users.put(username, User(username, password, if (email.isNullOrEmpty()) null else email, UserRole.Regular))
+         root.resolve(usersFileName).toFile().printWriter().use {
+            writeCsv(it, users.values.map {listOf(it.username, it.password, it.email, it.role.toString())})
+         }
+      }
    }
 
+   fun getUser(username: String): User? = users[username]
+
    private fun add(photo: Photo) {
-      photos.add(photo)
-      points.computeIfAbsent(photo.location.coordinates.point, {p-> ConcurrentLinkedQueue()}).add(photo)
+      photosLock.withLock {
+         if (photos.none {it.file.absolutePath == photo.file.absolutePath}) {
+            photos.add(photo)
+            points.computeIfAbsent(photo.location.coordinates.point, {p-> ConcurrentLinkedQueue()}).add(photo)
+         }
+      }
    }
 
    private fun add(districtDir: File, streetDir: File, dateDir: File, auxDir: File, imageFile: File) {
@@ -93,6 +111,9 @@ object Database {
    }
 }
 
+enum class UserRole {Regular, Admin }
+data class User(val username: String, val password: String, val email: String?, val role: UserRole)
+
 fun main(args: Array<String>) {
    println("by Name ${Voies.search("rue conte").name}")
    println("by Point ${Voies.search(Point(4883377, 238200)).name}")
@@ -100,5 +121,5 @@ fun main(args: Array<String>) {
    println("by Name ${VoiesArrondissements.search("Jemmapes")}")
    println("by Name ${Arrondissements.arrondissements.size}")
    println("by Name ${Arrondissements.search(Point(4887202, 235788))}")
-   time("Database loading") {Database.shutdown()}
+   time("Database loading") {Database.getUser("paf")}
 }
