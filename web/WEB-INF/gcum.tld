@@ -8,21 +8,21 @@
         <name>isLogin</name>
         <function-class>gcum.tld.Session</function-class>
         <function-signature>
-            boolean isLogin(int)
+            boolean isLogin(java.lang.String)
         </function-signature>
     </function>
     <function>
         <name>isAdmin</name>
         <function-class>gcum.tld.Session</function-class>
         <function-signature>
-            boolean isAdmin(int)
+            boolean isAdmin(java.lang.String)
         </function-signature>
     </function>
     <function>
         <name>username</name>
         <function-class>gcum.tld.Session</function-class>
         <function-signature>
-            java.lang.String username(int)
+            java.lang.String username(java.lang.String)
         </function-signature>
     </function>
 </taglib>

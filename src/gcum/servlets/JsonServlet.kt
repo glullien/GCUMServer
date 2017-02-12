@@ -73,15 +73,17 @@ fun ServletRequest.getStringOrNull(key: String, pattern: Pattern = ALL): String?
    else if (pattern.matcher(parameter).matches()) parameter
    else throw IllegalArgumentException("Invalid $key:$parameter")
 }
+
 fun ServletRequest.getString(key: String, pattern: Pattern = ALL): String = getStringOrNull(key, pattern) ?: throw IllegalArgumentException("Missing $key")
 inline fun <reified T : Enum<T>> ServletRequest.getEnum(key: String): T = java.lang.Enum.valueOf(T::class.java, getString(key))
-inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key).split(',').map { java.lang.Enum.valueOf(T::class.java, it)}
+inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key).split(',').map {java.lang.Enum.valueOf(T::class.java, it)}
 
 private val DOUBLE = Pattern.compile("^\\d+\\.\\d+$")
 fun ServletRequest.getDoubleOrNull(name: String): Double? {
    val s = getStringOrNull(name, DOUBLE)
    return if ((s == null)) null else s.toDouble()
 }
+
 fun ServletRequest.getDouble(key: String): Double = getDoubleOrNull(key) ?: throw IllegalArgumentException("Missing $key")
 
 private val INT = Pattern.compile("^\\d+$")
@@ -89,6 +91,7 @@ fun ServletRequest.getIntOrNull(name: String): Int? {
    val s = getStringOrNull(name, INT)
    return if ((s == null)) null else s.toInt()
 }
+
 fun ServletRequest.getInt(key: String): Int = getIntOrNull(key) ?: throw IllegalArgumentException("Missing $key")
 
 private val LONG = Pattern.compile("^\\d+$")
@@ -96,4 +99,13 @@ fun ServletRequest.getLongOrNull(name: String): Long? {
    val s = getStringOrNull(name, LONG)
    return if ((s == null)) null else s.toLong()
 }
+
 fun ServletRequest.getLong(key: String): Long = getLongOrNull(key) ?: throw IllegalArgumentException("Missing $key")
+
+private val BOOLEAN = Pattern.compile("^[a-zA-Z]+$")
+fun ServletRequest.getBooleanOrNull(name: String): Boolean? {
+   val s = getStringOrNull(name, BOOLEAN)
+   return if ((s == null)) null else s.toBoolean()
+}
+
+fun ServletRequest.getBoolean(key: String): Boolean = getBooleanOrNull(key) ?: throw IllegalArgumentException("Missing $key")

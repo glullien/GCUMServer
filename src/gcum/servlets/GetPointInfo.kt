@@ -14,7 +14,7 @@ class GetPointInfo : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val latitude = request.getLong("latitude")
       val longitude = request.getLong("longitude")
-      val allPhotos = Database.points[Point(latitude, longitude)]
+      val allPhotos = Database.allPoints[Point(latitude, longitude)]
       if ((allPhotos == null) || allPhotos.isEmpty()) throw IllegalAccessException("Photo not found")
       val inTimeFrame = when (request.getEnum<TimeFrame>("timeFrame")) {
          TimeFrame.All->allPhotos

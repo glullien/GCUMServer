@@ -19,7 +19,7 @@ class Extract : HttpServlet() {
    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
       request.characterEncoding = "UTF-8"
       val districtParameter = request.getString("district", Pattern.compile("(all|\\d+)"))
-      val all = Database.photos
+      val all = Database.allPhotos
       val photos = when (districtParameter) {
          "all"->all
          else-> {

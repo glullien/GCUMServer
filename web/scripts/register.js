@@ -10,6 +10,7 @@ $(function () {
 	var emailRegex = /^.{1,40}@.{1,40}\..{1,20}$/;
 	var emailField = $('#email');
 	var emailGroup = $('#emailGroup');
+	var remindMe = $("#remindMe");
 	var submit = $('#submit');
 	var status = $("#status");
 	usernameField.on("input", function () {
@@ -42,6 +43,7 @@ $(function () {
 		var password = passwordField.val();
 		var passwordCheck = passwordCheckField.val();
 		var email = emailField.val();
+		var remindMeChecked = remindMe.prop("checked");
 		if (!usernameRegex.test(username)) usernameGroup.addClass("has-error");
 		if (!passwordRegex.test(password)) passwordGroup.addClass("has-error");
 		if (password != passwordCheck) passwordCheckGroup.addClass("has-error");
@@ -56,10 +58,13 @@ $(function () {
 			$.ajax({
 				url: 'register',
 				type: 'POST',
-				data: {'username': username, 'password': password, 'email': email},
+				data: {'username': username, 'password': password, 'email': email, "remindMe": remindMeChecked},
 				dataType: 'json',
 				success: function (json) {
-					if (json.result == 'success') $("#successModal").modal("show");
+					if (json.result == 'success') {
+						if (remindMeChecked) document.cookie = ("autoLogin=" + json.autoLogin+"; expires="+json.validTo+" 00:00:00 UTC; path=/");
+						$("#successModal").modal("show");
+					}
 					else status.html(json.message);
 					submit.prop("disabled", false);
 				},

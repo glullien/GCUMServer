@@ -5,9 +5,10 @@ $(function () {
 	var passwordField = $('#password');
 	var passwordGroup = $('#passwordGroup');
 	var passwordRegex = /^.{6,20}$/;
+	var remindMe = $("#remindMe");
 	var status = $("#status");
 	var submit = $('#submit');
-	var status = $("#status");
+	var sendID = $("#sendID");
 	usernameField.on("input", function () {
 		var username = usernameField.val();
 		if (usernameRegex.test(username)) usernameGroup.removeClass("has-error");
@@ -19,9 +20,16 @@ $(function () {
 		else passwordGroup.addClass("has-error");
 	});
 
+	$(document).keypress(function(e) {
+		if(e.which == 13) {
+			submit.click();
+		}
+	});
+
 	submit.click(function () {
 		var username = usernameField.val();
 		var password = passwordField.val();
+		var remindMeChecked = remindMe.prop("checked");
 		if (!usernameRegex.test(username)) usernameGroup.addClass("has-error");
 		if (!passwordRegex.test(password)) passwordGroup.addClass("has-error");
 		if (!usernameRegex.test(username)) status.html("Le pseudo doit être constitué de 1 à 20 caractères alphanumériques ou de _");
@@ -32,10 +40,13 @@ $(function () {
 			$.ajax({
 				url: 'login',
 				type: 'POST',
-				data: {'username': username, 'password': password},
+				data: {'username': username, 'password': password, "remindMe": remindMeChecked},
 				dataType: 'json',
 				success: function (json) {
-					if (json.result == 'success') document.location = "index.jsp";
+					if (json.result == 'success') {
+						if (remindMeChecked) document.cookie = ("autoLogin=" + json.autoLogin+"; expires="+json.validTo+" 00:00:00 UTC; path=/");
+						document.location = "index.jsp";
+					}
 					else status.html(json.message);
 					submit.prop("disabled", false);
 				},
@@ -45,7 +56,34 @@ $(function () {
 				}
 			});
 		}
-
 	});
+	$("#forgotID").click(function () {
+		$("#email").val("");
+		$("#forgotIDModal").modal("show");
+	});
+	sendID.click(function () {
+		var email = $("#email").val();
+		if (email != "") {
+			sendID.prop("disabled", true);
+			$.ajax({
+				url: 'sendID',
+				type: 'POST',
+				data: {'email': email},
+				dataType: 'json',
+				success: function (json) {
+					$("#forgotIDModal").modal("hide");
+					sendID.prop("disabled", false);
+					if (json.result == 'success') $("#sendSuccessModal").modal("show");
+					else $("#sendFailureModal").modal("show");
+				},
+				error: function () {
+					$("#forgotIDModal").modal("hide");
+					status.html("Internal error");
+					sendID.prop("disabled", false);
+				}
+			});
+		}
+	});
+
 });
 

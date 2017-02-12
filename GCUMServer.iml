@@ -99,5 +99,6 @@
     <orderEntry type="library" name="json_simple-1.1" level="project" />
     <orderEntry type="library" name="sanselan-0.97-incubator" level="project" />
     <orderEntry type="library" name="javax.servlet.jsp.jstl-1.2.1" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
   </component>
 </module>

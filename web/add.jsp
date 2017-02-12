@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <head>
-    <c:if test="${not gcum:isAdmin(sessionScope.sessionId)}">
+    <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <meta http-equiv="refresh" content="0; url=index.jsp"/>
     </c:if>
     <title>Ajouter GCUM</title>
@@ -17,6 +17,11 @@
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
     <script type="text/javascript" src="scripts/add.js"></script>
     <script type="text/javascript" src="scripts/shared.js"></script>
+    <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
+        <script type="text/javascript">
+			autoLogin();
+        </script>
+    </c:if>
 </head>
 <body>
 <div id="controls">
@@ -27,7 +32,7 @@
             <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
             <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
         </c:if>
-        <div class="dropdown" style="display: inline; margin: 0; padding: 0;">
+        <div class="dropdown" style="display: inline; margin: 0; padding: 0;top: -1px">
             <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-user"></i>
                 <span>${gcum:username(sessionScope.sessionId)}</span>

@@ -12,6 +12,7 @@
           <element id="library" level="project" name="KotlinJavaRuntime" />
           <element id="library" level="project" name="sanselan-0.97-incubator" />
           <element id="library" level="project" name="javax.servlet.jsp.jstl-1.2.1" />
+          <element id="library" level="project" name="javax.mail" />
         </element>
       </element>
     </root>

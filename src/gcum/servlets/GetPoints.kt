@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 @WebServlet(name = "GetPoints", value = "/getPoints")
 class GetPoints : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      val all = Database.points
+      val all = Database.allPoints
       val inZone = when (request.getEnum<Zone>("zone")) {
          Zone.All->all
          Zone.Inside->inside(request, all)
