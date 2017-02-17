@@ -23,10 +23,12 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.regex.Pattern
 import javax.imageio.ImageIO
 
-val PROPERTIES_DISTRICT = "district"
-val PROPERTIES_STREET = "street"
-val PROPERTIES_DATE = "date"
+private val PROPERTIES_DISTRICT = "district"
+private val PROPERTIES_STREET = "street"
+private val PROPERTIES_DATE = "date"
 private val PROPERTIES_TIME = "time"
+private val PROPERTIES_USERNAME = "username"
+private val PROPERTIES_LIKES = "likes"
 private val PROPERTIES_LATITUDE = "latitude"
 private val PROPERTIES_LONGITUDE = "longitude"
 private val PROPERTIES_COORDINATES_SOURCE = "coordinates.source"
@@ -69,8 +71,8 @@ private fun readImage(brut: BufferedImage, metaData: MetaData?) = when (metaData
    else->brut
 }
 
-data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val file: File) {
-   fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
+data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val username: String?, val likes: Set<String>, val file: File) {
+   //fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
 
    fun writeImage(out: OutputStream, maxSize: Int) {
       val fullW = details.width
@@ -91,6 +93,22 @@ data class Photo(val id: Long, val moment: Moment, val location: Location, val d
       }
    }
 
+   fun saveProperties(auxFile: File) {
+      val res = KProperties(auxFile)
+      res.setInt(PROPERTIES_DISTRICT, location.address.district)
+      res.setString(PROPERTIES_STREET, location.address.street)
+      res.setDate(PROPERTIES_DATE, moment.date)
+      if (moment.time != null) res.setTime(PROPERTIES_TIME, moment.time)
+      res.setLong(PROPERTIES_LONGITUDE, location.coordinates.point.longitude)
+      res.setLong(PROPERTIES_LATITUDE, location.coordinates.point.latitude)
+      res.setEnum(PROPERTIES_COORDINATES_SOURCE, location.coordinates.source)
+      res.setInt(PROPERTIES_WIDTH, details.width)
+      res.setInt(PROPERTIES_HEIGHT, details.height)
+      if (username != null) res.setString(PROPERTIES_USERNAME, username)
+      res.setString(PROPERTIES_LIKES, likes.joinToString(","))
+      res.save()
+   }
+
 }
 
 private val nextPhotoId = AtomicLong()
@@ -103,7 +121,9 @@ fun createPhoto(imageFile: File, auxData: KProperties): Photo {
    val coordinates = Coordinates(point, auxData.getEnum(PROPERTIES_COORDINATES_SOURCE))
    val location = Location(address, coordinates)
    val details = Details(auxData.getInt(PROPERTIES_WIDTH), auxData.getInt(PROPERTIES_HEIGHT))
-   return Photo(getNextPhotoId(), moment, location, details, imageFile)
+   val username = auxData.getStringOrNull(PROPERTIES_USERNAME)
+   val likes = auxData.getStringOrNull(PROPERTIES_LIKES)?.split(",")?.filterNot {it.isEmpty()}?.toSet() ?: emptySet()
+   return Photo(getNextPhotoId(), moment, location, details, username, likes, imageFile)
 }
 
 fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir: File, dateDir: File): KProperties {
@@ -125,10 +145,10 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
    val voie = Voies.search(street)
-   return buildProperties(imageFile, auxFile, district, voie, date)
+   return buildProperties(imageFile, auxFile, district, voie, date, null)
 }
 
-fun buildProperties(imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate): KProperties {
+fun buildProperties(imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, username: String?): KProperties {
    val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
@@ -154,6 +174,7 @@ fun buildProperties(imageFile: File, auxFile: File, district: Int, voie: Voie, d
 
    res.setInt(PROPERTIES_WIDTH, full.width)
    res.setInt(PROPERTIES_HEIGHT, full.height)
+   if (username != null) res.setString(PROPERTIES_USERNAME, username)
    res.save()
    return res
 }

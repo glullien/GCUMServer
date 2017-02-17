@@ -18,6 +18,7 @@ import kotlin.concurrent.withLock
 
 class UserExistsException : Exception("User exists")
 class UserDoesNotExistException : Exception("User does not exist")
+class PhotoNotFoundException(id: Long) : Exception("Photo not found $id")
 
 object Database {
 
@@ -26,8 +27,8 @@ object Database {
    private val usersLock = ReentrantLock()
    private val autoLogins = ConcurrentHashMap<String, AutoLogin>()
    private val autoLoginsLock = ReentrantLock()
-   private val photos = ConcurrentLinkedQueue<Photo>()
-   private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<Photo>>()
+   private val photos = ConcurrentHashMap<Long, Photo>()
+   private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<Long>>()
    private val photosLock = ReentrantLock()
    private val usersFileName = "users.csv"
    private val autoLoginFileName = "autoLogin.csv"
@@ -110,9 +111,9 @@ object Database {
    fun getUserFromEmail(email: String): User? = users.values.firstOrNull {it.email == email}
 
    private fun add(photo: Photo) {
-      if (photos.none {it.file.absolutePath == photo.file.absolutePath}) {
-         photos.add(photo)
-         points.computeIfAbsent(photo.location.coordinates.point, {p-> ConcurrentLinkedQueue()}).add(photo)
+      if (photos.values.none {it.file.absolutePath == photo.file.absolutePath}) {
+         photos[photo.id] = photo
+         points.computeIfAbsent(photo.location.coordinates.point, {p-> ConcurrentLinkedQueue()}).add(photo.id)
       }
    }
 
@@ -122,19 +123,19 @@ object Database {
       add(createPhoto(imageFile, auxData))
    }
 
-   val allPhotos: Collection<Photo> get () = photos
-   val allPoints: Map<Point, Collection<Photo>> get () = points
+   val allPhotos: Collection<Photo> get () = photos.values
+   val allPoints: Map<Point, List<Photo>> get () = points.map {e -> e.key to e.value.map {photos[it] ?: throw Exception("Code error")}}.toMap()
 
-   fun getPhotos(min: Point, max: Point) = photos.filter {it.inside(min, max)}
-   fun getPoints(min: Point, max: Point) = points.filterKeys {it.inside(min, max)}.keys
-   fun getPhoto(id: Long) = photos.find {it.id == id}
+   //fun getPhotos(min: Point, max: Point) = photos.filterValues {it.inside(min, max)}
+   //fun getPoints(min: Point, max: Point) = points.filterKeys {it.inside(min, max)}.keys
+   fun getPhoto(id: Long) = photos[id]
 
-   private val gcumCode = SecretCode({code-> photos.any {it.file.name.contains(code)}}, 10)
+   private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
-   fun put(street: String, date: LocalDate, district: Int, images: List<ByteArray>) {
+   fun put(street: String, date: LocalDate, district: Int, username: String, images: List<ByteArray>) {
       fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
-      val streetDir = street.replaceSpecialChars().firstCharToLowerCase();
+      val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
       val districtDir = "$district" + if (district == 1) "er" else "e"
       val dateDir = date.format(DateTimeFormatter.ofPattern("yyyy_MM_dd"))
       val path = root.resolve(districtDir).resolve(streetDir).resolve(dateDir)
@@ -146,9 +147,19 @@ object Database {
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
-         val auxData = buildProperties(imageFile, auxFile, district, voie, date)
+         val auxData = buildProperties(imageFile, auxFile, district, voie, date, username)
          add(createPhoto(imageFile, auxData))
       }
+   }
+
+   fun toggleLike(photoId: Long, username: String) {
+      val photo = getPhoto(photoId) ?: throw PhotoNotFoundException(photoId)
+      val auxDir = File(photo.file.parent, auxDirName)
+      val auxFile = File(auxDir, photo.file.nameWithoutExtension + ".properties")
+      val newLikes = if (photo.likes.contains(username)) photo.likes.minus(username) else photo.likes.plus(username)
+      val newPhoto = Photo(photo.id, photo.moment, photo.location, photo.details, photo.username, newLikes, photo.file)
+      photos[photoId] = newPhoto
+      newPhoto.saveProperties(auxFile)
    }
 }
 

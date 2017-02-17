@@ -26,15 +26,20 @@ class GetPointInfo : JsonServlet() {
       val photos = inTimeFrame.filter {locationSources.contains(it.location.coordinates.source)}
       if (photos.isEmpty()) throw IllegalAccessException("Photos not found")
       val sortedPhotos = photos.sortedByDescending {it.moment.date}
+      val username = Sessions.username(request.session)
       return jsonSuccess {
          put("photos", sortedPhotos.map {
+            photo ->
             sub {
-               put("date", it.moment.date.format(DateTimeFormatter.ISO_DATE))
-               put("time", it.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
-               put("locationSource", it.location.coordinates.source.toString())
-               put("latitude", it.location.coordinates.point.latitude)
-               put("longitude", it.location.coordinates.point.longitude)
-               put("id", it.id)
+               put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
+               put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
+               put("locationSource", photo.location.coordinates.source.toString())
+               put("latitude", photo.location.coordinates.point.latitude)
+               put("longitude", photo.location.coordinates.point.longitude)
+               if (photo.username != null) put("username", photo.username)
+               put("likesCount", photo.likes.size)
+               put("isLiked", photo.likes.contains(username))
+               put("id", photo.id)
             }
          })
          val minDate = sortedPhotos.last().moment.date.format(DateTimeFormatter.ISO_DATE)

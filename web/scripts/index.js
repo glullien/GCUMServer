@@ -18,13 +18,37 @@ function getPhotoView(photo) {
 	if (photo.time != "unknown") dateTime += " " + photo.time;
 	content += '<span class="photoDate">' + dateTime + '</span>';
 	if (photo.locationSource == "Device") content += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
+	if (photo.username != null) content += '<span class="username">' + photo.username + '</span>';
+	content += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-user"></i></a>';
 	content += '</div>';
 	return content;
 }
+
+function toggleLike(photoId) {
+	$.ajax({
+		url: 'toggleLike',
+		type: 'POST',
+		data: {'photoId': photoId},
+		dataType: 'json',
+		success: function (json) {
+			if (json.result == 'success') {
+				var like = $("#like" + photoId);
+				like.html(json.likesCount + ' <i class="glyphicon glyphicon-user">');
+				if (json.isLiked) like.addClass("isLiked");
+				else like.removeClass("isLiked");
+			}
+		},
+		error: function () {
+		}
+	});
+}
+
+var contentPhotos=null;
 function viewPhotos() {
-	var content = "";
-	for (var i = 0; i < currentPhotosIds.length; i++) content += getPhotoView(currentPhotosIds[i]);
-	$("#photosList").html(content);
+	if (contentPhotos == null) {
+		for (var i = 0; i < currentPhotosIds.length; i++) contentPhotos += getPhotoView(currentPhotosIds[i]);
+		$("#photosList").html(contentPhotos);
+	}
 	$("#photos").show();
 }
 
@@ -46,10 +70,11 @@ function createMarker(latitude, longitude) {
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
+					contentPhotos = null;
 					currentPhotosIds = json.photos;
 					$("#infoPhotoCount").html(json.photos.length);
 					$("#infoPhotoDates").html(json.dates);
-					$("#infoPhotoStreet").html(json.street)
+					$("#infoPhotoStreet").html(json.street);
 					$("#infoPhotoThumbnail").attr("src", "getPhoto?id=" + json.photos[0].id + "&maxSize=150")
 				}
 				else {
@@ -112,23 +137,22 @@ function initMap() {
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
 	});
-	;
-	$("#dateAll").click(function (e) {
+	$("#dateAll").click(function () {
 		changeTimeFrame("Tout", "All");
 	});
-	$("#dateLastDay").click(function (e) {
+	$("#dateLastDay").click(function () {
 		changeTimeFrame("Dernier jour", "LastDay");
 	});
-	$("#dateLastWeek").click(function (e) {
+	$("#dateLastWeek").click(function () {
 		changeTimeFrame("Dernière semaine", "LastWeek");
 	});
-	$("#dateLastMonth").click(function (e) {
+	$("#dateLastMonth").click(function () {
 		changeTimeFrame("Dernier mois", "LastMonth");
 	});
-	$("#locationSourceAll").click(function (e) {
+	$("#locationSourceAll").click(function () {
 		changeLocationSource("Tout", "Street,Device");
 	});
-	$("#locationSourceGPS").click(function (e) {
+	$("#locationSourceGPS").click(function () {
 		changeLocationSource("Par GPS", "Device");
 	});
 	map = new google.maps.Map(document.getElementById('map'), {

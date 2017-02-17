@@ -45,6 +45,11 @@ object Sessions {
 
    fun isLogin(sessionId: String) = sessions.containsKey(sessionId)
    fun username(sessionId: String) = sessions[sessionId]?.username
+   fun username(session: HttpSession): String? {
+      val sessionId = session.getAttribute(sessionIdAttribute)
+      return if (sessionId is String) username(sessionId) else null
+   }
+
    fun user(sessionId: String): User? {
       val username = username(sessionId)
       return if (username == null) null else Database.getUser(username)

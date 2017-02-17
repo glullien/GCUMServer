@@ -157,6 +157,7 @@ class ReportUploaded : JsonServlet() {
       val street = request.getString("street")
       val district = request.getString("district")
       val date = request.getString("date")
+      val username = Sessions.username(request.session) ?: return jsonError("Aucune connexion")
 
       if (Voies.get(street) == null) return jsonError("Mauvais nom de voie")
 
@@ -168,7 +169,7 @@ class ReportUploaded : JsonServlet() {
       if (!dateMatcher.matches()) return jsonError("Mauvaise date")
       val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
 
-      Database.put(street, localDate, districtInt, post.uploaded.map {it.bytes})
+      Database.put(street, localDate, districtInt, username, post.uploaded.map {it.bytes})
       return jsonSuccess {}
    }
 }

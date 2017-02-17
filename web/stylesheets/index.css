@@ -56,7 +56,7 @@
 
 .photoCoordinates {
 	position: absolute;
-	bottom: 50px;
+	bottom: 60px;
 	left: 15px;
 	color: white;
 	background: black;
@@ -64,6 +64,37 @@
 	opacity: 0.7;
 	font-family: 'digital-clock-font', sans-serif;
 	font-size: 13px;
+}
+
+.username {
+	position: absolute;
+	bottom: 30px;
+	left: 50px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-size: 15px;
+}
+
+.like {
+	position: absolute;
+	bottom: 30px;
+	left: 10px;
+	color: white;
+	background: black;
+	padding: 0 4px;
+	opacity: 0.7;
+	font-size: 15px;
+}
+
+.like:hover {
+	color: pink;
+	text-decoration: none;
+}
+
+.isLiked {
+	color: #ff5e56;
 }
 
 #infoPhoto {
