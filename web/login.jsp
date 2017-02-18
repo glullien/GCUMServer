@@ -16,6 +16,7 @@
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
+        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
     </div>
 </div>
 <div class="well">

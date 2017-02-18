@@ -26,6 +26,7 @@
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
+        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
         <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
         <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
         <div class="dropdown" style="display: inline; margin: 0; padding: 0;top: -1px">

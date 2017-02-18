@@ -39,7 +39,17 @@ private val PARIS = "Paris"
 private val log = getLogger()
 
 enum class CoordinatesSource {Street, Device }
-data class Moment(val date: LocalDate, val time: LocalTime?)
+data class Moment(val date: LocalDate, val time: LocalTime?) : Comparable<Moment> {
+   override fun compareTo(other: Moment): Int {
+      val dateCompareTo = date.compareTo(other.date)
+      return if (dateCompareTo != 0) dateCompareTo
+      else if ((time == null) && (other.time == null)) 0
+      else if (time == null) -1
+      else if (other.time == null) 1
+      else time.compareTo(other.time)
+   }
+}
+
 data class Address(val street: String, val district: Int, val city: String)
 data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)

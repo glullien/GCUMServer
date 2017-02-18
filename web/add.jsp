@@ -28,6 +28,7 @@
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
+        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
         <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
             <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
             <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>

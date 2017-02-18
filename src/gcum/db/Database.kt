@@ -6,6 +6,8 @@ import gcum.conf.KProperties
 import gcum.geo.Point
 import gcum.opendata.*
 import gcum.utils.SecretCode
+import gcum.utils.max
+import gcum.utils.min
 import gcum.utils.time
 import java.io.File
 import java.nio.file.Path
@@ -124,7 +126,7 @@ object Database {
    }
 
    val allPhotos: Collection<Photo> get () = photos.values
-   val allPoints: Map<Point, List<Photo>> get () = points.map {e -> e.key to e.value.map {photos[it] ?: throw Exception("Code error")}}.toMap()
+   val allPoints: Map<Point, List<Photo>> get () = points.map {e-> e.key to e.value.map {photos[it] ?: throw Exception("Code error")}}.toMap()
 
    //fun getPhotos(min: Point, max: Point) = photos.filterValues {it.inside(min, max)}
    //fun getPoints(min: Point, max: Point) = points.filterKeys {it.inside(min, max)}.keys
@@ -160,6 +162,13 @@ object Database {
       val newPhoto = Photo(photo.id, photo.moment, photo.location, photo.details, photo.username, newLikes, photo.file)
       photos[photoId] = newPhoto
       newPhoto.saveProperties(auxFile)
+   }
+
+   fun getPhotos(number: Int, district: Int?, start: Long?): List<Photo> {
+      val filtered = photosLock.withLock {if (district == null) photos.values.toList() else photos.values.filter {it.location.address.district == district}}
+      val sorted = filtered.sortedBy {it.moment}.reversed()
+      val firstIndex = if (start == null) 0 else sorted.indexOfFirst {it.id == start}.max(0)
+      return sorted.subList(firstIndex, (firstIndex + number).min(sorted.size))
    }
 }
 
