@@ -19,10 +19,10 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.atomic.AtomicLong
 import java.util.regex.Pattern
 import javax.imageio.ImageIO
 
+private val PROPERTIES_ID = "id"
 private val PROPERTIES_DISTRICT = "district"
 private val PROPERTIES_STREET = "street"
 private val PROPERTIES_DATE = "date"
@@ -81,7 +81,7 @@ private fun readImage(brut: BufferedImage, metaData: MetaData?) = when (metaData
    else->brut
 }
 
-data class Photo(val id: Long, val moment: Moment, val location: Location, val details: Details, val username: String?, val likes: Set<String>, val file: File) {
+data class Photo(val id: String, val moment: Moment, val location: Location, val details: Details, val username: String?, val likes: Set<String>, val file: File) {
    //fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
 
    fun writeImage(out: OutputStream, maxSize: Int) {
@@ -105,6 +105,7 @@ data class Photo(val id: Long, val moment: Moment, val location: Location, val d
 
    fun saveProperties(auxFile: File) {
       val res = KProperties(auxFile)
+      res.setString(PROPERTIES_ID, id)
       res.setInt(PROPERTIES_DISTRICT, location.address.district)
       res.setString(PROPERTIES_STREET, location.address.street)
       res.setDate(PROPERTIES_DATE, moment.date)
@@ -121,10 +122,8 @@ data class Photo(val id: Long, val moment: Moment, val location: Location, val d
 
 }
 
-private val nextPhotoId = AtomicLong()
-fun getNextPhotoId() = nextPhotoId.andIncrement
-
 fun createPhoto(imageFile: File, auxData: KProperties): Photo {
+   val id = auxData.getString(PROPERTIES_ID)
    val moment = Moment(auxData.getDate(PROPERTIES_DATE), auxData.getTimeOrNull(PROPERTIES_TIME))
    val address = Address(auxData.getString(PROPERTIES_STREET), auxData.getInt(PROPERTIES_DISTRICT), PARIS)
    val point = Point(auxData.getLong(PROPERTIES_LATITUDE), auxData.getLong(PROPERTIES_LONGITUDE))
@@ -133,10 +132,10 @@ fun createPhoto(imageFile: File, auxData: KProperties): Photo {
    val details = Details(auxData.getInt(PROPERTIES_WIDTH), auxData.getInt(PROPERTIES_HEIGHT))
    val username = auxData.getStringOrNull(PROPERTIES_USERNAME)
    val likes = auxData.getStringOrNull(PROPERTIES_LIKES)?.split(",")?.filterNot {it.isEmpty()}?.toSet() ?: emptySet()
-   return Photo(getNextPhotoId(), moment, location, details, username, likes, imageFile)
+   return Photo(id, moment, location, details, username, likes, imageFile)
 }
 
-fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir: File, dateDir: File): KProperties {
+fun buildProperties(id: String, imageFile: File, auxFile: File, districtDir: File, streetDir: File, dateDir: File): KProperties {
    fun districtFromDirName(name: String): Int {
       val m = Pattern.compile("(\\d*)er?").matcher(name)
       if (!m.matches()) throw IllegalArgumentException("district dir $name must be *e(r)")
@@ -155,14 +154,15 @@ fun buildProperties(imageFile: File, auxFile: File, districtDir: File, streetDir
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
    val voie = Voies.search(street)
-   return buildProperties(imageFile, auxFile, district, voie, date, null)
+   return buildProperties(id, imageFile, auxFile, district, voie, date, null)
 }
 
-fun buildProperties(imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, username: String?): KProperties {
+fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, username: String?): KProperties {
    val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
    val full = readImage(imageFile, metaData)
+   res.setString(PROPERTIES_ID, id)
    res.setInt(PROPERTIES_DISTRICT, district)
    res.setString(PROPERTIES_STREET, voie.name)
    res.setDate(PROPERTIES_DATE, date)

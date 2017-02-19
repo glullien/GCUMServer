@@ -14,7 +14,7 @@ class GetList : JsonServlet() {
       val photos = Database.getPhotos(
          number,
          if (district == "All") null else district.toInt(),
-         if (start == "Latest") null else start.toLong()
+         if (start == "Latest") null else start
       )
       val username = Sessions.username(request.session)
       return jsonSuccess {

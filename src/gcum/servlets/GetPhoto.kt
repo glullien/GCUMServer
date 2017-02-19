@@ -13,7 +13,7 @@ class GetPhoto : HttpServlet() {
    @Throws(ServletException::class, IOException::class)
    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
       request.characterEncoding = "UTF-8"
-      val id = request.getLong("id")
+      val id = request.getString("id")
       val maxSize = request.getIntOrNull("maxSize")
       val photo = Database.getPhoto(id) ?: throw ServletException("Photo $id not found")
       response.contentType = "image/jpeg"

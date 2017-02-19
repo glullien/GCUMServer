@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest
 @WebServlet(name = "GetPhotoInfo", value = "/getPhotoInfo")
 class GetPhotoInfo : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      val id = request.getLong("id")
+      val id = request.getString("id")
       val photo = Database.getPhoto(id) ?: throw ServletException("Photo $id not found")
       return jsonSuccess {
          put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
@@ -30,7 +30,7 @@ class GetPhotoInfo : JsonServlet() {
 @WebServlet(name = "ToggleLike", value = "/toggleLike")
 class ToggleLike : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      val photoId = request.getLong("photoId")
+      val photoId = request.getString("photoId")
       val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
       Database.toggleLike(photoId, username)
       val photo = Database.getPhoto(photoId)

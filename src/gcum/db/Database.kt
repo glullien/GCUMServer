@@ -20,7 +20,7 @@ import kotlin.concurrent.withLock
 
 class UserExistsException : Exception("User exists")
 class UserDoesNotExistException : Exception("User does not exist")
-class PhotoNotFoundException(id: Long) : Exception("Photo not found $id")
+class PhotoNotFoundException(id: String) : Exception("Photo not found $id")
 
 object Database {
 
@@ -29,12 +29,13 @@ object Database {
    private val usersLock = ReentrantLock()
    private val autoLogins = ConcurrentHashMap<String, AutoLogin>()
    private val autoLoginsLock = ReentrantLock()
-   private val photos = ConcurrentHashMap<Long, Photo>()
-   private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<Long>>()
+   private val photos = ConcurrentHashMap<String, Photo>()
+   private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<String>>()
    private val photosLock = ReentrantLock()
    private val usersFileName = "users.csv"
    private val autoLoginFileName = "autoLogin.csv"
    private val auxDirName = "aux"
+   private val nextPhotoId = SecretCode({code-> photos.contains(code)})
 
    init {
       val usersFile = root.resolve(usersFileName).toFile()
@@ -121,7 +122,7 @@ object Database {
 
    private fun add(districtDir: File, streetDir: File, dateDir: File, auxDir: File, imageFile: File) {
       val auxFile = File(auxDir, imageFile.nameWithoutExtension + ".properties")
-      val auxData = if (auxFile.exists()) KProperties(auxFile) else buildProperties(imageFile, auxFile, districtDir, streetDir, dateDir)
+      val auxData = if (auxFile.exists()) KProperties(auxFile) else buildProperties(nextPhotoId.new(), imageFile, auxFile, districtDir, streetDir, dateDir)
       add(createPhoto(imageFile, auxData))
    }
 
@@ -130,7 +131,7 @@ object Database {
 
    //fun getPhotos(min: Point, max: Point) = photos.filterValues {it.inside(min, max)}
    //fun getPoints(min: Point, max: Point) = points.filterKeys {it.inside(min, max)}.keys
-   fun getPhoto(id: Long) = photos[id]
+   fun getPhoto(id: String) = photos[id]
 
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
@@ -149,12 +150,12 @@ object Database {
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
-         val auxData = buildProperties(imageFile, auxFile, district, voie, date, username)
+         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, username)
          add(createPhoto(imageFile, auxData))
       }
    }
 
-   fun toggleLike(photoId: Long, username: String) {
+   fun toggleLike(photoId: String, username: String) {
       val photo = getPhoto(photoId) ?: throw PhotoNotFoundException(photoId)
       val auxDir = File(photo.file.parent, auxDirName)
       val auxFile = File(auxDir, photo.file.nameWithoutExtension + ".properties")
@@ -164,7 +165,7 @@ object Database {
       newPhoto.saveProperties(auxFile)
    }
 
-   fun getPhotos(number: Int, district: Int?, start: Long?): List<Photo> {
+   fun getPhotos(number: Int, district: Int?, start: String?): List<Photo> {
       val filtered = photosLock.withLock {if (district == null) photos.values.toList() else photos.values.filter {it.location.address.district == district}}
       val sorted = filtered.sortedBy {it.moment}.reversed()
       val firstIndex = if (start == null) 0 else sorted.indexOfFirst {it.id == start}.max(0)
