@@ -34,6 +34,8 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="changePassword.jsp">Changer le mot de passe</a></li>
+                <li><a href="changeEmail.jsp">Changer d'adresse email</a></li>
                 <li><a id="disconnect" href="#">Se déconnecter</a></li>
             </ul>
         </div>

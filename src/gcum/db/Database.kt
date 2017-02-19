@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 class UserExistsException : Exception("User exists")
-class UserDoesNotExistException : Exception("User does not exist")
+class UserDoesNotExistException(username: String) : Exception("User $username does not exist")
 class PhotoNotFoundException(id: String) : Exception("Photo not found $id")
 
 object Database {
@@ -88,11 +88,26 @@ object Database {
       }
    }
 
+   fun changeEmail(username: String, email: String?) {
+      usersLock.withLock {
+         val user = users[username] ?: throw UserDoesNotExistException(username)
+         users.put(username, User(username, user.password, email, user.role))
+         writeUsersFile()
+      }
+   }
+   fun changePassword(username: String, password: String) {
+      usersLock.withLock {
+         val user = users[username] ?: throw UserDoesNotExistException(username)
+         users.put(username, User(username, password, user.email, user.role))
+         writeUsersFile()
+      }
+   }
+
    private val autoLoginCode = SecretCode({code-> autoLogins.containsKey(code)})
 
    fun generateAutoLoginCode(username: String): AutoLogin {
       autoLoginsLock.withLock {
-         if (!users.containsKey(username)) throw UserDoesNotExistException()
+         if (!users.containsKey(username)) throw UserDoesNotExistException(username)
          val code = autoLoginCode.new()
          val autoLogin = AutoLogin(username, code, LocalDate.now().plusYears(1))
          autoLogins[code] = autoLogin

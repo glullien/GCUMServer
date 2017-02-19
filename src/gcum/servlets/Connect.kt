@@ -45,6 +45,11 @@ object Sessions {
 
    fun isLogin(sessionId: String) = sessions.containsKey(sessionId)
    fun username(sessionId: String) = sessions[sessionId]?.username
+   fun email(sessionId: String): String? {
+      val username = username(sessionId)
+      return if (username == null) "" else Database.getUser(username)?.email
+   }
+
    fun username(session: HttpSession): String? {
       val sessionId = session.getAttribute(sessionIdAttribute)
       return if (sessionId is String) username(sessionId) else null
@@ -119,5 +124,37 @@ class AutoLogin : JsonServlet() {
       val autoLogin = Database.getAutoLogin(cookie)
       return if ((autoLogin == null) || (autoLogin.validTo.isBefore(LocalDate.now()))) jsonError("invalid cookie $cookie")
       else jsonSuccess(Sessions.login(request.session, autoLogin.username, false))
+   }
+}
+
+@WebServlet(name = "ChangeEmail", value = "/changeEmail")
+class ChangeEmail : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val email = request.getString("email")
+      val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
+      Database.changeEmail (username, email)
+      return jsonSuccess {}
+   }
+}
+
+@WebServlet(name = "RemoveEmail", value = "/removeEmail")
+class RemoveEmail : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
+      Database.changeEmail (username, null)
+      return jsonSuccess {}
+   }
+}
+
+@WebServlet(name = "ChangePassword", value = "/changePassword")
+class ChangePassword : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val oldPassword = request.getString("oldPassword")
+      val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
+      val user = Database.getUser(username)
+      if ((user == null) || (user.password != oldPassword)) return jsonError("Les identifiants sont incorrects")
+      val password = request.getString("password")
+      Database.changePassword (username, password)
+      return jsonSuccess {}
    }
 }

@@ -25,4 +25,11 @@
             java.lang.String username(java.lang.String)
         </function-signature>
     </function>
+    <function>
+        <name>email</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>
+            java.lang.String email(java.lang.String)
+        </function-signature>
+    </function>
 </taglib>
