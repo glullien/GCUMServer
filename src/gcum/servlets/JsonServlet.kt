@@ -108,4 +108,4 @@ fun ServletRequest.getBooleanOrNull(name: String): Boolean? {
    return if ((s == null)) null else s.toBoolean()
 }
 
-fun ServletRequest.getBoolean(key: String): Boolean = getBooleanOrNull(key) ?: throw IllegalArgumentException("Missing $key")
+fun ServletRequest.getBoolean(key: String): Boolean = getBooleanOrNull(key) ?: false
