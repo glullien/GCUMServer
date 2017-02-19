@@ -56,7 +56,7 @@
 </div>
 <div id="uploadedZone">
     <div class="progress" id="uploadedProgress">
-        <div class="progress-bar" role="progressbar" style="width:0%" id="uploadedProgressBar">
+        <div class="progress-bar" role="progressbar" style="width:0" id="uploadedProgressBar">
             <span class="sr-only">70% Complete</span>
         </div>
     </div>
