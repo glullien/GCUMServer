@@ -23,7 +23,7 @@ function fillList() {
 					html += '<span class="photoAddress">' + photo.street + ' dans le ' + photo.district + 'e</span>';
 					if (photo.locationSource == "Device") html += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
 					if (photo.username != null) html += '<span class="username">' + photo.username + '</span>';
-					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-user"></i></a>';
+					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
 					html += '</div>';
 					next = photo.id;
 				}

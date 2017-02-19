@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest
 @WebServlet(name = "GetPoints", value = "/getPoints")
 class GetPoints : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      val all = Database.allPoints
+      val authors = request.getString("authors")
+      val username = if (authors == "-All-") null else listOf(Sessions.username(request.session) ?: return jsonError("Vous devez être connecté"))
+      val all = Database.getPoints(username)
       val inZone = when (request.getEnum<Zone>("zone")) {
          Zone.All->all
          Zone.Inside->inside(request, all)

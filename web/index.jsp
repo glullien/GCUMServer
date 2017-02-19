@@ -51,6 +51,21 @@
                     </ul>
                 </div>
             </div>
+            <div class="form-group">
+                <span>Publiés par :</span>
+                <div class="dropdown" style="display: inline;">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span id="authors">Tous</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a id="authorsAll" href="#">Tous</a></li>
+                        <c:if test="${gcum:isLogin(sessionScope.sessionId)}">
+                            <li><a id="authorsMyself" href="#">Moi-même</a></li>
+                        </c:if>
+                    </ul>
+                </div>
+            </div>
         </form>
     </div>
     <div class="links">

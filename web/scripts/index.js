@@ -19,7 +19,7 @@ function getPhotoView(photo) {
 	content += '<span class="photoDate">' + dateTime + '</span>';
 	if (photo.locationSource == "Device") content += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
 	if (photo.username != null) content += '<span class="username">' + photo.username + '</span>';
-	content += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-user"></i></a>';
+	content += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
 	content += '</div>';
 	return content;
 }
@@ -103,12 +103,19 @@ function changeLocationSource(text, serverArg) {
 	refreshMarkers();
 }
 
+var authors = '-All-';
+function changeAuthor(text, serverArg) {
+	$("#authors").html(text);
+	authors = serverArg;
+	refreshMarkers();
+}
+
 function refreshMarkers() {
 	markerCluster.clearMarkers();
 	$.ajax({
 		url: 'getPoints',
 		type: 'POST',
-		data: {'zone': 'All', 'timeFrame': timeFrame, 'locationSources': locationSources},
+		data: {'zone': 'All', 'timeFrame': timeFrame, 'locationSources': locationSources, 'authors': authors},
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
@@ -154,6 +161,12 @@ function initMap() {
 	});
 	$("#locationSourceGPS").click(function () {
 		changeLocationSource("Par GPS", "Device");
+	});
+	$("#authorsAll").click(function () {
+		changeAuthor("Tous", "-All-");
+	});
+	$("#authorsMyself").click(function () {
+		changeAuthor("Moi-même", "-Myself-");
 	});
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 48.858607, lng: 2.345113},

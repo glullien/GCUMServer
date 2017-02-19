@@ -128,6 +128,10 @@ object Database {
 
    val allPhotos: Collection<Photo> get () = photos.values
    val allPoints: Map<Point, List<Photo>> get () = points.map {e-> e.key to e.value.map {photos[it] ?: throw Exception("Code error")}}.toMap()
+   fun getPoints(username: List<String>?): Map<Point, List<Photo>> {
+      val allPoints = allPoints
+      return if (username == null) allPoints else allPoints.filterValues {it.any {username.contains(it.username)}}
+   }
 
    //fun getPhotos(min: Point, max: Point) = photos.filterValues {it.inside(min, max)}
    //fun getPoints(min: Point, max: Point) = points.filterKeys {it.inside(min, max)}.keys
