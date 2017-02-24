@@ -154,10 +154,10 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, districtDir: Fil
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
    val voie = Voies.search(street)
-   return buildProperties(id, imageFile, auxFile, district, voie, date, null)
+   return buildProperties(id, imageFile, auxFile, district, voie, date, null, null)
 }
 
-fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, username: String?): KProperties {
+fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, point: Point?, username: String?): KProperties {
    val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
@@ -171,15 +171,21 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, v
       else log.severe("Incoherent date=$date and metaData=$dateTimeFromMetaData")
    }
 
-   val deviceLocation = metaData?.location
-   if (deviceLocation != null) {
-      res.setLong(PROPERTIES_LONGITUDE, deviceLocation.longitude)
-      res.setLong(PROPERTIES_LATITUDE, deviceLocation.latitude)
+   if (point != null) {
+      res.setLong(PROPERTIES_LONGITUDE, point.longitude)
+      res.setLong(PROPERTIES_LATITUDE, point.latitude)
       res.setEnum(PROPERTIES_COORDINATES_SOURCE, CoordinatesSource.Device)
    } else {
-      res.setLong(PROPERTIES_LONGITUDE, voie.point.longitude)
-      res.setLong(PROPERTIES_LATITUDE, voie.point.latitude)
-      res.setEnum(PROPERTIES_COORDINATES_SOURCE, CoordinatesSource.Street)
+      val deviceLocation = metaData?.location
+      if (deviceLocation != null) {
+         res.setLong(PROPERTIES_LONGITUDE, deviceLocation.longitude)
+         res.setLong(PROPERTIES_LATITUDE, deviceLocation.latitude)
+         res.setEnum(PROPERTIES_COORDINATES_SOURCE, CoordinatesSource.Device)
+      } else {
+         res.setLong(PROPERTIES_LONGITUDE, voie.point.longitude)
+         res.setLong(PROPERTIES_LATITUDE, voie.point.latitude)
+         res.setEnum(PROPERTIES_COORDINATES_SOURCE, CoordinatesSource.Street)
+      }
    }
 
    res.setInt(PROPERTIES_WIDTH, full.width)

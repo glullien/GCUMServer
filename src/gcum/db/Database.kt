@@ -155,7 +155,7 @@ object Database {
 
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
-   fun put(street: String, date: LocalDate, district: Int, username: String, images: List<ByteArray>) {
+   fun put(street: String, date: LocalDate, district: Int, point: Point?, username: String, images: List<ByteArray>) {
       fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
       val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
@@ -170,7 +170,7 @@ object Database {
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
-         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, username)
+         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, point, username)
          add(createPhoto(imageFile, auxData))
       }
    }
