@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse
 @WebServlet(name = "GetPhoto", value = "/getPhoto")
 class GetPhoto : HttpServlet() {
    @Throws(ServletException::class, IOException::class)
+   override fun doPost(request: HttpServletRequest, response: HttpServletResponse) = doGet(request, response)
+
+   @Throws(ServletException::class, IOException::class)
    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
       request.characterEncoding = "UTF-8"
       val id = request.getString("id")

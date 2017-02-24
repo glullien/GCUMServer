@@ -25,16 +25,17 @@ abstract class JsonServlet : HttpServlet() {
       response.contentType = "application/json; charset=UTF-16"
       response.characterEncoding = "UTF-16"
       response.outputStream.use {
+         fun jsonToBytes (o: Map<String, *>) = JSONObject.toJSONString(o).toByteArray(Charset.forName("UTF-16"))
          try {
             val jsonResult = doPost(request)
             //it.println(JSONObject.toJSONString(jsonResult))
-            it.write(JSONObject.toJSONString(jsonResult).toByteArray(Charset.forName("UTF-16")))
+            it.write(jsonToBytes(jsonResult))
          } catch (e: Exception) {
             log.severe("Cannot process request", e)
-            it.println(JSONObject.toJSONString(jsonError("internalError")))
+            it.write(jsonToBytes(jsonError("internalError")))
          } catch (e: AssertionError) {
             log.severe("Cannot process request", e)
-            it.println(JSONObject.toJSONString(jsonError("internalError")))
+            it.write(jsonToBytes(jsonError("internalError")))
          } catch (t: Throwable) {
             log.severe("Cannot process request", t)
             throw t

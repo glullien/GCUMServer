@@ -95,6 +95,7 @@ object Database {
          writeUsersFile()
       }
    }
+
    fun changePassword(username: String, password: String) {
       usersLock.withLock {
          val user = users[username] ?: throw UserDoesNotExistException(username)
@@ -194,7 +195,9 @@ object Database {
 
 enum class UserRole {Regular, Admin }
 data class User(val username: String, val password: String, val email: String?, val role: UserRole = UserRole.Regular)
-data class AutoLogin(val username: String, val code: String, val validTo: LocalDate)
+data class AutoLogin(val username: String, val code: String, val validTo: LocalDate) {
+   fun isValid() = !validTo.isBefore(LocalDate.now())
+}
 
 fun main(args: Array<String>) {
    println("by Name ${Voies.search("rue conte").name}")

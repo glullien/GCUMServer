@@ -6,7 +6,6 @@ import gcum.db.User
 import gcum.db.UserExistsException
 import gcum.utils.SecretCode
 import gcum.utils.sendMail
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -61,11 +60,20 @@ object Sessions {
    }
 }
 
-private fun jsonSuccess(session: Session) = if (session.autoLogin != null) jsonSuccess {
-   put("autoLogin", session.autoLogin.code)
-   //  Sun, 28 Feb 2020
-   put("validTo", session.autoLogin.validTo.format(DateTimeFormatter.ofPattern("EEE, dd MMM YYYY", Locale.US)))
-} else jsonSuccess {}
+fun username(request: HttpServletRequest): String? {
+   fun autoLogin(request: HttpServletRequest): String? {
+      val autoLogin = Database.getAutoLogin(request.getParameter("autoLogin") ?: return null)
+      return if ((autoLogin != null) && autoLogin.isValid()) autoLogin.username else null
+   }
+   return Sessions.username(request.session) ?: autoLogin(request)
+}
+
+private fun jsonSuccess(autoLogin: AutoLogin) = jsonSuccess {
+   put("autoLogin", autoLogin.code)
+   put("validTo", autoLogin.validTo.format(DateTimeFormatter.ofPattern("EEE, dd MMM YYYY", Locale.US)))
+}
+
+private fun jsonSuccess(session: Session) = if (session.autoLogin != null) jsonSuccess(session.autoLogin) else jsonSuccess {}
 
 @WebServlet(name = "Register", value = "/register")
 class Register : JsonServlet() {
@@ -116,14 +124,46 @@ class SendID : JsonServlet() {
    }
 }
 
-
 @WebServlet(name = "AutoLogin", value = "/autoLogin")
 class AutoLogin : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val cookie = request.getString("cookie")
       val autoLogin = Database.getAutoLogin(cookie)
-      return if ((autoLogin == null) || (autoLogin.validTo.isBefore(LocalDate.now()))) jsonError("invalid cookie $cookie")
+      return if ((autoLogin == null) || !autoLogin.isValid()) jsonError("invalid cookie $cookie")
       else jsonSuccess(Sessions.login(request.session, autoLogin.username, false))
+   }
+}
+
+@WebServlet(name = "GetAutoLogin", value = "/getAutoLogin")
+class GetAutoLogin : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val username = request.getString("username")
+      val password = request.getString("password")
+      val user = Database.getUser(username)
+      if ((user == null) || (user.password != password)) return jsonError("Les identifiants sont incorrects")
+      return jsonSuccess(Database.generateAutoLoginCode(username))
+   }
+}
+
+@WebServlet(name = "RegisterAutoLogin", value = "/registerAutoLogin")
+class RegisterAutoLogin : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val username = request.getString("username")
+      val password = request.getString("password")
+      try {
+         Database.addUser(username, password, null)
+         return jsonSuccess(Database.generateAutoLoginCode(username))
+      } catch (e: UserExistsException) {
+         return jsonError("Le pseudo $username existe déjà")
+      }
+   }
+}
+
+@WebServlet(name = "TestAutoLogin", value = "/testAutoLogin")
+class TestAutoLogin : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val autoLogin = Database.getAutoLogin(request.getString("autoLogin"))
+      return jsonSuccess {put("valid", (autoLogin != null) && autoLogin.isValid())}
    }
 }
 
@@ -132,7 +172,7 @@ class ChangeEmail : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val email = request.getString("email")
       val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
-      Database.changeEmail (username, email)
+      Database.changeEmail(username, email)
       return jsonSuccess {}
    }
 }
@@ -141,7 +181,7 @@ class ChangeEmail : JsonServlet() {
 class RemoveEmail : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
-      Database.changeEmail (username, null)
+      Database.changeEmail(username, null)
       return jsonSuccess {}
    }
 }
@@ -154,7 +194,7 @@ class ChangePassword : JsonServlet() {
       val user = Database.getUser(username)
       if ((user == null) || (user.password != oldPassword)) return jsonError("Les identifiants sont incorrects")
       val password = request.getString("password")
-      Database.changePassword (username, password)
+      Database.changePassword(username, password)
       return jsonSuccess {}
    }
 }

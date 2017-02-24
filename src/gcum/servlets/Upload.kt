@@ -9,7 +9,6 @@ import gcum.opendata.Arrondissements
 import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
-import gcum.utils.getLogger
 import java.awt.image.BufferedImage
 import java.io.IOException
 import java.io.OutputStream
@@ -26,8 +25,6 @@ import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-
-private val log = getLogger()
 
 private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploaded>) {
    val date: LocalDate? get() {
@@ -101,17 +98,10 @@ private fun addPost(uploaded: List<Uploaded>): Post {
 @MultipartConfig
 class Upload : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      log.info("upload post ${request.parts.size} files")
       cleanOldUploaded()
-      log.info("Start store")
-      val uploaded = request.parts.map {
-         p->
-         if (p.contentType != "image/jpeg") throw ServletException("Must be an image")
-         addUpload(p.inputStream.readBytes())
-      }
-      log.info("Start post")
+      if (request.parts.any {!it.contentType.startsWith("image/jpeg")}) throw  ServletException("Must be an image")
+      val uploaded = request.parts.map {addUpload(it.inputStream.readBytes())}
       val post = addPost(uploaded)
-      log.info("End")
       return jsonSuccess {
          put("id", post.id)
          put("date", post.date?.format(DateTimeFormatter.ISO_DATE) ?: "unknown")
@@ -149,27 +139,38 @@ class GetUploadedPhoto : HttpServlet() {
    }
 }
 
+private fun report(images: List<ByteArray>, date: String, street: String, district: String, username: String): Map<String, Any> {
+   if (Voies.get(street) == null) return jsonError("Mauvais nom de voie")
+
+   val districtMatcher = Pattern.compile("(\\d+)e?.*").matcher(district)
+   if (!districtMatcher.matches()) return jsonError("Mauvais nom d'arrondissement")
+   val districtInt = districtMatcher.group(1).toInt()
+
+   val dateMatcher = Pattern.compile("(20\\d{2})-(\\d{2})-(\\d{2})").matcher(date)
+   if (!dateMatcher.matches()) return jsonError("Mauvaise date")
+   val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
+
+   Database.put(street, localDate, districtInt, username, images)
+   return jsonSuccess {}
+}
+
 @WebServlet(name = "ReportUploaded", value = "/reportUploaded")
 class ReportUploaded : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val id = request.getInt("id")
-      val post = postsList[id] ?: return jsonError("Session perdue")
-      val street = request.getString("street")
-      val district = request.getString("district")
-      val date = request.getString("date")
       val username = Sessions.username(request.session) ?: return jsonError("Aucune connexion")
-
-      if (Voies.get(street) == null) return jsonError("Mauvais nom de voie")
-
-      val districtMatcher = Pattern.compile("(\\d+)e?.*").matcher(district)
-      if (!districtMatcher.matches()) return jsonError("Mauvais nom d'arrondissement")
-      val districtInt = districtMatcher.group(1).toInt()
-
-      val dateMatcher = Pattern.compile("(20\\d{2})-(\\d{2})-(\\d{2})").matcher(date)
-      if (!dateMatcher.matches()) return jsonError("Mauvaise date")
-      val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
-
-      Database.put(street, localDate, districtInt, username, post.uploaded.map {it.bytes})
-      return jsonSuccess {}
+      val post = postsList[id] ?: return jsonError("Session perdue")
+      return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getString("street"), request.getString("district"), username)
    }
+}
+
+@WebServlet(name = "UploadAndReport", value = "/uploadAndReport")
+@MultipartConfig
+class UploadAndReport : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val images = request.parts.filter {it.contentType.startsWith("image/jpeg")}.map {it.inputStream.readBytes()}
+      val username = username(request) ?: return jsonError("Login non reconnu")
+      return report(images, request.getString("date"), request.getString("street"), request.getString("district"), username)
+   }
+
 }
