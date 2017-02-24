@@ -7,7 +7,7 @@ var markerCluster;
 var contentString = '<div id="infoPhoto">' +
 	'<p><a href="#" onclick="viewPhotos();return;">Nb photos: <span id="infoPhotoCount"/></a></p>' +
 	'<p>Dates: <span id="infoPhotoDates"/></p>' +
-	'<p>Street: <span id="infoPhotoStreet"/></p>' +
+	'<p>Rue: <span id="infoPhotoStreet"/></p>' +
 	'<p><img id="infoPhotoThumbnail" src=""></p>' +
 	'</div>';
 var currentPhotosIds;
