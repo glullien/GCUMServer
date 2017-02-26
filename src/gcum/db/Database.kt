@@ -27,8 +27,8 @@ object Database {
    val root: Path = Configuration.getPath("root")
    private val users = ConcurrentHashMap<String, User>()
    private val usersLock = ReentrantLock()
-   private val autoLogins = ConcurrentHashMap<String, AutoLogin>()
-   private val autoLoginsLock = ReentrantLock()
+   private val autoLogin = ConcurrentHashMap<String, AutoLogin>()
+   private val autoLoginLock = ReentrantLock()
    private val photos = ConcurrentHashMap<String, Photo>()
    private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<String>>()
    private val photosLock = ReentrantLock()
@@ -49,7 +49,7 @@ object Database {
       val autoLoginFile = root.resolve(autoLoginFileName).toFile()
       if (autoLoginFile.exists()) {
          val autoLoginFileBrut = autoLoginFile.inputStream().use(::readCsv)
-         autoLogins.putAll(autoLoginFileBrut.map {
+         autoLogin.putAll(autoLoginFileBrut.map {
             line->
             AutoLogin(line [0], line[1], LocalDate.parse(line[2], DateTimeFormatter.ISO_LOCAL_DATE))
          }.associateBy {it.code})
@@ -77,7 +77,7 @@ object Database {
    }
 
    private fun writeAutoLoginFile() = root.resolve(autoLoginFileName).toFile().printWriter().use {
-      writeCsv(it, autoLogins.values.map {listOf(it.username, it.code, it.validTo.format(DateTimeFormatter.ISO_LOCAL_DATE))})
+      writeCsv(it, autoLogin.values.map {listOf(it.username, it.code, it.validTo.format(DateTimeFormatter.ISO_LOCAL_DATE))})
    }
 
    fun addUser(username: String, password: String, email: String?) {
@@ -104,24 +104,24 @@ object Database {
       }
    }
 
-   private val autoLoginCode = SecretCode({code-> autoLogins.containsKey(code)})
+   private val autoLoginCode = SecretCode({code-> autoLogin.containsKey(code)})
 
    fun generateAutoLoginCode(username: String): AutoLogin {
-      autoLoginsLock.withLock {
+      autoLoginLock.withLock {
          if (!users.containsKey(username)) throw UserDoesNotExistException(username)
          val code = autoLoginCode.new()
-         val autoLogin = AutoLogin(username, code, LocalDate.now().plusYears(1))
-         autoLogins[code] = autoLogin
+         val res = AutoLogin(username, code, LocalDate.now().plusYears(1))
+         autoLogin[code] = res
          writeAutoLoginFile()
-         return autoLogin
+         return res
       }
    }
 
-   fun getAutoLogin(code: String) = autoLogins[code]
+   fun getAutoLogin(code: String) = autoLogin[code]
 
    fun removeAutoLoginCode(code: String) {
-      autoLoginsLock.withLock {
-         autoLogins.remove(code)
+      autoLoginLock.withLock {
+         autoLogin.remove(code)
          writeAutoLoginFile()
       }
    }
@@ -202,9 +202,13 @@ data class AutoLogin(val username: String, val code: String, val validTo: LocalD
 fun main(args: Array<String>) {
    println("by Name ${Voies.searchBest("rue conte").name}")
    println("by Point ${Voies.searchClosest(Point(4883377, 238200)).name}")
-   println("by Point ${Voies.searchClosest(Point(4887202, 235788)).name}")
-   println("by Name ${VoiesArrondissements.districts("Jemmapes")}")
+   println("by Point ${Voies.searchClosest(Point(4883377, 238200), 10).map {it.name}}")
+   println("by Point ${Voies.searchClosest2(Point(4883377, 238200), 10).map {it.name}}")
+   println("by Name ${VoiesArrondissements.districts("Renoir")}")
    println("by Name ${Arrondissements.arrondissements.size}")
    println("by Name ${Arrondissements.search(Point(4887202, 235788))}")
+   time("Database search 1 closest") {for (i in 1..500) Voies.searchClosest(Point(4883377, 238200))}
+   time("Database search closest") {for (i in 1..50) Voies.searchClosest(Point(4883377, 238200), 10)}
+   time("Database search closest2") {for (i in 1..500) Voies.searchClosest2(Point(4883377, 238200), 10)}
    time("Database loading") {Database.getUser("paf")}
 }

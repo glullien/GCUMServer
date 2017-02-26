@@ -5,12 +5,20 @@ import gcum.db.coordinateToLong
 import gcum.geo.Point
 import gcum.geo.distance
 import gcum.utils.Cache
-import gcum.utils.min
+import gcum.utils.first
 import java.io.IOException
 import java.util.regex.Pattern
 
+
+private val margin = 100
+
 data class Voie(val point: Point, val shapes: List<List<Point>>, val name: String) {
+   val minLatitude = shapes.map {it.map {it.latitude}.min() ?: throw Exception("Missing point")}.min() ?: throw Exception("Missing point")
+   val minLongitude = shapes.map {it.map {it.longitude}.min() ?: throw Exception("Missing point")}.min() ?: throw Exception("Missing point")
+   val maxLatitude = shapes.map {it.map {it.latitude}.max() ?: throw Exception("Missing point")}.max() ?: throw Exception("Missing point")
+   val maxLongitude = shapes.map {it.map {it.longitude}.max() ?: throw Exception("Missing point")}.max() ?: throw Exception("Missing point")
    fun distance(point: Point) = shapes.map {distance(it, point)}.min() ?: Double.POSITIVE_INFINITY
+   fun relevant(point: Point) = (minLatitude - margin < point.latitude) && (minLongitude - margin < point.longitude) && (point.latitude < maxLatitude + margin) && (point.longitude < maxLongitude + margin)
 }
 
 object Voies {
@@ -49,6 +57,7 @@ object Voies {
    fun searchBest(pattern: String, maxNumber: Int) = searchCache.get(pattern + "@" + maxNumber) {bestLevenshteinIn(pattern, voies, {it.name}, maxNumber)}
    fun searchBest(pattern: String) = searchBest(pattern, 1) [0]
    fun searchClosest(point: Point) = voies.minBy {it.distance(point)} ?: throw Exception("Impossible")
-   fun searchClosest(point: Point, nb: Int) = voies.sortedBy {it.distance(point)}.subList(0, nb.min(voies.size))
+   fun searchClosest(point: Point, nb: Int) = voies.first(nb) {it.distance(point)}
+   fun searchClosest2(point: Point, nb: Int) = voies.filter{it.relevant(point)}.first(nb) {it.distance(point)}
    fun get(street: String) = voies.firstOrNull {it.name == street}
 }
