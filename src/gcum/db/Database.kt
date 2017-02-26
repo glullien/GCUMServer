@@ -82,7 +82,7 @@ object Database {
 
    fun addUser(username: String, password: String, email: String?) {
       usersLock.withLock {
-         if (users.contains(username)) throw UserExistsException()
+         if (users.containsKey(username)) throw UserExistsException()
          users.put(username, User(username, password, if (email.isNullOrEmpty()) null else email))
          writeUsersFile()
       }
@@ -200,10 +200,10 @@ data class AutoLogin(val username: String, val code: String, val validTo: LocalD
 }
 
 fun main(args: Array<String>) {
-   println("by Name ${Voies.search("rue conte").name}")
-   println("by Point ${Voies.search(Point(4883377, 238200)).name}")
-   println("by Point ${Voies.search(Point(4887202, 235788)).name}")
-   println("by Name ${VoiesArrondissements.search("Jemmapes")}")
+   println("by Name ${Voies.searchBest("rue conte").name}")
+   println("by Point ${Voies.searchClosest(Point(4883377, 238200)).name}")
+   println("by Point ${Voies.searchClosest(Point(4887202, 235788)).name}")
+   println("by Name ${VoiesArrondissements.districts("Jemmapes")}")
    println("by Name ${Arrondissements.arrondissements.size}")
    println("by Name ${Arrondissements.search(Point(4887202, 235788))}")
    time("Database loading") {Database.getUser("paf")}

@@ -153,7 +153,7 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, districtDir: Fil
    val district = districtFromDirName(districtDir.name)
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
-   val voie = Voies.search(street)
+   val voie = Voies.searchBest(street)
    return buildProperties(id, imageFile, auxFile, district, voie, date, null, null)
 }
 

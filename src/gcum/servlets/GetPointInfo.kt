@@ -33,6 +33,9 @@ class GetPointInfo : JsonServlet() {
             sub {
                put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
                put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
+               put("street", photo.location.address.street)
+               put("district", photo.location.address.district)
+               put("city", photo.location.address.city)
                put("locationSource", photo.location.coordinates.source.toString())
                put("latitude", photo.location.coordinates.point.latitude)
                put("longitude", photo.location.coordinates.point.longitude)

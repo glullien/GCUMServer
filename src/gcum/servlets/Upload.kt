@@ -70,18 +70,11 @@ private fun cleanOldUploaded() {
 }
 
 private fun addUpload(bytes: ByteArray): Uploaded {
-   fun district(point: Point, street: String): Int? {
-      val districtsFromPoint = Arrondissements.search(point)
-      val districtsFromStreet = VoiesArrondissements.search(street).map {it.district}
-      val intersect = districtsFromPoint.intersect(districtsFromStreet)
-      return intersect.firstOrNull() ?: districtsFromStreet.firstOrNull() ?: districtsFromPoint.firstOrNull()
-   }
-
    val id = nextId.andIncrement
    val metaData = getMetaData(bytes)
    val image = readImage(bytes, metaData)
-   val voie = if (metaData?.location == null) null else Voies.search(metaData?.location)
-   val district = if ((metaData?.location == null) || (voie == null)) null else district(metaData?.location, voie.name)
+   val voie = if (metaData?.location == null) null else Voies.searchClosest(metaData?.location)
+   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData?.location, voie.name)
    val uploaded = Uploaded(id, bytes, image.width, image.height, voie, district, metaData)
    uploadedList[id] = uploaded
    return uploaded
