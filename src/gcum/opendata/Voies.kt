@@ -34,7 +34,9 @@ object Voies {
          val i = if (latitudeFirst) 0 else 1
          return Point(getCoordinate(geo[i]), getCoordinate(geo[1 - i]))
       }
-      voies = brut.filter {it[0] != "Geo Point"}.filter {it[4].trim().toInt() in 75000..75999}.filterNot {it[9].startsWith("Voie Dg/")}.map {
+
+      val regexUnnamed = Regex("^(passage|voie|Voie|place) [A-Za-z]{1,2}/\\d+$")
+      voies = brut.filter {it[0] != "Geo Point"}.filter {it[4].trim().toInt() in 75000..75999}.filterNot {regexUnnamed.matches(it[9])}.map {
          line->
          if (line [1].contains("MultiLineString")) {
             val shapeMatcher = coordinatesMultiLine.matcher(line[1])
@@ -54,10 +56,19 @@ object Voies {
    }
 
    private val searchCache = Cache<String, List<Voie>>()
+
+   /*fun searchBest(pattern: String, maxNumber: Int, isCancelled: AtomicBoolean = AtomicBoolean(false)): List<Voie> {
+       return searchCache.get(pattern + "@" + maxNumber) {
+          val res = bestLevenshteinIn(pattern, voies, {it.name}, maxNumber, isCancelled)
+          if (isCancelled.get()) throw Exception("Cancelled")
+          res
+       }
+    }*/
+
    fun searchBest(pattern: String, maxNumber: Int) = searchCache.get(pattern + "@" + maxNumber) {bestLevenshteinIn(pattern, voies, {it.name}, maxNumber)}
    fun searchBest(pattern: String) = searchBest(pattern, 1) [0]
    fun searchClosest(point: Point) = voies.minBy {it.distance(point)} ?: throw Exception("Impossible")
    fun searchClosest(point: Point, nb: Int) = voies.first(nb) {it.distance(point)}
-   fun searchClosest2(point: Point, nb: Int) = voies.filter{it.relevant(point)}.first(nb) {it.distance(point)}
+   fun searchClosest2(point: Point, nb: Int) = voies.filter {it.relevant(point)}.first(nb) {it.distance(point)}
    fun get(street: String) = voies.firstOrNull {it.name == street}
 }

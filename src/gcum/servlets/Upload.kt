@@ -5,7 +5,6 @@ import gcum.db.MetaData
 import gcum.db.getMetaData
 import gcum.db.readImage
 import gcum.geo.Point
-import gcum.opendata.Arrondissements
 import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
@@ -74,7 +73,7 @@ private fun addUpload(bytes: ByteArray): Uploaded {
    val metaData = getMetaData(bytes)
    val image = readImage(bytes, metaData)
    val voie = if (metaData?.location == null) null else Voies.searchClosest(metaData?.location)
-   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData?.location, voie.name)
+   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData?.location, voie)
    val uploaded = Uploaded(id, bytes, image.width, image.height, voie, district, metaData)
    uploadedList[id] = uploaded
    return uploaded

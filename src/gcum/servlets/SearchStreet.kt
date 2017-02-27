@@ -25,7 +25,7 @@ class SearchAddress : JsonServlet() {
       return jsonSuccess {
          put("streets", result.flatMap {
             street->
-            VoiesArrondissements.districts(street.name).map {
+            VoiesArrondissements.districtsOrEmpty(street).map {
                sub {
                   put("street", street.name)
                   put("district", it)
@@ -46,10 +46,10 @@ class SearchClosest : JsonServlet() {
       val point = Point(latitude, longitude)
       return jsonSuccess {
          if (nb == 1) {
-            val street = Voies.searchClosest(point).name
+            val street = Voies.searchClosest(point)
             val district = VoiesArrondissements.district(point, street) ?: throw Exception("Cannot find district")
             put("streets", listOf(sub {
-               put("street", street)
+               put("street", street.name)
                put("district", district)
                put("city", "Paris")
             }))
@@ -57,8 +57,8 @@ class SearchClosest : JsonServlet() {
             val streets = Voies.searchClosest(point, nb)
             put("streets", streets.flatMap {
                street->
-               val districts = VoiesArrondissements.districts(street.name)
-               val firstDistrict = VoiesArrondissements.district(point, street.name) ?: throw Exception("Cannot find district")
+               val districts = VoiesArrondissements.districtsOrEmpty(street)
+               val firstDistrict = VoiesArrondissements.district(point, street) ?: throw Exception("Cannot find district")
                val orderedDistricts = listOf(firstDistrict).plus(districts.minus(firstDistrict))
                orderedDistricts.map {
                   sub {

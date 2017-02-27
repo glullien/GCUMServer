@@ -156,7 +156,7 @@ object Database {
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
    fun put(street: String, date: LocalDate, district: Int, point: Point?, username: String, images: List<ByteArray>) {
-      fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_')
+      fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_').replace('.', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
       val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
       val districtDir = "$district" + if (district == 1) "er" else "e"
@@ -204,9 +204,11 @@ fun main(args: Array<String>) {
    println("by Point ${Voies.searchClosest(Point(4883377, 238200)).name}")
    println("by Point ${Voies.searchClosest(Point(4883377, 238200), 10).map {it.name}}")
    println("by Point ${Voies.searchClosest2(Point(4883377, 238200), 10).map {it.name}}")
-   println("by Name ${VoiesArrondissements.districts("Renoir")}")
+   println("by Name ${VoiesArrondissements.districts(Voies.searchBest("Renoir"))}")
    println("by Name ${Arrondissements.arrondissements.size}")
    println("by Name ${Arrondissements.search(Point(4887202, 235788))}")
+   println("CHECK ALL ${Voies.voies.filter {VoiesArrondissements.districtsOrNull(it) == null}.map {it.name}.size}")
+   println("CHECK ALL ${Voies.voies.filter {VoiesArrondissements.districtsOrNull(it) == null}.map {it.name}}")
    time("Database search 1 closest") {for (i in 1..500) Voies.searchClosest(Point(4883377, 238200))}
    time("Database search closest") {for (i in 1..50) Voies.searchClosest(Point(4883377, 238200), 10)}
    time("Database search closest2") {for (i in 1..500) Voies.searchClosest2(Point(4883377, 238200), 10)}

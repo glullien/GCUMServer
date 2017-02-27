@@ -1,4 +1,17 @@
 rue Fourneyron;17
+Place Serge Poliakoff;13
+Place Laurent Terzieff et Pascale de Boysson;6
+Rue Mstislav Rostropovitch;17
+Place Aurélie Nemours;13
+Place Mélina Mercouri;20
+Rue Bernard Buffet;17
+Promenade Jacques Canetti;9
+Promenade Jacques Canetti;18
+Rue Mère Teresa;17
+Rue Maria Helena Vieira Da Silva;14
+Place Jeanne Bohec;18
+Place Stéphane Hessel;14
+Promenade Claude Lévi-Strauss;13
 rue Fructidor;17
 rue Charles Gerhardt;17
 avenue Gourgaud;17
@@ -1008,8 +1021,8 @@ rue de la Tacherie;4
 rue Tiron;4
 rue du Trésor;4
 quai de l'Hôtel de Ville;4
-Petit Pont;4
-Petit Pont;5
+pont Petit Pont - Cardinal Lustiger;4
+pont Petit Pont - Cardinal Lustiger;5
 place de la Bastille;4
 place de la Bastille;11
 place de la Bastille;12
@@ -1289,7 +1302,6 @@ villa des Glizières;16
 rue Ella Fitzgerald;19
 villa du Moulin Dagobert;11
 rue Germaine Tailleferre;19
-rue Basse;1
 galerie de Beaujolais;1
 rue des Deux Boules;1
 rue du Bouloi;1
@@ -1939,7 +1951,6 @@ rue Oberkampf;11
 passage Louis-Philippe;11
 rue Pihet;11
 cité Popincourt;11
-square Marcel Rajman;11
 rue Henri Ranvier;11
 cité de la Roquette;11
 rue Saint-Sabin;11
@@ -1989,10 +2000,9 @@ rue Gabriel Vicaire;3
 voie CD/17;17
 place du Révérend Père Carré;8
 villa Méridienne;14
-allée Jean Sablon;16
 rue d'Alger;1
 allée Louis Aragon;1
-passage de l' Yonne;12
+passage de l'Yonne;12
 villa des Guignières;16
 boulevard du Général Jean Simon;13
 place Saint-Estèphe;12
@@ -2073,7 +2083,7 @@ rue de la Pierre Levée;11
 passage Lhomme;11
 rue de l'Orillon;11
 rue du Grand Prieuré;11
-passage des Primevères;11
+impasse des Primevères;11
 rue Abel Rabaud;11
 rue de la Folie-Regnault;11
 rue de la Fontaine Au Roi;11
@@ -2192,7 +2202,6 @@ place du Vénézuela;16
 rue Verderet;16
 rue Yvon Villarceau;16
 rue Vital;16
-impasse Voltaire;16
 rue Weber;16
 rue de l'Yvette;16
 place de la Porte Maillot;16
@@ -2263,7 +2272,6 @@ passage des Jacobins;1
 place Paul Tortelier;17
 place Salvador Allende;7
 villa Robert Doisneau;13
-place Madeleine Daniélou;17
 rue Elsa Morante;13
 rue Rudolf Noureev;17
 place Edwige Feuillère;7
@@ -2275,7 +2283,7 @@ promenade Georges Ulmer;18
 place Jean Lauprêtre;12
 voie CO/16;16
 place Joseph Epstein;20
-esplanade du Neuf Novembre 1989;15
+esplanade du 9 Novembre 1989;15
 voie FA/13;13
 voie Léonie Kastner;14
 passerelle Léopold Sédar Senghor;1
@@ -2283,7 +2291,7 @@ passerelle Léopold Sédar Senghor;7
 place Rhin et Danube;19
 promenade Jules Isaac;13
 place du Huit Février 1962;11
-parvis Notre-Dame - place Jean-Paul II;4
+parvis Notre-Dame Pl. Jean-Paul II;4
 promenade Eric Tabarly;19
 impasse Léa Blain;16
 voie FN/13;13
@@ -2642,7 +2650,7 @@ rue de Gergovie;14
 rue Furtado Heine;14
 rue Fernand Holweck;14
 rue du Général Humbert;14
-rue Huygens;14
+rue Huyghens;14
 boulevard Saint-Jacques;14
 passage Joanès;14
 rue des Jonquilles;14
@@ -2750,7 +2758,7 @@ impasse de la Poissonnerie;4
 rue Le Regrattier;4
 rue de Sully;4
 rue des Ursins;4
-place de l'Hôtel de Ville;4
+place de l'Hôtel de Ville - Esplanade de la Libération;4
 pont de l'Archevêché;4
 pont de l'Archevêché;5
 pont au Double;4
@@ -3495,7 +3503,7 @@ rue Chanoinesse;4
 rue des Chantres;4
 passage Charlemagne;4
 rue Charles V;4
-place du Bataillon Français de L'O. N. U. En Corée;4
+place du Bataillon Français de L'O.N.U. En Corée;4
 pont Notre-Dame;4
 rue du Fauconnier;4
 rue de Lesdiguières;4
@@ -3555,7 +3563,6 @@ rue Alphonse Karr;19
 rue du Docteur Lamaze;19
 place de la Fontaine Aux Lions;19
 villa de Lorraine;19
-rue Magenta;19
 villa Manin;19
 rue de la Marne;19
 rue de la Marseillaise;19
@@ -3683,7 +3690,7 @@ rue Haxo;19
 rue Haxo;20
 place du Cardinal Amette;15
 villa de l'Astrolabe;15
-allée de la Deuxième D. B.;15
+allée de la Deuxième D.B.;15
 rue Bargue;15
 rue Barthélemy;15
 rue Bellart;15
@@ -3843,7 +3850,6 @@ place Marlène Dietrich;16
 villa Alexandre Tansman;16
 passage de la Hutte au Garde;17
 Grand Balcon;1
-place Basse;1
 rue Joseph Kosma;19
 place Jean-Paul Sartre-Simone de Beauvoir;6
 villa du Clos de Malevart;11
@@ -4426,7 +4432,6 @@ rue Félix Terrier;20
 rue de Tourtille;20
 square Vitruve;20
 esplanade Max Guedj;15
-esplanade Joseph Wresinski;16
 rue René Ravaud;15
 place Jacques Debu-Bridel;14
 place Jacques Demy;14
@@ -4463,11 +4468,10 @@ voie FP/13;13
 voie CG/18;18
 esplanade du Général Casso;17
 rue Jules Renard;17
-boulevard Hippolyte Marquès;13
 place Louis Aragon;4
 rue Pierre Castagnou;14
 voie CE/17;17
-allée Paul Ricoeur;14
+place Paul Ricoeur;14
 cité de Varenne;7
 place Vauban;7
 rue de Verneuil;7
@@ -4573,7 +4577,6 @@ rue de la Manutention;16
 rue Auguste Maquet;16
 allée de la Reine Marguerite;16
 rue du Général Delestraint;16
-avenue Despréaux;16
 square Charles Dickens;16
 villa Dupont;16
 allée de l'Espérance;16
@@ -4598,7 +4601,6 @@ route de la Porte Saint-James;16
 rue Albéric Magnard;16
 villa Malakoff;16
 villa Mozart;16
-Villa Mulhouse;16
 rue de Musset;16
 place de Costa Rica;16
 avenue Théodore Rousseau;16
@@ -4658,7 +4660,6 @@ boulevard Lannes;16
 carrefour de Longchamp;16
 villa Émile Meyer;16
 place de la Porte Molitor;16
-Villa de Montmorency;16
 rue Mony;16
 route de la Seine à la Butte Mortemart;16
 square Mozart;16
@@ -4985,9 +4986,8 @@ place du Docteur Paul Michaux;16
 rue Mignard;16
 rue Mignet;16
 square Mignot;16
-avenue Molière;16
 rue Molitor;16
-avenue Albert Ier de Monaco.;16
+avenue Albert Ier de Monaco;16
 place Jean Monnet;16
 avenue de Montespan;16
 avenue Albert De Mun;16
@@ -5005,7 +5005,6 @@ rue François Ponsard;16
 place Possoz;16
 allée des Poteaux;16
 avenue Marcel Proust;16
-impasse Racine;16
 square du Ranelagh;16
 avenue Raphaël;16
 rue de Rémusat;16
@@ -5184,7 +5183,6 @@ rue de l'Orient Express;1
 rue des Innocents;1
 rue du Vingt-Neuf Juillet;1
 passage des Lingères;1
-porte du Louvre;1
 quai du Louvre;1
 rue de Marengo;1
 rue Mondétour;1
@@ -5498,7 +5496,6 @@ rue Gérard Philipe;16
 rue Picot;16
 avenue Raymond Poincaré;16
 impasse des Prêtres;16
-porte des Princes;16
 square Racan;16
 impasse Raffet;16
 avenue du Ranelagh;16
@@ -5624,7 +5621,6 @@ rue des Moines;17
 rue de Monbel;17
 rue de Montenotte;17
 rue Guillaume Tell;17
-Villa des Ternes;17
 rue de Tocqueville;17
 impasse du Cadran;18
 impasse Calmels;18
@@ -5702,7 +5698,6 @@ place du Moulin de Javel;15
 voie CT/15;15
 rue Stéphane Grappelli;17
 place Flora Tristan;14
-place Roger Priou-Valjean;4
 voie CE/18;18
 avenue du Colonel Henri Rol-Tanguy;14
 rue Jean de La Fontaine;16
@@ -5752,7 +5747,6 @@ rue Desgenettes;7
 avenue Anatole France;7
 quai Anatole France;7
 voie Express Rive Gauche;7
-esplanade des Invalides;7
 rue du Général Lambert;7
 rue Albert de Lapparent;7
 rue Pierre Leroux;7
@@ -5953,7 +5947,6 @@ avenue de New York;16
 passage Saint-Ange;17
 voie AS/17;17
 voie AU/17;17
-rue Auboin;17
 voie AV/17;17
 voie BA/17;17
 voie BF/17;17
@@ -6028,7 +6021,6 @@ avenue de la Porte de Vincennes;20
 avenue de la Porte de Vincennes;12
 avenue de la Sibelle;14
 place Pierre Dux;6
-allée Maria Callas;16
 esplanade Léo Hamon;13
 rue des Cadets de la France Libre;13
 rue Jean Minjoz;14
@@ -6048,8 +6040,8 @@ voie EV/13;13
 place des Grandes Rigoles;20
 rue Pau Casals;13
 esplanade Habib Bourguiba;7
-square André Tollet;3
-square André Tollet;11
+Esplanade André Tollet;3
+Esplanade André Tollet;11
 rue Camille Pissarro;17
 place des Quarante-quatre enfants d'Izieu;13
 place Loulou Gasté;17
@@ -6061,7 +6053,7 @@ voie FD/13;13
 rue Alice Domon et Léonie Duquet;13
 voie FH/20;20
 rue Madeleine Marzin;20
-place du Vingt-Deux Novembre 1943;17
+place du 22 Novembre 1943;17
 voie EO/19;19
 rue du Cinéma;1
 voie FJ/20;20
@@ -6301,7 +6293,6 @@ impasse Piver;11
 rue Plichon;11
 rue du Marché Popincourt;11
 cour Quellard;11
-allée Charlotte Perriand;7
 rue Rampon;11
 rue Rochebrune;11
 rue de la Forge Royale;11
@@ -6424,7 +6415,6 @@ place du Père Marcellin Champagnat;16
 avenue du Général Clavery;16
 avenue de la Porte de Saint-Cloud;16
 rue de l'Amiral Cloué;16
-impasse Corneille;16
 avenue de la Porte d'Auteuil;16
 voie D/16;16
 rue Dangeau;16
