@@ -51,13 +51,13 @@
     final long available = free + (max - total);
 %>
 <div style="margin-left: 20px; margin-top: 20px;">
-    <p>Version 0.9.6</p>
+    <p>Version 0.9.8</p>
     <p>Nombre de processors: <%=processors%> cœurs</p>
     <p>Mémoire max: <%=max%> (<%=max / 1048576%> Mb)</p>
     <p>Mémoire réservée: <%=total%> (<%=total / 1048576%> Mb)</p>
     <p>Mémoire utilisée: <%=used%> (<%=used / 1048576%> Mb)</p>
     <p>Mémoire libre: <%=free%> (<%=free / 1048576%> Mb)</p>
-    <p>Mémoire dispo: <%=available%> (<%=available / 1048576%> Mb)</p>
+    <p>Mémoire disponible: <%=available%> (<%=available / 1048576%> Mb)</p>
 </div>
 </body>
 </html>
