@@ -28,6 +28,7 @@ class KProperties(val file: File) {
    fun getString(key: String): String = getStringOrNull(key) ?: throw MissingKeyException(key)
    fun getPath(key: String): Path = FileSystems.getDefault().getPath(getString(key))
    fun getInt(key: String): Int = getString(key).toInt()
+   fun getBoolean(key: String): Boolean = getString(key).toBoolean()
    fun getLong(key: String): Long = getString(key).toLong()
    fun getDouble(key: String): Double = getString(key).toDouble()
    fun getDate(key: String): LocalDate = LocalDate.parse(getString(key), dateFormatter)

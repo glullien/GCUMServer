@@ -50,7 +50,10 @@ data class Moment(val date: LocalDate, val time: LocalTime?) : Comparable<Moment
    }
 }
 
-data class Address(val street: String, val district: Int, val city: String)
+data class Address(val street: String, val district: Int, val city: String) {
+   val text: String get() = street + ", dans le " + district + (if (district == 1) "er" else "e")
+}
+
 data class Coordinates(val point: Point, val source: CoordinatesSource)
 data class Location(val address: Address, val coordinates: Coordinates)
 data class Details(val width: Int, val height: Int)

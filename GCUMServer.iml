@@ -31,7 +31,7 @@
                 <option name="metaInfo" value="false" />
                 <option name="kjsm" value="false" />
                 <option name="target" />
-                <option name="moduleKind" />
+                <option name="moduleKind" value="plain" />
                 <option name="main" />
                 <option name="outputPrefix" />
                 <option name="outputPostfix" />
@@ -100,5 +100,6 @@
     <orderEntry type="library" name="sanselan-0.97-incubator" level="project" />
     <orderEntry type="library" name="javax.servlet.jsp.jstl-1.2.1" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="twitter4j-4.0.4" level="project" />
   </component>
 </module>

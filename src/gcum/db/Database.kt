@@ -5,10 +5,7 @@ import gcum.conf.Configuration
 import gcum.conf.KProperties
 import gcum.geo.Point
 import gcum.opendata.*
-import gcum.utils.SecretCode
-import gcum.utils.max
-import gcum.utils.min
-import gcum.utils.time
+import gcum.utils.*
 import java.io.File
 import java.nio.file.Path
 import java.time.LocalDate
@@ -171,7 +168,9 @@ object Database {
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
          val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, point, username)
-         add(createPhoto(imageFile, auxData))
+         val photo = createPhoto(imageFile, auxData)
+         add(photo)
+         tweet(photo)
       }
    }
 

@@ -13,6 +13,7 @@
           <element id="library" level="project" name="sanselan-0.97-incubator" />
           <element id="library" level="project" name="javax.servlet.jsp.jstl-1.2.1" />
           <element id="library" level="project" name="javax.mail" />
+          <element id="library" level="project" name="twitter4j-4.0.4" />
         </element>
       </element>
     </root>
