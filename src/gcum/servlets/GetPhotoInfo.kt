@@ -31,7 +31,7 @@ class GetPhotoInfo : JsonServlet() {
 class ToggleLike : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val photoId = request.getString("photoId")
-      val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
+      val username = username(request) ?: return jsonError("Vous devez être connecté")
       Database.toggleLike(photoId, username)
       val photo = Database.getPhoto(photoId)
       return jsonSuccess {
