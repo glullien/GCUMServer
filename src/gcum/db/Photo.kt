@@ -201,7 +201,7 @@ private val exitDateTimeFormat = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:s
 
 fun getMetaData(file: File) = getMetaData({Sanselan.getMetadata(file)})
 fun getMetaData(bytes: ByteArray) = getMetaData({Sanselan.getMetadata(bytes)})
-private fun getMetaData(sanselanGetMetaData: () -> IImageMetadata): MetaData? {
+private fun getMetaData(sanselanGetMetaData: () -> IImageMetadata?): MetaData? {
    try {
       val metadata = sanselanGetMetaData()
       if (metadata !is JpegImageMetadata) return null else {
