@@ -102,6 +102,13 @@
     <p><a id="photosClose" href="#" class="close">&#10006;</a></p>
     <div id="photosList"></div>
 </div>
+<div id="android">
+    <p id="androidClose"><a href="#" class="close">&#10006;</a></p>
+    <div id="androidMessage">
+        <p>Téléchargez l'appli !</p>
+        <p><a href="#"><img src="images/Android.png"></a></p>
+    </div>
+</div>
 <p>
     <span id="error"></span>
 </p>

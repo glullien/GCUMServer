@@ -43,7 +43,7 @@ function toggleLike(photoId) {
 	});
 }
 
-var contentPhotos=null;
+var contentPhotos = null;
 function viewPhotos() {
 	if (contentPhotos == null) {
 		for (var i = 0; i < currentPhotosIds.length; i++) contentPhotos += getPhotoView(currentPhotosIds[i]);
@@ -141,6 +141,10 @@ function initMap() {
 	$("#photosClose").click(function () {
 		$("#photos").hide();
 	});
+	$("#android").hide();
+	$("#androidClose").click(function () {
+		$("#android").hide();
+	});
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
 	});
@@ -181,4 +185,10 @@ function initMap() {
 		imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
 	});
 	refreshMarkers();
+
+	//if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+	if (/Android/i.test(navigator.userAgent)) {
+		// $("#android").show();
+	}
+
 }
