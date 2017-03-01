@@ -133,7 +133,6 @@ function configureDistrictButton(d) {
 
 $(function () {
 	fillList();
-	$("#photo").hide();
 	$("#photoClose").click(function () {
 		$("#photo").hide();
 	});

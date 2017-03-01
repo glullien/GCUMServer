@@ -137,11 +137,9 @@ function refreshMarkers() {
 }
 
 function initMap() {
-	$("#photos").hide();
 	$("#photosClose").click(function () {
 		$("#photos").hide();
 	});
-	$("#android").hide();
 	$("#androidClose").click(function () {
 		$("#android").hide();
 	});

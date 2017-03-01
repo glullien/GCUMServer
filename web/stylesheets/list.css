@@ -91,6 +91,7 @@
 }
 
 #photo {
+	display: none;
 	position: fixed;
 	left: 40px;
 	right: 40px;
