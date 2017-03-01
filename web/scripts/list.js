@@ -55,7 +55,11 @@ function openPhoto(id) {
 	$("#photoDistrict").html("...");
 	$("#photoLatitude").html("...");
 	$("#photoLongitude").html("...");
+	$("#photoSize").html("...");
 	$("#photoLikes").html("...");
+	var $photoDownload = $("#photoDownload");
+	$photoDownload.attr("href", "getPhoto?id=" + id + "&original=true");
+	$photoDownload.attr("download", "photo" + id + ".jpg");
 	$.ajax({
 		url: 'getPhotoInfo',
 		type: 'POST',
@@ -73,6 +77,7 @@ function openPhoto(id) {
 				$("#photoDistrict").html("" + json.district + ((json.district == 1) ? "er" : "e"));
 				$("#photoLatitude").html((json.latitude / 1E5) + ' °N');
 				$("#photoLongitude").html((json.longitude / 1E5) + ' °E');
+				$("#photoSize").html("" + json.width + " x " + json.height);
 				var likes = "";
 				for (var i = 0; i < json.likes.length; i++) {
 					if (likes != "") likes += ", ";

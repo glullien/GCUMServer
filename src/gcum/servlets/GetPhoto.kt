@@ -20,10 +20,12 @@ class GetPhoto : HttpServlet() {
       val maxSize = request.getIntOrNull("maxSize")
       val maxWidth = request.getIntOrNull("maxWidth")
       val maxHeight = request.getIntOrNull("maxHeight")
+      val original = request.getBooleanOrNull("original")
       val photo = Database.getPhoto(id) ?: throw ServletException("Photo $id not found")
       response.contentType = "image/jpeg"
       response.outputStream.use {
-         if ((maxWidth != null) && (maxHeight != null)) photo.writeImage(it, maxWidth, maxHeight)
+         if (original == true) photo.writeImageOriginal(it)
+         else if ((maxWidth != null) && (maxHeight != null)) photo.writeImage(it, maxWidth, maxHeight)
          else photo.writeImage(it, maxSize ?: Int.MAX_VALUE)
       }
    }

@@ -86,6 +86,8 @@
             <p><span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
             <p>Latitude <span id="photoLatitude"></span></p>
             <p>Longitude <span id="photoLongitude"></span></p>
+            <p>Taille <span id="photoSize"></span></p>
+            <p><a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a></p>
             <p>Aimé par <span id="photoLikes"></span></p>
         </div>
     </div>

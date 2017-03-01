@@ -20,6 +20,8 @@ class GetPhotoInfo : JsonServlet() {
          put("latitude", photo.location.coordinates.point.latitude)
          put("longitude", photo.location.coordinates.point.longitude)
          put("locationSource", photo.location.coordinates.source.toString())
+         put("width", photo.details.width)
+         put("height", photo.details.height)
          if (photo.username != null) put("username", photo.username)
          put("likes", photo.likes.toList())
          put("isLiked", photo.likes.contains(Sessions.username(request.session)))

@@ -159,6 +159,19 @@
 	font-weight: bold;
 }
 
+#photoSize {
+	font-weight: bold;
+}
+
 #photoLikes {
 	font-weight: bold;
+}
+
+#photoDownload {
+	text-decoration: none;
+	color: #666;
+}
+
+.photoDownload:hover {
+	color: #000;
 }
