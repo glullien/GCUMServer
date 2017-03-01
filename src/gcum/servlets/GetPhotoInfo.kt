@@ -14,14 +14,14 @@ class GetPhotoInfo : JsonServlet() {
       return jsonSuccess {
          put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
          put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
-         /*put("street", photo.location.address.street)
+         put("street", photo.location.address.street)
          put("district", photo.location.address.district)
          put("city", photo.location.address.city)
          put("latitude", photo.location.coordinates.point.latitude)
-         put("longitude", photo.location.coordinates.point.longitude)*/
+         put("longitude", photo.location.coordinates.point.longitude)
          put("locationSource", photo.location.coordinates.source.toString())
          if (photo.username != null) put("username", photo.username)
-         put("likesCount", photo.likes.size)
+         put("likes", photo.likes.toList())
          put("isLiked", photo.likes.contains(Sessions.username(request.session)))
       }
    }

@@ -9,6 +9,7 @@ import org.apache.sanselan.Sanselan
 import org.apache.sanselan.common.IImageMetadata
 import org.apache.sanselan.formats.jpeg.JpegImageMetadata
 import org.apache.sanselan.formats.tiff.constants.ExifTagConstants
+import java.awt.Dimension
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
@@ -84,26 +85,36 @@ private fun readImage(brut: BufferedImage, metaData: MetaData?) = when (metaData
    else->brut
 }
 
+private fun Dimension.isSmaller(o: Dimension) = (width <= o.width) && (height <= o.height)
+private fun Dimension.ratio() = width * 1.0 / height
+private fun Dimension.targetIn(o: Dimension): Dimension {
+   val ratio = ratio()
+   return if (ratio < o.ratio()) Dimension((o.height * ratio).toInt(), o.height) else Dimension(o.width, (o.width / ratio).toInt())
+}
+
+private fun BufferedImage.resize(d: Dimension): BufferedImage {
+   val res = BufferedImage(d.width, d.height, type)
+   res.createGraphics().drawImage(this, 0, 0, d.width, d.height, null)
+   return res
+}
+
 data class Photo(val id: String, val moment: Moment, val location: Location, val details: Details, val username: String?, val likes: Set<String>, val file: File) {
    //fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
 
-   fun writeImage(out: OutputStream, maxSize: Int) {
-      val fullW = details.width
-      val fullH = details.height
-      if ((fullW <= maxSize) && (fullH <= maxSize)) FileInputStream(file).use {it.copyTo(out)}
-      else {
-         val targetWidth = if (fullH <= fullW) maxSize else maxSize * fullW / fullH
-         val targetHeight = if (fullW <= fullH) maxSize else maxSize * fullH / fullW
-         val sep = File.separator
-         val resizedFileName = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-$targetWidth-$targetHeight.JPG")
-         if (!resizedFileName.exists()) {
-            val full = readImage(file)
-            val resizedImage = BufferedImage(targetWidth, targetHeight, full.type)
-            resizedImage.createGraphics().drawImage(full, 0, 0, targetWidth, targetHeight, null)
-            FileOutputStream(resizedFileName).use {ImageIO.write(resizedImage, "JPG", it)}
-         }
-         FileInputStream(resizedFileName).use {it.copyTo(out)}
+   fun writeImageOriginal(out: OutputStream) = FileInputStream(file).use {it.copyTo(out)}
+
+   fun writeImage(out: OutputStream, maxWidth: Int, maxHeight: Int = maxWidth) {
+      val max = Dimension(maxWidth, maxHeight)
+      val full = Dimension(details.width, details.height)
+      val target = if (full.isSmaller(max)) full else full.targetIn(max)
+      val sep = File.separator
+      val resizedFileName = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-${target.width}-${target.height}.JPG")
+      if (!resizedFileName.exists()) {
+         val reOrientedImage = readImage(file)
+         val resizedImage = if (full == target) reOrientedImage else reOrientedImage.resize(target)
+         FileOutputStream(resizedFileName).use {ImageIO.write(resizedImage, "JPG", it)}
       }
+      FileInputStream(resizedFileName).use {it.copyTo(out)}
    }
 
    fun saveProperties(auxFile: File) {

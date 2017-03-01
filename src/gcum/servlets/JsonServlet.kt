@@ -28,7 +28,6 @@ abstract class JsonServlet : HttpServlet() {
          fun jsonToBytes (o: Map<String, *>) = JSONObject.toJSONString(o).toByteArray(Charset.forName("UTF-16"))
          try {
             val jsonResult = doPost(request)
-            //it.println(JSONObject.toJSONString(jsonResult))
             it.write(jsonToBytes(jsonResult))
          } catch (e: Exception) {
             log.severe("Cannot process request", e)

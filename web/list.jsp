@@ -76,6 +76,20 @@
     </div>
 </div>
 
+<div id="photo">
+    <p><span id="photoClose" class="close">&#10006;</span></p>
+    <div id="photoPanes">
+        <div id="photoPane"><img id="photoImg" src="settings-512.png"></div>
+        <div id="photoDetails">
+            <p>Photo prise par <span id="photoAuthor"></span></p>
+            <p>le <span id="photoDate"></span></p>
+            <p><span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
+            <p>Latitude <span id="photoLatitude"></span></p>
+            <p>Longitude <span id="photoLongitude"></span></p>
+            <p>Aimé par <span id="photoLikes"></span></p>
+        </div>
+    </div>
+</div>
 <p>
     <span id="error"></span>
 </p>
