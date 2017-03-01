@@ -72,8 +72,8 @@ private fun addUpload(bytes: ByteArray): Uploaded {
    val id = nextId.andIncrement
    val metaData = getMetaData(bytes)
    val image = readImage(bytes, metaData)
-   val voie = if (metaData?.location == null) null else Voies.searchClosest(metaData?.location)
-   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData?.location, voie)
+   val voie = if (metaData?.location == null) null else Voies.searchClosest(metaData.location)
+   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData.location, voie)
    val uploaded = Uploaded(id, bytes, image.width, image.height, voie, district, metaData)
    uploadedList[id] = uploaded
    return uploaded

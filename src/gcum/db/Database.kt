@@ -129,7 +129,7 @@ object Database {
    private fun add(photo: Photo) {
       if (photos.values.none {it.file.absolutePath == photo.file.absolutePath}) {
          photos[photo.id] = photo
-         points.computeIfAbsent(photo.location.coordinates.point, {p-> ConcurrentLinkedQueue()}).add(photo.id)
+         points.computeIfAbsent(photo.location.coordinates.point, {ConcurrentLinkedQueue()}).add(photo.id)
       }
    }
 

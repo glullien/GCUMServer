@@ -37,7 +37,7 @@ object Sessions {
          val sessionId = session.getAttribute(sessionIdAttribute)
          if (sessionId is String) {
             val oldSession = sessions.remove(sessionId)
-            if (oldSession?.autoLogin != null) Database.removeAutoLoginCode(oldSession?.autoLogin.code)
+            if (oldSession?.autoLogin != null) Database.removeAutoLoginCode(oldSession.autoLogin.code)
          }
       }
    }

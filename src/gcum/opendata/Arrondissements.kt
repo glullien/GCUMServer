@@ -21,7 +21,7 @@ data class Arrondissement(val id: Int, val shape: List<Point>) {
       fun nbIntersects(a: Point, b: Point, other: List<Point>): Int =
          (if (intersect(a, b)) 1 else 0) + (if (other.size < 2) 0 else nbIntersects(other[0], other [1], other.drop(1)))
 
-      return (nbIntersects(shape[shape.size - 1], shape [0], shape) % 2) == 1
+      return (nbIntersects(shape[shape.size - 1], shape [0], shape).rem(2)) == 1
    }
 }
 
