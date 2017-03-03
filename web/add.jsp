@@ -31,8 +31,8 @@
         <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
         <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
             <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
-            <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
         </c:if>
+        <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
         <div class="dropdown" style="display: inline; margin: 0; padding: 0;top: -1px">
             <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-user"></i>

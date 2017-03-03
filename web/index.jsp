@@ -75,7 +75,6 @@
                 <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
                 <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
                     <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
-                    <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
                 </c:if>
                 <div class="dropdown" style="display: inline; margin: 0; padding: 0; top: -1px;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -94,6 +93,7 @@
                 <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i> Se connecter</a>
             </c:otherwise>
         </c:choose>
+        <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
     </div>
 </div>
 <div id="map"></div>
@@ -106,7 +106,7 @@
     <p id="androidClose"><a href="#" class="close">&#10006;</a></p>
     <div id="androidMessage">
         <p>Téléchargez l'appli !</p>
-        <p><a href="#"><img src="images/Android.png"></a></p>
+        <p><a href="https://play.google.com/store/apps/details?id=gcum.gcumfisher"><img src="images/Android.png"></a></p>
     </div>
 </div>
 <p>

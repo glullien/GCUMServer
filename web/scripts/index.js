@@ -186,7 +186,7 @@ function initMap() {
 
 	//if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 	if (/Android/i.test(navigator.userAgent)) {
-		// $("#android").show();
+		$("#android").show();
 	}
 
 }
