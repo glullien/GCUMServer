@@ -46,10 +46,11 @@ abstract class JsonServlet : HttpServlet() {
    protected abstract fun doPost(request: HttpServletRequest): Map<String, *>
 }
 
-fun jsonError(errorMessage: String): Map<String, Any> {
+fun jsonError(errorMessage: String, code: String? = null): Map<String, Any> {
    val res = HashMap<String, Any>()
    res.put("result", "error")
    res.put("message", htmlEncode(errorMessage))
+   if (code != null) res.put("code", code)
    return res
 }
 

@@ -86,7 +86,7 @@ class Register : JsonServlet() {
          Database.addUser(username, password, email)
          return jsonSuccess(Sessions.login(request.session, username, remindMe))
       } catch (e: UserExistsException) {
-         return jsonError("Le pseudo $username existe déjà")
+         return jsonError("Le pseudo $username existe déjà", "USERNAME_ALREADY_USED")
       }
    }
 }
@@ -98,7 +98,7 @@ class Login : JsonServlet() {
       val password = request.getString("password")
       val remindMe = request.getBoolean("remindMe")
       val user = Database.getUser(username)
-      if ((user == null) || (user.password != password)) return jsonError("Les identifiants sont incorrects")
+      if ((user == null) || (user.password != password)) return jsonError("Les identifiants sont incorrects", "INCORRECT_IDS")
       return jsonSuccess(Sessions.login(request.session, username, remindMe))
    }
 }
@@ -115,7 +115,7 @@ class Logout : JsonServlet() {
 class SendID : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val email = request.getString("email")
-      val user = Database.getUserFromEmail(email) ?: return jsonError("Aucun pseudo n'a été enregistré avec cet Email")
+      val user = Database.getUserFromEmail(email) ?: return jsonError("Aucun pseudo n'a été enregistré avec cet Email", "EMAIL_NOT_FOUND")
       sendMail(listOf("gurvan.lullien@gmail.com"), "Rappel des identifiants", "/gcum/servlets/MailLoginIDs.html", mapOf(
          "username" to user.username,
          "password" to user.password
@@ -139,8 +139,16 @@ class GetAutoLogin : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val username = request.getString("username")
       val password = request.getString("password")
-      val user = Database.getUser(username)
-      if ((user == null) || (user.password != password)) return jsonError("Les identifiants sont incorrects")
+      val email = request.getStringOrNull("email")
+      val register = request.getBoolean("register")
+      if (!register) {
+         val user = Database.getUser(username)
+         if ((user == null) || (user.password != password)) return jsonError("Les identifiants sont incorrects", "INCORRECT_IDS")
+      } else try {
+         Database.addUser(username, password, email)
+      } catch (e: UserExistsException) {
+         return jsonError("Le pseudo $username existe déjà", "USERNAME_ALREADY_USED")
+      }
       return jsonSuccess(Database.generateAutoLoginCode(username))
    }
 }
@@ -192,7 +200,7 @@ class ChangePassword : JsonServlet() {
       val oldPassword = request.getString("oldPassword")
       val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
       val user = Database.getUser(username)
-      if ((user == null) || (user.password != oldPassword)) return jsonError("Les identifiants sont incorrects")
+      if ((user == null) || (user.password != oldPassword)) return jsonError("Les identifiants sont incorrects", "INCORRECT_IDS")
       val password = request.getString("password")
       Database.changePassword(username, password)
       return jsonSuccess {}
