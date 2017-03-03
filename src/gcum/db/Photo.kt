@@ -13,9 +13,7 @@ import java.awt.Dimension
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.OutputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -99,22 +97,21 @@ private fun BufferedImage.resize(d: Dimension): BufferedImage {
 }
 
 data class Photo(val id: String, val moment: Moment, val location: Location, val details: Details, val username: String?, val likes: Set<String>, val file: File) {
-   //fun inside(min: Point, max: Point) = location.coordinates.point.inside(min, max)
 
-   fun writeImageOriginal(out: OutputStream) = FileInputStream(file).use {it.copyTo(out)}
+   fun getOriginalBytes() = file.readBytes()
 
-   fun writeImage(out: OutputStream, maxWidth: Int, maxHeight: Int = maxWidth) {
+   fun getBytes(maxWidth: Int, maxHeight: Int = maxWidth): ByteArray {
       val max = Dimension(maxWidth, maxHeight)
       val full = Dimension(details.width, details.height)
       val target = if (full.isSmaller(max)) full else full.targetIn(max)
       val sep = File.separator
-      val resizedFileName = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-${target.width}-${target.height}.JPG")
-      if (!resizedFileName.exists()) {
+      val resizedFile = File("${file.parent}${sep}aux$sep${file.nameWithoutExtension}-${target.width}-${target.height}.JPG")
+      if (!resizedFile.exists()) {
          val reOrientedImage = readImage(file)
          val resizedImage = if (full == target) reOrientedImage else reOrientedImage.resize(target)
-         FileOutputStream(resizedFileName).use {ImageIO.write(resizedImage, "JPG", it)}
+         FileOutputStream(resizedFile).use {ImageIO.write(resizedImage, "JPG", it)}
       }
-      FileInputStream(resizedFileName).use {it.copyTo(out)}
+      return resizedFile.readBytes()
    }
 
    fun saveProperties(auxFile: File) {
