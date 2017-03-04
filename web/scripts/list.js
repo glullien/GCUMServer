@@ -3,21 +3,47 @@ function displayError(error) {
 }
 
 var district = 'All';
-var next = "Latest";
+var latest = null;
 function fillList() {
+	var params;
+	if (latest == null) params = {'number': 20, 'district': district};
+	else params = {'number': 20, 'district': district, after: latest};
 	$.ajax({
 		url: 'getList',
 		type: 'POST',
-		data: {'number': 20, 'district': district, 'start': next},
+		data: params,
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
 				var html = "";
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
+
+					var photoWidth = photo.width;
+					var photoHeight = photo.height;
+					var maxSize = 400;
+					var targetWidth = 0;
+					var targetHeight = 0;
+					if ((photoWidth < maxSize) && (photoHeight < maxSize)) {
+						targetWidth = photoWidth;
+						targetHeight = photoHeight;
+					}
+					else {
+						var ratio = photoWidth * 1.0 / photoHeight;
+						if (ratio < 1) {
+							targetWidth = Math.round(maxSize * ratio);
+							targetHeight = maxSize;
+						}
+						else {
+							targetWidth = maxSize;
+							targetHeight = Math.round(maxSize / ratio);
+						}
+					}
+
+
 					html += '<div class="frame photoAndLegend">';
 					html += '<a href="#" onclick="openPhoto(\'' + photo.id + '\');return false;">';
-					html += '<img src="getPhoto?id=' + photo.id + '&maxSize=400">';
+					html += '<img width="' + targetWidth + '" height="' + targetHeight + '" src="getPhoto?id=' + photo.id + '&maxSize=' + maxSize + '">';
 					html += '</a>';
 					var dateTime = photo.date;
 					if (photo.time != "unknown") dateTime += " " + photo.time;
@@ -27,9 +53,11 @@ function fillList() {
 					if (photo.username != null) html += '<span class="username">' + photo.username + '</span>';
 					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(\'' + photo.id + '\');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
 					html += '</div>';
-					next = photo.id;
+					latest = photo.id;
 				}
 				$("#list").append(html);
+				console.log("after: " + json.nbAfter);
+				$("#nbAfter").html("" + json.nbAfter);
 			}
 			else {
 				displayError(json.message)
@@ -117,7 +145,7 @@ function toggleLike(photoId) {
 function setDistrict(d, text) {
 	$("#district").html(text);
 	district = d;
-	next = "Latest";
+	latest = null;
 	$("#list").html("");
 	fillList();
 }

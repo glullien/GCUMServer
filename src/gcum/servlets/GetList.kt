@@ -1,7 +1,8 @@
 package gcum.servlets
 
 import gcum.db.Database
-import java.time.format.DateTimeFormatter
+import gcum.db.PhotosListStart
+import gcum.db.firstPhoto
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServletRequest
 
@@ -10,31 +11,19 @@ class GetList : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val number = request.getInt("number")
       val district = request.getString("district")
-      val start = request.getString("start")
+      val start = request.getStringOrNull("start")
+      val after = request.getStringOrNull("after")
       val photos = Database.getPhotos(
          number,
          if (district == "All") null else district.toInt(),
-         if (start == "Latest") null else start
+         if (start == null && after == null) firstPhoto else
+            if (start == "Latest") firstPhoto else
+               if (start != null) PhotosListStart(start, 0) else PhotosListStart(after, 1)
       )
       val username = Sessions.username(request.session)
       return jsonSuccess {
-         put("photos", photos.map {
-            photo->
-            sub {
-               put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
-               put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
-               put("street", photo.location.address.street)
-               put("district", photo.location.address.district)
-               put("city", photo.location.address.city)
-               put("locationSource", photo.location.coordinates.source.toString())
-               put("latitude", photo.location.coordinates.point.latitude)
-               put("longitude", photo.location.coordinates.point.longitude)
-               if (photo.username != null) put("username", photo.username)
-               put("likesCount", photo.likes.size)
-               put("isLiked", photo.likes.contains(username))
-               put("id", photo.id)
-            }
-         })
+         put("photos", photos.list.map {sub {putPhotoInfo(it, username)}})
+         put("nbAfter", photos.nbAfter)
       }
    }
 }

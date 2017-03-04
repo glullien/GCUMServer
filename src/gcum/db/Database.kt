@@ -184,13 +184,20 @@ object Database {
       newPhoto.saveProperties(auxFile)
    }
 
-   fun getPhotos(number: Int, district: Int?, start: String?): List<Photo> {
+   fun getPhotos(number: Int, district: Int?, start: PhotosListStart): PhotosList {
       val filtered = photosLock.withLock {if (district == null) photos.values.toList() else photos.values.filter {it.location.address.district == district}}
       val sorted = filtered.sortedBy {it.moment}.reversed()
-      val firstIndex = if (start == null) 0 else sorted.indexOfFirst {it.id == start}.max(0)
-      return sorted.subList(firstIndex, (firstIndex + number).min(sorted.size))
+      val fromIndex = (if (start.id == null) 0 else sorted.indexOfFirst {it.id == start.id}.max(0)) + start.offset
+      val toIndex = sorted.size.min(fromIndex + number)
+      val list = sorted.subList(fromIndex, toIndex)
+      return PhotosList(list, sorted.size - toIndex)
    }
 }
+
+data class PhotosList(val list: List<Photo>, val nbAfter: Int)
+data class PhotosListStart(val id: String?, val offset: Int)
+
+val firstPhoto = PhotosListStart(null, 0)
 
 enum class UserRole {Regular, Admin }
 data class User(val username: String, val password: String, val email: String?, val role: UserRole = UserRole.Regular)

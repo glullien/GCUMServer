@@ -28,23 +28,7 @@ class GetPointInfo : JsonServlet() {
       val sortedPhotos = photos.sortedByDescending {it.moment.date}
       val username = Sessions.username(request.session)
       return jsonSuccess {
-         put("photos", sortedPhotos.map {
-            photo ->
-            sub {
-               put("date", photo.moment.date.format(DateTimeFormatter.ISO_DATE))
-               put("time", photo.moment.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
-               put("street", photo.location.address.street)
-               put("district", photo.location.address.district)
-               put("city", photo.location.address.city)
-               put("locationSource", photo.location.coordinates.source.toString())
-               put("latitude", photo.location.coordinates.point.latitude)
-               put("longitude", photo.location.coordinates.point.longitude)
-               if (photo.username != null) put("username", photo.username)
-               put("likesCount", photo.likes.size)
-               put("isLiked", photo.likes.contains(username))
-               put("id", photo.id)
-            }
-         })
+         put("photos", sortedPhotos.map {sub {putPhotoInfo(it, username)}})
          val minDate = sortedPhotos.last().moment.date.format(DateTimeFormatter.ISO_DATE)
          val maxDate = sortedPhotos.first().moment.date.format(DateTimeFormatter.ISO_DATE)
          put("dates", minDate + if (maxDate == minDate) "" else " -> $maxDate")

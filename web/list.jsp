@@ -72,7 +72,10 @@
 <div class="frames">
     <div id="list"></div>
     <div class="frame">
-        <a href="#more" class="btn btn-link btn-lg" id="more"><i class="glyphicon glyphicon-plus"></i> Plus</a>
+        <a href="#more" class="btn btn-link btn-lg" id="more">
+            <i class="glyphicon glyphicon-plus"></i>
+            Plus (<span id="nbAfter">.</span>)
+        </a>
     </div>
 </div>
 
