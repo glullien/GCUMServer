@@ -43,6 +43,7 @@ fun MutableMap<String, Any>.putPhotoInfo(photo: Photo, sessionUsername: String?)
    put("width", photo.details.width)
    put("height", photo.details.height)
    if (photo.username != null) put("username", photo.username)
+   put("likesCount", photo.likes.size)
    put("likes", photo.likes.toList())
    put("isLiked", photo.likes.contains(sessionUsername))
 }
