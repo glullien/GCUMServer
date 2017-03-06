@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>GCUM</title>
+    <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -24,7 +25,7 @@
     <div class="controlBox">
         <form class="form-inline" style="margin: 0; padding: 0;">
             <div class="form-group">
-                <span>Dates :</span>
+                <span class="hideOnMobile">Dates :</span>
                 <div class="dropdown" style="display: inline;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         <span id="date">Tout</span>
@@ -39,7 +40,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <span>Précision géographique :</span>
+                <span class="hideOnMobile">Précision géographique :</span>
                 <div class="dropdown" style="display: inline;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         <span id="locationSource">Tout</span>
@@ -52,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <span>Publiés par :</span>
+                <span class="hideOnMobile">Publiés par :</span>
                 <div class="dropdown" style="display: inline;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         <span id="authors">Tous</span>
@@ -69,12 +70,12 @@
         </form>
     </div>
     <div class="links">
-        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
+        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i><span class="hideOnMobile link">Liste</span></a>
         <c:choose>
             <c:when test="${gcum:isLogin(sessionScope.sessionId)}">
-                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
+                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i><span class="hideOnMobile link">Ajouter</span></a>
                 <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
-                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i><span class="hideOnMobile link">Extrait</span></a>
                 </c:if>
                 <div class="dropdown" style="display: inline; margin: 0; padding: 0; top: -1px;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -90,7 +91,7 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i> Se connecter</a>
+                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i><span class="hideOnMobile link">Se connecter</span></a>
             </c:otherwise>
         </c:choose>
         <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
@@ -103,10 +104,11 @@
     <div id="photosList"></div>
 </div>
 <div id="android">
-    <p id="androidClose"><a href="#" class="close">&#10006;</a></p>
+    <a id="androidClose" href="#" class="close">&#10006;</a>
     <div id="androidMessage">
         <p>Téléchargez l'appli !</p>
         <p><a href="https://play.google.com/store/apps/details?id=gcum.gcumfisher"><img src="images/Android.png"></a></p>
+        <p><button class="btn btn-outline-primary" id="doNotDisplayAndroid">Ne plus afficher</button></p>
     </div>
 </div>
 <p>

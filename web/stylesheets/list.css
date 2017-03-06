@@ -3,24 +3,59 @@
 	src: url('../fonts/digital-7.ttf');
 }
 
+#controls {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
 .frames {
-	width: 452px;
-	margin: 0 auto;
+	position: fixed;
+	top: 30px;
+	bottom: 0;
+	overflow-y: scroll;
+	text-align: center;
+	width: 100%;
+	background: #eeeeee;
+	text-indent: 0;
 }
 
 .frame {
 	text-align: center;
 	width: 450px;
 	height: auto;
-	border: 1px solid gray;
+	border-bottom: 1px solid gray;
 	padding: 10px;
+	display: block;
+}
+
+.framesList {
+	text-align: center;
+	width: 450px;
+	margin: auto;
+	background: white;
+}
+
+@media (max-width: 480px) {
+	.frames {
+	}
+
+	.framesList {
+		width: auto;
+	}
+
+	.frame {
+		width: auto;
+		padding: 10px 0;
+	}
 }
 
 .photoAndLegend {
 	position: relative;
-	margin-right: 10px;
-	margin-top: 10px;
-	display: inline-block;
+}
+
+.photoThumbnail {
 }
 
 .photoDate {
@@ -175,4 +210,27 @@
 
 .photoDownload:hover {
 	color: #000;
+}
+
+@media (max-width: 480px) {
+	#photoPane {
+		display: none;
+	}
+
+	#photoDetails {
+		position: inherit;
+		width: auto;
+		margin-top: 40px;
+	}
+
+	#photoDownload {
+		display: none;
+	}
+
+}
+
+@media (min-width: 481px) {
+	#photoView {
+		display: none;
+	}
 }

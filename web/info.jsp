@@ -5,7 +5,9 @@
 <html>
 <head>
     <title>GCUM Informations techniques</title>
+    <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/info.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
@@ -20,13 +22,13 @@
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
     <div class="links">
-        <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
-        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i> Liste</a>
+        <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-map-marker"></i><span class="hideOnMobile link">Carte</span></a>
+        <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i><span class="hideOnMobile link">Liste</span></a>
         <c:choose>
             <c:when test="${gcum:isLogin(sessionScope.sessionId)}">
-                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
+                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i><span class="hideOnMobile link">Ajouter</span></a>
                 <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
-                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i><span class="hideOnMobile link">Extrait</span></a>
                 </c:if>
                 <div class="dropdown" style="display: inline; margin: 0; padding: 0; top: -1px;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -42,14 +44,14 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i> Se connecter</a>
+                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i><span class="hideOnMobile">Se connecter</span></a>
             </c:otherwise>
         </c:choose>
     </div>
 </div>
 
 <div style="margin: 20px;">
-    <p>Version 0.9.9</p>
+    <p>Version 0.9.12</p>
 
     <p>
         Ce site vous permet librement, gratuitement de publier et partager en direct vos photos de GCUM (Garé Comme Une Merde).
@@ -67,11 +69,11 @@
     </p>
 
     <p>
-        <a href="https://play.google.com/store/apps/details?id=gcum.gcumfisher" style="margin: 30px">
-            <img src="images/Android-x110.png">
+        <a href="https://play.google.com/store/apps/details?id=gcum.gcumfisher">
+            <img src="images/Android-x110.png" style="margin: 30px" class="smallerIconOnMobile">
         </a>
-        <a href="https://twitter.com/gcum_lol" style="margin: 30px">
-            <img src="images/Twitter-x110.png">
+        <a href="https://twitter.com/gcum_lol">
+            <img src="images/Twitter-x110.png" style="margin: 30px" class="smallerIconOnMobile">
         </a>
     </p>
     <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">

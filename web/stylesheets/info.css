@@ -1,0 +1,6 @@
+@media (max-width: 480px) {
+	.smallerIconOnMobile {
+		width: 60px;
+		height: 60px;
+	}
+}

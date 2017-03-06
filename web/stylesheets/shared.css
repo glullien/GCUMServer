@@ -7,10 +7,20 @@ body {
 	padding: 0
 }
 
+@media (max-width: 480px) {
+	.hideOnMobile {
+		display: none;;
+	}
+}
+
 #controls {
 	padding: 2px;
 	height: 30px;
 	background: lightgrey;
+}
+
+.link {
+	margin-left: 3px;
 }
 
 #logo {

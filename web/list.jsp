@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>GCUM</title>
+    <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/list.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,12 +20,23 @@
     </c:if>
 </head>
 <body>
+<div class="frames">
+    <div id="list" class="framesList"></div>
+    <div class="framesList">
+        <div class="frame">
+            <a href="#more" class="btn btn-link btn-lg" id="more">
+                <i class="glyphicon glyphicon-plus"></i>
+                Plus (<span id="nbAfter">.</span>)
+            </a>
+        </div>
+    </div>
+</div>
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
     <div class="controlBox">
         <form class="form-inline" style="margin: 0; padding: 0;">
             <div class="form-group">
-                <span>Arrondissements</span>
+                <span class="hideOnMobile">Arrondissements</span>
                 <div class="dropdown" style="display: inline;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         <span id="district">Tout</span>
@@ -42,12 +54,12 @@
         </form>
     </div>
     <div class="links">
-        <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-eye-open"></i> Carte</a>
+        <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-map-marker"></i><span class="hideOnMobile link">Carte</span></a>
         <c:choose>
             <c:when test="${gcum:isLogin(sessionScope.sessionId)}">
-                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i> Ajouter</a>
+                <a href="add.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-upload"></i><span class="hideOnMobile link">Ajouter</span></a>
                 <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
-                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i> Extrait</a>
+                    <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i><span class="hideOnMobile link">Extrait</span></a>
                 </c:if>
                 <div class="dropdown" style="display: inline; margin: 0; padding: 0; top: -1px;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -63,21 +75,13 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i> Se connecter</a>
+                <a href="login.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-user"></i><span class="hideOnMobile link">Se connecter</span></a>
             </c:otherwise>
         </c:choose>
         <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
     </div>
 </div>
-<div class="frames">
-    <div id="list"></div>
-    <div class="frame">
-        <a href="#more" class="btn btn-link btn-lg" id="more">
-            <i class="glyphicon glyphicon-plus"></i>
-            Plus (<span id="nbAfter">.</span>)
-        </a>
-    </div>
-</div>
+
 
 <div id="photo">
     <p><span id="photoClose" class="close">&#10006;</span></p>
@@ -90,7 +94,10 @@
             <p>Latitude <span id="photoLatitude"></span></p>
             <p>Longitude <span id="photoLongitude"></span></p>
             <p>Taille <span id="photoSize"></span></p>
-            <p><a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a></p>
+            <p>
+                <a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a>
+                <a href="#" id="photoView"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+            </p>
             <p>Aimé par <span id="photoLikes"></span></p>
         </div>
     </div>

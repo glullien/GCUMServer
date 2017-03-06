@@ -16,12 +16,13 @@ function fillList() {
 		success: function (json) {
 			if (json.result == 'success') {
 				var html = "";
+				var controlsWidth = $("#controls").width();
+				var maxSize = Math.min (400, controlsWidth-30);
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
 
 					var photoWidth = photo.width;
 					var photoHeight = photo.height;
-					var maxSize = 400;
 					var targetWidth = 0;
 					var targetHeight = 0;
 					if ((photoWidth < maxSize) && (photoHeight < maxSize)) {
@@ -42,7 +43,7 @@ function fillList() {
 
 
 					html += '<div class="frame photoAndLegend">';
-					html += '<a href="#" onclick="openPhoto(\'' + photo.id + '\');return false;">';
+					html += '<a href="#" onclick="openPhoto(\'' + photo.id + '\');return false;" class ="photoThumbnail">';
 					html += '<img width="' + targetWidth + '" height="' + targetHeight + '" src="getPhoto?id=' + photo.id + '&maxSize=' + maxSize + '">';
 					html += '</a>';
 					var dateTime = photo.date;
@@ -56,7 +57,6 @@ function fillList() {
 					latest = photo.id;
 				}
 				$("#list").append(html);
-				console.log("after: " + json.nbAfter);
 				$("#nbAfter").html("" + json.nbAfter);
 			}
 			else {
@@ -88,6 +88,7 @@ function openPhoto(id) {
 	var $photoDownload = $("#photoDownload");
 	$photoDownload.attr("href", "getPhoto?id=" + id + "&original=true");
 	$photoDownload.attr("download", "photo" + id + ".jpg");
+	$("#photoView").attr("href", "getPhoto?id=" + id + "&original=true");
 	$.ajax({
 		url: 'getPhotoInfo',
 		type: 'POST',

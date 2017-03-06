@@ -13,7 +13,9 @@ var contentString = '<div id="infoPhoto">' +
 var currentPhotosIds;
 function getPhotoView(photo) {
 	var content = '<div class="photoAndLegend">';
-	content += '<img src="getPhoto?id=' + photo.id + '&maxSize=400" class="photo">';
+	var photosListWidth = $("#photosList").width();
+	var width = Math.min (400, photosListWidth-5);
+	content += '<img src="getPhoto?id=' + photo.id + '&maxSize='+width+'" class="photo">';
 	var dateTime = photo.date;
 	if (photo.time != "unknown") dateTime += " " + photo.time;
 	content += '<span class="photoDate">' + dateTime + '</span>';
@@ -45,11 +47,12 @@ function toggleLike(photoId) {
 
 var contentPhotos = null;
 function viewPhotos() {
+	$("#photos").show();
 	if (contentPhotos == null) {
+		contentPhotos = "";
 		for (var i = 0; i < currentPhotosIds.length; i++) contentPhotos += getPhotoView(currentPhotosIds[i]);
 		$("#photosList").html(contentPhotos);
 	}
-	$("#photos").show();
 }
 
 function createMarker(latitude, longitude) {
@@ -143,6 +146,10 @@ function initMap() {
 	$("#androidClose").click(function () {
 		$("#android").hide();
 	});
+	$("#doNotDisplayAndroid").click(function () {
+		document.cookie = "doNotDisplayAndroid=true; expires=Sun, 28 Feb 2020 00:00:00 UTC; path=/";
+		$("#android").hide();
+	});
 	$(document).keyup(function (e) {
 		if (e.keyCode === 27) $('#photosClose').click();
 	});
@@ -185,7 +192,8 @@ function initMap() {
 	refreshMarkers();
 
 	//if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	if (/Android/i.test(navigator.userAgent)) {
+	var doNotDisplayAndroid = getCookie("doNotDisplayAndroid");
+	if (/Android/i.test(navigator.userAgent) && !doNotDisplayAndroid) {
 		$("#android").show();
 	}
 
