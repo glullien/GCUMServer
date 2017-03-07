@@ -68,7 +68,7 @@ $(function () {
 	});
 	var
 	districtInput = $('#district');
-	districtInput.click(function (e) {
+	districtInput.click(function () {
 		$('#streetZone').hide();
 		var offset = districtInput.offset();
 		var districtZone = $('#districtZone');
@@ -114,7 +114,7 @@ $(function () {
 			$('#uploadedProgressBar').css("width", progress + '%');
 		}
 	});
-	$('#report').click(function (e) {
+	$('#report').click(function () {
 		var street = $('#street').val();
 		var district = $('#district').val();
 		var date = $('#date').val();
