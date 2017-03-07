@@ -94,11 +94,7 @@
 }
 
 #streetZone {
-	position: relative;
-	top: -350px;
-	height: 250px;
-	left: 60px;
-	width: 300px;
+	position: absolute;
 	padding: 10px;
 	border: 2px solid black;
 	border-radius: 10px;
@@ -107,7 +103,7 @@
 }
 
 #streets {
-	margin-right: 7px;
+	margin-right: 10px;
 }
 
 #streets a {
@@ -130,11 +126,7 @@
 }
 
 #districtZone {
-	position: relative;
-	top: -350px;
-	height: 250px;
-	left: 360px;
-	width: 80px;
+	position: absolute;
 	padding: 10px;
 	border: 2px solid black;
 	border-radius: 10px;
@@ -143,7 +135,7 @@
 }
 
 #districts {
-	margin-right: 7px;
+	margin-right: 10px;
 }
 
 #districts a {

@@ -12,6 +12,17 @@ function setDate(date) {
 	$("#date").val(date);
 	$("#dateGroup").removeClass("has-error");
 }
+
+function escapeQuote(source) {
+	var res ="";
+	for (var i = 0, len = source.length; i < len; i++) {
+		var c = source[i];
+		if (c == "'") res += "\\'";
+		else res += c;
+	}
+	return res;
+}
+
 $(function () {
 	$('#streetZone').hide();
 	$('#streetsClose').click(function () {
@@ -21,7 +32,8 @@ $(function () {
 	$('#districtsClose').click(function () {
 		$('#districtZone').hide();
 	});
-	$('#street').on("input", function () {
+	var streetInput = $('#street');
+	streetInput.on("input", function () {
 		var street = $('#street').val();
 		if (street.length < 2) $('#streetZone').hide();
 		else {
@@ -35,11 +47,18 @@ $(function () {
 						var content = "";
 						for (var i = 0; i < json.streets.length; i++) {
 							var s = json.streets[i];
-							content += '<a href="#" onclick="setStreet(\'' + s.name + '\');return false;">' + s.name + '</a>';
+							content += '<a href="#" onclick="setStreet(\'' + escapeQuote (s.name) + '\');return false;">' + s.name + '</a>';
 						}
 						$('#streets').html(content);
 						$('#districtZone').hide();
-						$('#streetZone').show();
+						var offset = streetInput.offset();
+						var streetZone = $('#streetZone');
+						streetZone.css("top", ""+Math.max (40, offset.top-400)+"px");
+						streetZone.css("left", ""+offset.left+"px");
+						streetZone.css("width", "300px");
+						streetZone.css("height", "400px");
+						streetZone.css("position", "absolute");
+						streetZone.show();
 					}
 				},
 				error: function () {
@@ -47,9 +66,17 @@ $(function () {
 			});
 		}
 	});
-	$('#district').click(function (e) {
+	var
+	districtInput = $('#district');
+	districtInput.click(function (e) {
 		$('#streetZone').hide();
-		$('#districtZone').show();
+		var offset = districtInput.offset();
+		var districtZone = $('#districtZone');
+		districtZone.css("top", ""+Math.max (40, offset.top-400)+"px");
+		districtZone.css("left", ""+offset.left+"px");
+		districtZone.css("height", "400px");
+		districtZone.css("position", "absolute");
+		districtZone.show();
 	});
 	$('#date').on("input", function () {
 		var date = $('#date').val();
