@@ -40,7 +40,7 @@ $(function () {
 
 function autoLogin() {
 	var autoLoginCookie = getCookie("autoLogin");
-	if (autoLoginCookie != null) {
+	if ((autoLoginCookie != null) && (autoLoginCookie != "")) {
 		$.ajax({
 			url: 'autoLogin',
 			type: 'POST',

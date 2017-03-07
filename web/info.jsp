@@ -33,7 +33,7 @@
                 <div class="dropdown" style="display: inline; margin: 0; padding: 0; top: -1px;">
                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        <span>${gcum:username(sessionScope.sessionId)}</span>
+                        <span class="hideOnMobile">${gcum:username(sessionScope.sessionId)}</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -51,7 +51,10 @@
 </div>
 
 <div style="margin: 20px;">
-    <p>Version 0.9.12</p>
+    <p>Version 0.9.14</p>
+    <c:if test="${gcum:isLogin(sessionScope.sessionId)}">
+    <p>Connecté en tant que ${gcum:username(sessionScope.sessionId)}</p>
+    </c:if>
 
     <p>
         Ce site vous permet librement, gratuitement de publier et partager en direct vos photos de GCUM (Garé Comme Une Merde).

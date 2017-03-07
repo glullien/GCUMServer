@@ -32,7 +32,7 @@
         <div class="dropdown" style="display: inline; margin: 0; padding: 0;top: -1px">
             <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-user"></i>
-                <span>${gcum:username(sessionScope.sessionId)}</span>
+                <span class="hideOnMobile">${gcum:username(sessionScope.sessionId)}</span>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
