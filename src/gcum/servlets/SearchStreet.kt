@@ -1,6 +1,7 @@
 package gcum.servlets
 
 import gcum.geo.Point
+import gcum.opendata.Arrondissements
 import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
 import javax.servlet.annotation.WebServlet
@@ -58,8 +59,8 @@ class SearchClosest : JsonServlet() {
             put("streets", streets.flatMap {
                street->
                val districts = VoiesArrondissements.districtsOrEmpty(street)
-               val firstDistrict = VoiesArrondissements.district(point, street) ?: throw Exception("Cannot find district")
-               val orderedDistricts = listOf(firstDistrict).plus(districts.minus(firstDistrict))
+               val districtsFromPoint = Arrondissements.search(point)
+               val orderedDistricts = districts.intersect(districtsFromPoint) + districts.minus(districtsFromPoint)
                orderedDistricts.map {
                   sub {
                      put("street", street.name)
