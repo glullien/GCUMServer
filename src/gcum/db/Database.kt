@@ -9,6 +9,7 @@ import gcum.utils.*
 import java.io.File
 import java.nio.file.Path
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -152,7 +153,7 @@ object Database {
 
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
-   fun put(street: String, date: LocalDate, district: Int, point: Point?, username: String, images: List<ByteArray>) {
+   fun put(street: String, date: LocalDate, time: LocalTime?, district: Int, point: Point?, username: String, images: List<ByteArray>) {
       fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_').replace('.', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
       val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
@@ -167,7 +168,7 @@ object Database {
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
-         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, point, username)
+         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, time, point, username)
          val photo = createPhoto(imageFile, auxData)
          add(photo)
          tweet(photo)

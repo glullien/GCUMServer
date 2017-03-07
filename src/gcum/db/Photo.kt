@@ -165,10 +165,10 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, districtDir: Fil
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
    val voie = Voies.searchBest(street)
-   return buildProperties(id, imageFile, auxFile, district, voie, date, null, null)
+   return buildProperties(id, imageFile, auxFile, district, voie, date, null, null, null)
 }
 
-fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, point: Point?, username: String?): KProperties {
+fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, time: LocalTime?, point: Point?, username: String?): KProperties {
    val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
@@ -177,9 +177,11 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, v
    res.setInt(PROPERTIES_DISTRICT, district)
    res.setString(PROPERTIES_STREET, voie.name)
    res.setDate(PROPERTIES_DATE, date)
+   if (time != null) res.setTime(PROPERTIES_TIME, time)
    if (dateTimeFromMetaData != null) {
-      if (dateTimeFromMetaData.toLocalDate() == date) res.setTime(PROPERTIES_TIME, dateTimeFromMetaData.toLocalTime())
-      else log.severe("Incoherent date=$date and metaData=$dateTimeFromMetaData")
+      if (dateTimeFromMetaData.toLocalDate() != date) log.severe("Incoherent date=$date and metaData=$dateTimeFromMetaData")
+      else if ((time != null) && (dateTimeFromMetaData.toLocalTime() != time)) log.severe("Incoherent time=$time and metaData=$dateTimeFromMetaData")
+      else if (time == null) res.setTime(PROPERTIES_TIME, dateTimeFromMetaData.toLocalTime())
    }
 
    if (point != null) {

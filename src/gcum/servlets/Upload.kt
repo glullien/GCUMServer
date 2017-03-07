@@ -14,6 +14,7 @@ import java.io.OutputStream
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.regex.Pattern
@@ -131,7 +132,7 @@ class GetUploadedPhoto : HttpServlet() {
    }
 }
 
-private fun report(images: List<ByteArray>, date: String, street: String, district: String, point: Point?, username: String): Map<String, Any> {
+private fun report(images: List<ByteArray>, date: String, time: String?, street: String, district: String, point: Point?, username: String): Map<String, Any> {
    if (Voies.get(street) == null) return jsonError("Mauvais nom de voie")
 
    val districtMatcher = Pattern.compile("(\\d+)e?.*").matcher(district)
@@ -142,7 +143,13 @@ private fun report(images: List<ByteArray>, date: String, street: String, distri
    if (!dateMatcher.matches()) return jsonError("Mauvaise date")
    val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
 
-   Database.put(street, localDate, districtInt, point, username, images)
+   val localTime = if (time == null) null else {
+      val timeMatcher = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})").matcher(time)
+      if (!timeMatcher.matches()) return jsonError("Mauvaise heure")
+      LocalTime.of(timeMatcher.group(1).toInt(), timeMatcher.group(2).toInt(), timeMatcher.group(3).toInt())
+   }
+
+   Database.put(street, localDate, localTime, districtInt, point, username, images)
    return jsonSuccess {}
 }
 
@@ -152,7 +159,7 @@ class ReportUploaded : JsonServlet() {
       val id = request.getInt("id")
       val username = Sessions.username(request.session) ?: return jsonError("Aucune connexion")
       val post = postsList[id] ?: return jsonError("Session perdue")
-      return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getString("street"), request.getString("district"), null, username)
+      return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getStringOrNull("time"), request.getString("street"), request.getString("district"), null, username)
    }
 }
 
@@ -164,8 +171,8 @@ class UploadAndReport : JsonServlet() {
       val username = username(request) ?: return jsonError("Login non reconnu")
       val latitude = request.getLongOrNull("latitude")
       val longitude = request.getLongOrNull("longitude")
-      val point = if ((latitude != null) && (longitude != null)) Point(latitude,longitude) else null
-      return report(images, request.getString("date"), request.getString("street"), request.getString("district"), point, username)
+      val point = if ((latitude != null) && (longitude != null)) Point(latitude, longitude) else null
+      return report(images, request.getString("date"), request.getStringOrNull("time"), request.getString("street"), request.getString("district"), point, username)
    }
 
 }
