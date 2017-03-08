@@ -157,12 +157,16 @@
 	width: 140px;
 }
 
-#dateHelp {
-	font-size: 12px;
-	color: gray;
+#dateZone {
+	display: none;
+	position: absolute;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
+	background: white;
 }
 
-#dateZone {
+#timeZone {
 	display: none;
 	position: absolute;
 	padding: 10px;

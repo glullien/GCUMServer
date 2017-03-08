@@ -31,6 +31,9 @@ private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploa
       val dates = uploaded.map {it.metaData?.originalDateTime}.filterNotNull().map {it.toLocalDate()}.toSet()
       return if (dates.size == 1) dates.first() else null
    }
+   val time: LocalTime? get() {
+      return uploaded.map {it.metaData?.originalDateTime}.filterNotNull().map {it.toLocalTime()}.max()
+   }
    val voie: Voie? get() {
       val voies = uploaded.map {it.voie}.filterNotNull().toSet()
       return if (voies.size == 1) voies.first() else null
@@ -98,6 +101,7 @@ class Upload : JsonServlet() {
       return jsonSuccess {
          put("id", post.id)
          put("date", post.date?.format(DateTimeFormatter.ISO_DATE) ?: "unknown")
+         put("time", post.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
          put("street", post.voie?.name ?: "unknown")
          put("district", post.district ?: -1)
          put("uploaded", uploaded.map {

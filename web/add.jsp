@@ -77,8 +77,11 @@
         </div>
         <div class="form-group" id="dateGroup">
             <label for="date">Date :</label>
-            <input type="text" id="date" class="form-control">
-            <span id="dateHelp">yyyy-mm-dd</span>
+            <input type="text" id="date" class="form-control" placeholder="yyyy-mm-dd">
+        </div>
+        <div class="form-group" id="timeGroup">
+            <label for="time">Heure :</label>
+            <input type="text" id="time" class="form-control" placeholder="hh:mm:ss">
         </div>
         <button type="button" id="report" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-cloud-upload"></i> Envoyer</button>
         <div class="alert alert-warning">
@@ -161,6 +164,30 @@
             </tr>
         </c:forEach>
     </table>
+</div>
+<div id="timeZone">
+    <p><span id="timeClose" class="close">&#10006;</span></p>
+        <table style="width: 100%;">
+            <c:forEach var="line" begin="0" end="3">
+                <tr>
+                    <c:forEach var="col" begin="0" end="5">
+                        <td style="text-align: center">
+                            <button type="button" class="btn btn-default" id="hour${line*6+col}" style="width: 100%; border-radius: 0;">${line*6+col}h</button>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+        </table>
+        <table style="width: 100%; margin-top: 10px;">
+            <tr>
+                <c:forEach var="col" begin="0" end="3">
+                    <td style="text-align: center">
+                        <button type="button" class="btn btn-default" id="minute${col*15}" style="width: 100%; border-radius: 0;">${col*15}mn</button>
+                    </td>
+                </c:forEach>
+            </tr>
+        </table>
+    <button type="button" class="btn btn-primary" id="timeApply" style="width: 100%; margin-top: 10px;">Ok</button>
 </div>
 
 </body>
