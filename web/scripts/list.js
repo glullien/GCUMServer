@@ -181,6 +181,7 @@ $(function () {
 	});
 	$("#filterApply").click(function () {
 		$("#filter").hide();
-		setDistrict($("#filterDistrict").val(), $("#filterDistrict option:selected").text())
+		var filterDistrict = $("#filterDistrict");
+		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text())
 	})
 });
