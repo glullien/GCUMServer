@@ -22,7 +22,7 @@
 <body>
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
-    <div class="controlBox">
+    <div class="hideOnSmallScreen controlBox">
         <form class="form-inline" style="margin: 0; padding: 0;">
             <div class="form-group">
                 <span class="hideOnMobile">Dates :</span>
@@ -69,6 +69,10 @@
             </div>
         </form>
     </div>
+    <div class="showOnSmallScreen controlBox">
+        <a href="#" class="btn btn-outline-primary" id="filterOpen"><i class="glyphicon glyphicon glyphicon-filter"></i><span
+                class="hideOnMobile link">Filter</span></a>
+    </div>
     <div class="links">
         <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i><span class="hideOnMobile link">Liste</span></a>
         <c:choose>
@@ -99,6 +103,26 @@
 </div>
 <div id="map"></div>
 
+<div id="filter">
+    <p><span id="filterClose" class="close">&#10006;</span></p>
+    <div id="filterPane">
+        <form>
+            <div class="form-group">
+                  <div class="form-group">
+                    <label for="filterDates">Dates:</label>
+                    <select id="filterDates" class="form-control">
+                        <option value="All">Tout</option>
+                        <option value="LastDay">Dernier jour</option>
+                        <option value="LastWeek">Dernière semaine</option>
+                        <option value="LastMonth">Dernière mois</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default" id="filterApply">Filtrer</button>
+        </form>
+    </div>
+</div>
+
 <div id="photos">
     <p><a id="photosClose" href="#" class="close">&#10006;</a></p>
     <div id="photosList"></div>
@@ -108,7 +132,9 @@
     <div id="androidMessage">
         <p>Téléchargez l'appli !</p>
         <p><a href="https://play.google.com/store/apps/details?id=gcum.gcumfisher"><img src="images/Android.png"></a></p>
-        <p><button class="btn btn-outline-primary" id="doNotDisplayAndroid">Ne plus afficher</button></p>
+        <p>
+            <button class="btn btn-outline-primary" id="doNotDisplayAndroid">Ne plus afficher</button>
+        </p>
     </div>
 </div>
 <p>

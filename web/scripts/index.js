@@ -14,8 +14,8 @@ var currentPhotosIds;
 function getPhotoView(photo) {
 	var content = '<div class="photoAndLegend">';
 	var photosListWidth = $("#photosList").width();
-	var width = Math.min (400, photosListWidth-5);
-	content += '<img src="getPhoto?id=' + photo.id + '&maxSize='+width+'" class="photo">';
+	var width = Math.min(400, photosListWidth - 5);
+	content += '<img src="getPhoto?id=' + photo.id + '&maxSize=' + width + '" class="photo">';
 	var dateTime = photo.date;
 	if (photo.time != "unknown") dateTime += " " + photo.time;
 	content += '<span class="photoDate">' + dateTime + '</span>';
@@ -177,6 +177,17 @@ function initMap() {
 	$("#authorsMyself").click(function () {
 		changeAuthor("Moi-même", "-Myself-");
 	});
+
+	$("#filterOpen").click(function () {
+		$("#filterDates").val(timeFrame);
+		$("#filter").show();
+	});
+	$("#filterApply").click(function () {
+		$("#filter").hide();
+		var filterDates = $("#filterDates");
+		changeTimeFrame(filterDates.find("option:selected").text(), filterDates.val());
+	});
+
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 48.858607, lng: 2.345113},
 		scrollwheel: false,
