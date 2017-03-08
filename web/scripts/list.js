@@ -17,7 +17,7 @@ function fillList() {
 			if (json.result == 'success') {
 				var html = "";
 				var controlsWidth = $("#controls").width();
-				var maxSize = Math.min (400, controlsWidth-30);
+				var maxSize = Math.min(400, controlsWidth - 30);
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
 
@@ -165,6 +165,9 @@ $(function () {
 	$("#photoClose").click(function () {
 		$("#photo").hide();
 	});
+	$("#filterClose").click(function () {
+		$("#filter").hide();
+	});
 	$("#more").click(function () {
 		fillList();
 	});
@@ -172,4 +175,12 @@ $(function () {
 		setDistrict("All", "Tous");
 	});
 	for (var i = 1; i <= 20; i++) configureDistrictButton(i);
+	$("#filterOpen").click(function () {
+		$("#filterDistrict").val(district);
+		$("#filter").show();
+	});
+	$("#filterApply").click(function () {
+		$("#filter").hide();
+		setDistrict($("#filterDistrict").val(), $("#filterDistrict option:selected").text())
+	})
 });

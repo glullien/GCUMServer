@@ -33,7 +33,7 @@
 </div>
 <div id="controls">
     <span id="logo"><img src="images/logo.png"></span>
-    <div class="controlBox">
+    <div class="hideOnSmallScreen controlBox">
         <form class="form-inline" style="margin: 0; padding: 0;">
             <div class="form-group">
                 <span class="hideOnMobile">Arrondissements</span>
@@ -52,6 +52,10 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="showOnSmallScreen controlBox">
+        <a href="#" class="btn btn-outline-primary" id="filterOpen"><i class="glyphicon glyphicon glyphicon-filter"></i><span
+                class="hideOnMobile link">Filter</span></a>
     </div>
     <div class="links">
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-map-marker"></i><span class="hideOnMobile link">Carte</span></a>
@@ -82,6 +86,24 @@
     </div>
 </div>
 
+<div id="filter">
+    <p><span id="filterClose" class="close">&#10006;</span></p>
+    <div id="filterPane">
+        <form>
+            <div class="form-group">
+                <label for="filterDistrict">Arrondissements:</label>
+                <select id="filterDistrict" class="form-control">
+                    <option value="All">Tous</option>
+                    <option value="1">1er</option>
+                    <c:forEach var="d" begin="2" end="20">
+                        <option value="${d}">${d}e</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default" id="filterApply">Filtrer</button>
+        </form>
+    </div>
+</div>
 
 <div id="photo">
     <p><span id="photoClose" class="close">&#10006;</span></p>
