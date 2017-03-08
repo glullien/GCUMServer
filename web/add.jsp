@@ -31,7 +31,8 @@
         <a href="index.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-map-marker"></i><span class="hideOnMobile link">Carte</span></a>
         <a href="list.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-align-justify"></i><span class="hideOnMobile link">Liste</span></a>
         <c:if test="${gcum:isAdmin(sessionScope.sessionId)}">
-            <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i><span class="hideOnMobile link">Extrait</span></a>
+            <a href="extract.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-cloud-download"></i><span
+                    class="hideOnMobile link">Extrait</span></a>
         </c:if>
         <a href="info.jsp" class="btn btn-outline-primary"><i class="glyphicon glyphicon-info-sign"></i></a>
         <div class="dropdown" style="display: inline; margin: 0; padding: 0;top: -1px">
@@ -129,5 +130,38 @@
     </div>
     <a id="districtsClose" href="#" class="close">&#10006;</a>
 </div>
+<div id="dateZone">
+    <p><span id="dateClose" class="close">&#10006;</span></p>
+    <table>
+        <tr>
+            <td>
+                <button type="button" class="btn btn-outline-primary" id="prevMonth"><i class="glyphicon glyphicon-triangle-left"></i></button>
+            </td>
+            <td colspan="5" style="text-align: center;"><span id="month">Mars 2017</span></td>
+            <td>
+                <button type="button" class="btn btn-outline-primary" id="nextMonth"><i class="glyphicon glyphicon-triangle-right"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td>Di</td>
+            <td>Lu</td>
+            <td>Ma</td>
+            <td>Me</td>
+            <td>Je</td>
+            <td>Ve</td>
+            <td>Sa</td>
+        </tr>
+        <c:forEach var="line" begin="0" end="5">
+            <tr>
+                <c:forEach var="col" begin="0" end="6">
+                    <td style="text-align: center">
+                        <button type="button" class="btn btn-default" id="date${line*7+col}" style="width: 100%; border-radius: 0;">${line*7+col}</button>
+                    </td>
+                </c:forEach>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+
 </body>
 </html>

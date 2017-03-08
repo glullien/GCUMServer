@@ -14,13 +14,47 @@ function setDate(date) {
 }
 
 function escapeQuote(source) {
-	var res ="";
+	var res = "";
 	for (var i = 0, len = source.length; i < len; i++) {
 		var c = source[i];
 		if (c == "'") res += "\\'";
 		else res += c;
 	}
 	return res;
+}
+
+var months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+var month, year;
+function updateCalendar() {
+	$("#month").html(months[month] + " " + (year + 1900));
+	var first = new Date(1900 + year, month, 1).getDay();
+	var daysInMonth = new Date(1900 + year, month + 1, 0).getDate();
+	var today = new Date();
+	for (var i = 0; i < 42; i++) {
+		var dateCell = $("#date" + i);
+		if ((i < first) || (i >= first + daysInMonth)) dateCell.hide();
+		else {
+			dateCell.show();
+			var d = (1 + i - first);
+			dateCell.html("" + d);
+			if ((today.getMonth() == month) && (today.getYear() == year) && (today.getDate() == d)) {
+				dateCell.removeClass("btn-default");
+				dateCell.addClass("btn-primary");
+			}
+			else {
+				dateCell.removeClass("btn-primary");
+				dateCell.addClass("btn-default");
+			}
+		}
+	}
+}
+
+function chooseDate(id) {
+	var first = new Date(1900 + year, month, 1).getDay();
+	var day = 1 + parseInt(id.substring(4)) - first;
+	$("#date").val("" + (year + 1900) + "-" + ((month < 9) ? "0" : "") + (month+1) + "-" + ((day < 10) ? "0" : "")+day);
+	$("#dateGroup").removeClass("has-error");
 }
 
 $(function () {
@@ -32,6 +66,15 @@ $(function () {
 	$('#districtsClose').click(function () {
 		$('#districtZone').hide();
 	});
+	$('#dateClose').click(function () {
+		$('#dateZone').hide();
+	});
+	for (var i = 0; i < 42; i++) {
+		$("#date" + i).click(function (e) {
+			chooseDate(e.target.id);
+			$('#dateZone').hide();
+		})
+	}
 	var streetInput = $('#street');
 	streetInput.on("input", function () {
 		var street = $('#street').val();
@@ -47,14 +90,15 @@ $(function () {
 						var content = "";
 						for (var i = 0; i < json.streets.length; i++) {
 							var s = json.streets[i];
-							content += '<a href="#" onclick="setStreet(\'' + escapeQuote (s.name) + '\');return false;">' + s.name + '</a>';
+							content += '<a href="#" onclick="setStreet(\'' + escapeQuote(s.name) + '\');return false;">' + s.name + '</a>';
 						}
 						$('#streets').html(content);
 						$('#districtZone').hide();
+						$('#dateZone').hide();
 						var offset = streetInput.offset();
 						var streetZone = $('#streetZone');
-						streetZone.css("top", ""+Math.max (40, offset.top-400)+"px");
-						streetZone.css("left", ""+offset.left+"px");
+						streetZone.css("top", "" + Math.max(40, offset.top - 400) + "px");
+						streetZone.css("left", "" + offset.left + "px");
 						streetZone.css("width", "300px");
 						streetZone.css("height", "400px");
 						streetZone.css("position", "absolute");
@@ -66,23 +110,55 @@ $(function () {
 			});
 		}
 	});
-	var
-	districtInput = $('#district');
+	var districtInput = $('#district');
 	districtInput.click(function () {
 		$('#streetZone').hide();
+		$("#dateZone").hide();
 		var offset = districtInput.offset();
 		var districtZone = $('#districtZone');
-		districtZone.css("top", ""+Math.max (40, offset.top-400)+"px");
-		districtZone.css("left", ""+offset.left+"px");
+		districtZone.css("top", "" + Math.max(40, offset.top - 400) + "px");
+		districtZone.css("left", "" + offset.left + "px");
 		districtZone.css("height", "400px");
 		districtZone.css("position", "absolute");
 		districtZone.show();
 	});
-	$('#date').on("input", function () {
-		var date = $('#date').val();
-		var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-		if (dateRegex.test(date)) $("#dateGroup").removeClass("has-error");
+	var dateInput = $('#date');
+	dateInput.click(function () {
+		$('#districtZone').hide();
+		$('#streetZone').hide();
+		var offset = dateInput.offset();
+		var dateZone = $('#dateZone');
+		dateZone.css("top", "" + Math.max(40, offset.top - 310) + "px");
+		dateZone.css("left", "" + Math.min(offset.left, $(window).width() - (dateZone.width() + 12 * 2)) + "px");
+		dateZone.css("height", "310px");
+		dateZone.css("position", "absolute");
+		dateZone.show();
+		var today = new Date();
+		month = today.getMonth();
+		year = today.getYear();
+		updateCalendar();
 	});
+	$("#prevMonth").click(function () {
+		if (month > 0) month = month - 1;
+		else {
+			year = year - 1;
+			month = 11;
+		}
+		updateCalendar();
+	});
+	$("#nextMonth").click(function () {
+		if (month < 11) month = month + 1;
+		else {
+			year = year + 1;
+			month = 0;
+		}
+		updateCalendar();
+	});
+	/*$('#date').on("input", function () {
+	 var date = $('#date').val();
+	 var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+	 if (dateRegex.test(date)) $("#dateGroup").removeClass("has-error");
+	 }); */
 	var postId = null;
 	$('#fileupload').fileupload({
 		url: "/upload",

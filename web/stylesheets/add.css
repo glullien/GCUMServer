@@ -161,3 +161,12 @@
 	font-size: 12px;
 	color: gray;
 }
+
+#dateZone {
+	display: none;
+	position: absolute;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
+	background: white;
+}
