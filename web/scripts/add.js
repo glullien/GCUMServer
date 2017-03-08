@@ -1,12 +1,11 @@
-function setStreet(name) {
-	$('#street').val(name);
+var street = "";
+var district = "";
+function setStreet(text, newStreet, newDistrict) {
+	$('#street').val(text);
 	$('#streetZone').hide();
 	$("#streetGroup").removeClass("has-error");
-}
-function setDistrict(name) {
-	$('#district').val(name);
-	$('#districtZone').hide();
-	$("#districtGroup").removeClass("has-error");
+	street = newStreet;
+	district = newDistrict;
 }
 function setDate(date) {
 	$("#date").val(date);
@@ -61,13 +60,8 @@ var lastHour = null;
 var lastMinute = null;
 
 $(function () {
-	$('#streetZone').hide();
 	$('#streetsClose').click(function () {
 		$('#streetZone').hide();
-	});
-	$('#districtZone').hide();
-	$('#districtsClose').click(function () {
-		$('#districtZone').hide();
 	});
 	$('#dateClose').click(function () {
 		$('#dateZone').hide();
@@ -123,7 +117,7 @@ $(function () {
 		if (street.length < 2) $('#streetZone').hide();
 		else {
 			$.ajax({
-				url: 'searchStreet',
+				url: 'searchAddress',
 				type: 'POST',
 				data: {'nbAnswers': 25, 'pattern': street},
 				dataType: 'json',
@@ -132,10 +126,10 @@ $(function () {
 						var content = "";
 						for (var i = 0; i < json.streets.length; i++) {
 							var s = json.streets[i];
-							content += '<a href="#" onclick="setStreet(\'' + escapeQuote(s.name) + '\');return false;">' + s.name + '</a>';
+							var text = s.street + ', dans le ' + s.district + (s.district == 1 ? 'er' : 'e');
+							content += '<a href="#" onclick="setStreet(\'' + escapeQuote(text) + '\', \'' + escapeQuote(s.street) + '\', \'' + s.district + '\');return false;">' + text + '</a>';
 						}
 						$('#streets').html(content);
-						$('#districtZone').hide();
 						$('#dateZone').hide();
 						$('#timeZone').hide();
 						var offset = streetInput.offset();
@@ -153,22 +147,8 @@ $(function () {
 			});
 		}
 	});
-	var districtInput = $('#district');
-	districtInput.click(function () {
-		$('#streetZone').hide();
-		$("#dateZone").hide();
-		$('#timeZone').hide();
-		var offset = districtInput.offset();
-		var districtZone = $('#districtZone');
-		districtZone.css("top", "" + Math.max(40, offset.top - 400) + "px");
-		districtZone.css("left", "" + offset.left + "px");
-		districtZone.css("height", "400px");
-		districtZone.css("position", "absolute");
-		districtZone.show();
-	});
 	var dateInput = $('#date');
 	dateInput.click(function () {
-		$('#districtZone').hide();
 		$('#streetZone').hide();
 		$('#timeZone').hide();
 		var offset = dateInput.offset();
@@ -201,7 +181,6 @@ $(function () {
 	});
 	var timeInput = $('#time');
 	timeInput.click(function () {
-		$('#districtZone').hide();
 		$('#streetZone').hide();
 		$('#dateZone').hide();
 		var offset = timeInput.offset();
@@ -261,16 +240,12 @@ $(function () {
 		}
 	});
 	$('#report').click(function () {
-		var street = $('#street').val();
-		var district = $('#district').val();
 		var date = $('#date').val();
 		var time = $('#time').val();
 		var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 		var timeRegex = /^\d{2}:\d{2}:\d{2}$/;
-		if (street == "") $("#streetGroup").addClass("has-error");
+		if ((street == "") || (district == "")) $("#streetGroup").addClass("has-error");
 		else $("#streetGroup").removeClass("has-error");
-		if (district == "") $("#districtGroup").addClass("has-error");
-		else $("#districtGroup").removeClass("has-error");
 		if (!dateRegex.test(date)) $("#dateGroup").addClass("has-error");
 		else $("#dateGroup").removeClass("has-error");
 		if ((time != "") && !timeRegex.test(time)) $("#timeGroup").addClass("has-error");
@@ -295,7 +270,8 @@ $(function () {
 					if (json.result == 'success') {
 						$("#uploaded").html("");
 						$("#street").val("");
-						$("#district").val("");
+						street = "";
+						district = "";
 						$("#date").val("");
 						$("#time").val("");
 						$("#status").html(".");
