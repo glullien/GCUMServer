@@ -207,6 +207,7 @@ $(function () {
 	 var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 	 if (dateRegex.test(date)) $("#dateGroup").removeClass("has-error");
 	 }); */
+	$("#uploaded").html("");
 	var postId = null;
 	$('#fileupload').fileupload({
 		url: "/upload",
@@ -242,6 +243,9 @@ $(function () {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
 			console.debug("progress " + progress);
 			$('#uploadedProgressBar').css("width", progress + '%');
+			if (data.loaded == data.total) {
+				$("#uploaded").html("Analyse des images...");
+			}
 		}
 	});
 	$('#report').click(function () {
