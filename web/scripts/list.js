@@ -6,8 +6,8 @@ var district = 'All';
 var latest = null;
 function fillList() {
 	var params;
-	if (latest == null) params = {'number': 20, 'district': district};
-	else params = {'number': 20, 'district': district, after: latest};
+	if (latest == null) params = {'answerCharset': 'UTF-8', 'number': 20, 'district': district};
+	else params = {'answerCharset': 'UTF-8', 'number': 20, 'district': district, after: latest};
 	$.ajax({
 		url: 'getList',
 		type: 'POST',
@@ -52,7 +52,7 @@ function toggleLike(photoId) {
 	$.ajax({
 		url: 'toggleLike',
 		type: 'POST',
-		data: {'photoId': photoId},
+		data: {'answerCharset': 'UTF-8', 'photoId': photoId},
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {

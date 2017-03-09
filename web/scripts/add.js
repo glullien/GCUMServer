@@ -119,7 +119,7 @@ $(function () {
 			$.ajax({
 				url: 'searchAddress',
 				type: 'POST',
-				data: {'nbAnswers': 25, 'pattern': street},
+				data: {'answerCharset': 'UTF-8', 'nbAnswers': 25, 'pattern': street},
 				dataType: 'json',
 				success: function (json) {
 					if (json.result == 'success') {
@@ -268,8 +268,8 @@ $(function () {
 			$('#report').prop("disabled", true);
 			$("#status").html("Mise à jour de la base de données");
 			var data;
-			if (time == "") data = {'id': postId, 'street': street, 'district': district, 'date': date};
-			else data = {'id': postId, 'street': street, 'district': district, 'date': date, 'time': time};
+			if (time == "") data = {'answerCharset': 'UTF-8', 'id': postId, 'street': street, 'district': district, 'date': date};
+			else data = {'answerCharset': 'UTF-8', 'id': postId, 'street': street, 'district': district, 'date': date, 'time': time};
 			$.ajax({
 				url: 'reportUploaded',
 				type: 'POST',

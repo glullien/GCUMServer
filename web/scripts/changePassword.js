@@ -43,7 +43,7 @@ $(function () {
 			$.ajax({
 				url: 'changePassword',
 				type: 'POST',
-				data: {'oldPassword': oldPassword, 'password': password},
+				data: {'answerCharset': 'UTF-8', 'oldPassword': oldPassword, 'password': password},
 				dataType: 'json',
 				success: function (json) {
 					if (json.result == 'success') {

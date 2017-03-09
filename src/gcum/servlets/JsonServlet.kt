@@ -22,10 +22,11 @@ abstract class JsonServlet : HttpServlet() {
    @Throws(ServletException::class, IOException::class)
    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
       request.characterEncoding = "UTF-8"
-      response.contentType = "application/json; charset=UTF-16"
-      response.characterEncoding = "UTF-16"
+      val charset = request.getStringOrNull("answerCharset") ?: "UTF-16"
+      response.contentType = "application/json; charset=$charset"
+      response.characterEncoding = charset
       response.outputStream.use {
-         fun jsonToBytes (o: Map<String, *>) = JSONObject.toJSONString(o).toByteArray(Charset.forName("UTF-16"))
+         fun jsonToBytes(o: Map<String, *>) = JSONObject.toJSONString(o).toByteArray(Charset.forName(charset))
          try {
             val jsonResult = doPost(request)
             it.write(jsonToBytes(jsonResult))
@@ -79,13 +80,13 @@ fun ServletRequest.getString(key: String, pattern: Pattern = ALL): String = getS
 inline fun <reified T : Enum<T>> ServletRequest.getEnum(key: String): T = java.lang.Enum.valueOf(T::class.java, getString(key))
 inline fun <reified T : Enum<T>> ServletRequest.getEnums(key: String): List<T> = getString(key).split(',').map {java.lang.Enum.valueOf(T::class.java, it)}
 
-private val DOUBLE = Pattern.compile("^\\d+\\.\\d+$")
+/*private val DOUBLE = Pattern.compile("^\\d+\\.\\d+$")
 fun ServletRequest.getDoubleOrNull(name: String): Double? {
    val s = getStringOrNull(name, DOUBLE)
    return if ((s == null)) null else s.toDouble()
 }
 
-fun ServletRequest.getDouble(key: String): Double = getDoubleOrNull(key) ?: throw IllegalArgumentException("Missing $key")
+fun ServletRequest.getDouble(key: String): Double = getDoubleOrNull(key) ?: throw IllegalArgumentException("Missing $key")  */
 
 private val INT = Pattern.compile("^\\d+$")
 fun ServletRequest.getIntOrNull(name: String): Int? {

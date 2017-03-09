@@ -32,7 +32,7 @@ function toggleLike(photoId) {
 	$.ajax({
 		url: 'toggleLike',
 		type: 'POST',
-		data: {'photoId': photoId},
+		data: {'answerCharset': 'UTF-8', 'photoId': photoId},
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
@@ -71,7 +71,7 @@ function createMarker(latitude, longitude) {
 		$.ajax({
 			url: 'getPointInfo',
 			type: 'POST',
-			data: {'latitude': latitude, 'longitude': longitude, 'timeFrame': timeFrame, 'locationSources': locationSources},
+			data: {'answerCharset': 'UTF-8', 'latitude': latitude, 'longitude': longitude, 'timeFrame': timeFrame, 'locationSources': locationSources},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
@@ -120,7 +120,7 @@ function refreshMarkers() {
 	$.ajax({
 		url: 'getPoints',
 		type: 'POST',
-		data: {'zone': 'All', 'timeFrame': timeFrame, 'locationSources': locationSources, 'authors': authors},
+		data: {'answerCharset': 'UTF-8', 'zone': 'All', 'timeFrame': timeFrame, 'locationSources': locationSources, 'authors': authors},
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {

@@ -58,7 +58,7 @@ $(function () {
 			$.ajax({
 				url: 'register',
 				type: 'POST',
-				data: {'username': username, 'password': password, 'email': email, "remindMe": remindMeChecked},
+				data: {'answerCharset': 'UTF-8', 'username': username, 'password': password, 'email': email, "remindMe": remindMeChecked},
 				dataType: 'json',
 				success: function (json) {
 					if (json.result == 'success') {

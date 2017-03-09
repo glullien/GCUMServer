@@ -40,7 +40,7 @@ $(function () {
 			$.ajax({
 				url: 'login',
 				type: 'POST',
-				data: {'username': username, 'password': password, "remindMe": remindMeChecked},
+				data: {'answerCharset': 'UTF-8', 'username': username, 'password': password, "remindMe": remindMeChecked},
 				dataType: 'json',
 				success: function (json) {
 					if (json.result == 'success') {
@@ -68,7 +68,7 @@ $(function () {
 			$.ajax({
 				url: 'sendID',
 				type: 'POST',
-				data: {'email': email},
+				data: {'answerCharset': 'UTF-8', 'email': email},
 				dataType: 'json',
 				success: function (json) {
 					$("#forgotIDModal").modal("hide");

@@ -23,7 +23,7 @@ $(function () {
 		$.ajax({
 			url: 'logout',
 			type: 'POST',
-			data: {},
+			data: {'answerCharset': 'UTF-8'},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
@@ -44,7 +44,7 @@ function autoLogin() {
 		$.ajax({
 			url: 'autoLogin',
 			type: 'POST',
-			data: {'cookie': autoLoginCookie},
+			data: {'answerCharset': 'UTF-8', 'cookie': autoLoginCookie},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') document.location.reload();

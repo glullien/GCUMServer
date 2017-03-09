@@ -22,7 +22,7 @@ $(function () {
 			$.ajax({
 				url: 'changeEmail',
 				type: 'POST',
-				data: {'email': email},
+				data: {'answerCharset': 'UTF-8', 'email': email},
 				dataType: 'json',
 				success: function (json) {
 					if (json.result == 'success') {
@@ -47,7 +47,7 @@ $(function () {
 		$.ajax({
 			url: 'removeEmail',
 			type: 'POST',
-			data: {},
+			data: {'answerCharset': 'UTF-8'},
 			dataType: 'json',
 			success: function (json) {
 				if (json.result == 'success') {
