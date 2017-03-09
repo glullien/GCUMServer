@@ -58,6 +58,10 @@
 .photoThumbnail {
 }
 
+.photoThumbnail:hover {
+	opacity: 0.6;
+}
+
 .photoDate {
 	position: absolute;
 	top: 15px;
