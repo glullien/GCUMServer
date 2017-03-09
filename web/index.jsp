@@ -7,11 +7,13 @@
     <title>GCUM</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/photo.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/shared.js"></script>
+    <script type="text/javascript" src="scripts/photo.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
     <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <script type="text/javascript">
@@ -108,7 +110,7 @@
     <div id="filterPane">
         <form>
             <div class="form-group">
-                  <div class="form-group">
+                <div class="form-group">
                     <label for="filterDates">Dates:</label>
                     <select id="filterDates" class="form-control">
                         <option value="All">Tout</option>
@@ -137,6 +139,27 @@
         </p>
     </div>
 </div>
+
+<div id="photo">
+    <p><span id="photoClose" class="close">&#10006;</span></p>
+    <div id="photoPanes">
+        <div id="photoPane"><img id="photoImg" src="settings-512.png"></div>
+        <div id="photoDetails">
+            <p>Photo prise par <span id="photoAuthor"></span></p>
+            <p>le <span id="photoDate"></span></p>
+            <p><span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
+            <p>Latitude <span id="photoLatitude"></span></p>
+            <p>Longitude <span id="photoLongitude"></span></p>
+            <p>Taille <span id="photoSize"></span></p>
+            <p>
+                <a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a>
+                <a href="#" id="photoView"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+            </p>
+            <p>Aimé par <span id="photoLikes"></span></p>
+        </div>
+    </div>
+</div>
+
 <p>
     <span id="error"></span>
 </p>

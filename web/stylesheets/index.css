@@ -72,6 +72,10 @@
 .photo {
 }
 
+.photo:hover {
+	opacity: 0.6;
+}
+
 .photoAndLegend {
 	position: relative;
 	margin-right: 10px;

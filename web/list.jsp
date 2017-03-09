@@ -7,11 +7,13 @@
     <title>GCUM</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/photo.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/list.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/shared.js"></script>
+    <script type="text/javascript" src="scripts/photo.js"></script>
     <script type="text/javascript" src="scripts/list.js"></script>
     <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <script type="text/javascript">

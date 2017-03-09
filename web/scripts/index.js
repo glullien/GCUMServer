@@ -8,20 +8,22 @@ var contentString = '<div id="infoPhoto">' +
 	'<p><a href="#" onclick="viewPhotos();return;">Nb photos: <span id="infoPhotoCount"/></a></p>' +
 	'<p>Dates: <span id="infoPhotoDates"/></p>' +
 	'<p>Rue: <span id="infoPhotoStreet"/></p>' +
-	'<p><img id="infoPhotoThumbnail" src=""></p>' +
+	'<p><a href="#" onclick="viewPhotos();return;" class="photo"><img id="infoPhotoThumbnail" src=""></a></p>' +
 	'</div>';
 var currentPhotosIds;
 function getPhotoView(photo) {
 	var content = '<div class="photoAndLegend">';
 	var photosListWidth = $("#photosList").width();
 	var width = Math.min(400, photosListWidth - 5);
+	content += '<a href="#" onclick="openPhoto(\'' + photo.id + '\');return false;" class="photo">';
 	content += '<img src="getPhoto?id=' + photo.id + '&maxSize=' + width + '" class="photo">';
+	content += '</a>';
 	var dateTime = photo.date;
 	if (photo.time != "unknown") dateTime += " " + photo.time;
 	content += '<span class="photoDate">' + dateTime + '</span>';
 	if (photo.locationSource == "Device") content += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
 	if (photo.username != null) content += '<span class="username">' + photo.username + '</span>';
-	content += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(' + photo.id + ');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
+	content += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(\'' + photo.id + '\');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
 	content += '</div>';
 	return content;
 }
@@ -35,7 +37,7 @@ function toggleLike(photoId) {
 		success: function (json) {
 			if (json.result == 'success') {
 				var like = $("#like" + photoId);
-				like.html(json.likesCount + ' <i class="glyphicon glyphicon-user">');
+				like.html(json.likesCount + ' <i class="glyphicon glyphicon glyphicon-heart">');
 				if (json.isLiked) like.addClass("isLiked");
 				else like.removeClass("isLiked");
 			}
@@ -142,6 +144,9 @@ function refreshMarkers() {
 function initMap() {
 	$("#photosClose").click(function () {
 		$("#photos").hide();
+	});
+	$("#photoClose").click(function () {
+		$("#photo").hide();
 	});
 	$("#androidClose").click(function () {
 		$("#android").hide();
