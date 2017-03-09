@@ -222,7 +222,7 @@ $(function () {
 				var target = targetSize(uploaded.width, uploaded.height, 330);
 				content += '<div class="photoAndLegend">';
 				content += '<div class="photo">';
-				content += '<p class="waitingPhoto" style="line-height: ' + target.height + 'px;"><img width="30" height="30" src="settings-512.png"></p>';
+				content += '<p class="waitingPhoto" style="line-height: ' + target.height + 'px;"><i class="glyphicon glyphicon-refresh spinning"></i></p>';
 				content += '<img width="' + target.width + '" height="' + target.height + '" src="getUploadedPhoto?id=' + uploaded.id + '&maxSize=330" class="photoImage">';
 				content += '</div>';
 				if (uploaded.date != "unknown") content += '<a href="#" class="photoDate" onclick="setDate(\'' + uploaded.date + '\');return false;">' + uploaded.date + ' ' + uploaded.time + '</a>';

@@ -157,8 +157,9 @@
 	text-align: center;
 }
 
-.waitingPhoto img {
+.waitingPhoto i {
 	vertical-align: middle;
+	font-size: 40px;
 }
 
 .photo {
