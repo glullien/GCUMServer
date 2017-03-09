@@ -16,8 +16,8 @@
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
-    <script type="text/javascript" src="scripts/add.js"></script>
     <script type="text/javascript" src="scripts/shared.js"></script>
+    <script type="text/javascript" src="scripts/add.js"></script>
     <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <script type="text/javascript">
 			autoLogin();

@@ -218,7 +218,12 @@ $(function () {
 			var content = "";
 			for (var i = 0; i < result.uploaded.length; i++) {
 				var uploaded = result.uploaded[i];
-				content += '<div class="photoAndLegend"><img src="getUploadedPhoto?id=' + uploaded.id + '&maxSize=330" class="photo"><br/>';
+				var target = targetSize(uploaded.width, uploaded.height, 330);
+				content += '<div class="photoAndLegend">';
+				content += '<div class="photo">';
+				content += '<p class="waitingPhoto" style="line-height: ' + target.height + 'px;"><img width="30" height="30" src="settings-512.png"></p>';
+				content += '<img width="' + target.width + '" height="' + target.height + '" src="getUploadedPhoto?id=' + uploaded.id + '&maxSize=330" class="photoImage">';
+				content += '</div>';
 				if (uploaded.date != "unknown") content += '<a href="#" class="photoDate" onclick="setDate(\'' + uploaded.date + '\');return false;">' + uploaded.date + ' ' + uploaded.time + '</a>';
 				if (uploaded.location != "unknown") content += '<span class="photoCoordinates">' + (uploaded.latitude / 1E5) + ' °N/' + (uploaded.longitude / 1E5) + ' °E</span>';
 				if (uploaded.street != "unknown") content += '<a href="#" class="photoStreet" onclick="setStreet(\'' + uploaded.street + '\');setDistrict(\'' + uploaded.district + '\');return false;">' + uploaded.street + '</a>';

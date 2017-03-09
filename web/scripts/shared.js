@@ -54,3 +54,27 @@ function autoLogin() {
 		});
 	}
 }
+
+function targetSize(sourceWidth, sourceHeight, maxSize) {
+	var targetWidth = 0;
+	var targetHeight = 0;
+	if ((sourceWidth < maxSize) && (sourceHeight < maxSize)) {
+		targetWidth = sourceWidth;
+		targetHeight = sourceHeight;
+	}
+	else {
+		var ratio = sourceWidth * 1.0 / sourceHeight;
+		if (ratio < 1) {
+			targetWidth = Math.round(maxSize * ratio);
+			targetHeight = maxSize;
+		}
+		else {
+			targetWidth = maxSize;
+			targetHeight = Math.round(maxSize / ratio);
+		}
+	}
+	return {
+		width: targetWidth,
+		height: targetHeight
+	};
+}

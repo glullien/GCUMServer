@@ -20,31 +20,10 @@ function fillList() {
 				var maxSize = Math.min(400, controlsWidth - 30);
 				for (var i = 0; i < json.photos.length; i++) {
 					var photo = json.photos[i];
-
-					var photoWidth = photo.width;
-					var photoHeight = photo.height;
-					var targetWidth = 0;
-					var targetHeight = 0;
-					if ((photoWidth < maxSize) && (photoHeight < maxSize)) {
-						targetWidth = photoWidth;
-						targetHeight = photoHeight;
-					}
-					else {
-						var ratio = photoWidth * 1.0 / photoHeight;
-						if (ratio < 1) {
-							targetWidth = Math.round(maxSize * ratio);
-							targetHeight = maxSize;
-						}
-						else {
-							targetWidth = maxSize;
-							targetHeight = Math.round(maxSize / ratio);
-						}
-					}
-
-
+					var target = targetSize(photo.width, photo.height, 330);
 					html += '<div class="frame photoAndLegend">';
 					html += '<a href="#" onclick="openPhoto(\'' + photo.id + '\');return false;" class ="photoThumbnail">';
-					html += '<img width="' + targetWidth + '" height="' + targetHeight + '" src="getPhoto?id=' + photo.id + '&maxSize=' + maxSize + '">';
+					html += '<img width="' + target.width + '" height="' + target.height + '" src="getPhoto?id=' + photo.id + '&maxSize=' + maxSize + '">';
 					html += '</a>';
 					var dateTime = photo.date;
 					if (photo.time != "unknown") dateTime += " " + photo.time;
