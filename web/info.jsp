@@ -37,6 +37,7 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="showOnMobile"><a href="#" id="accountName">Compte de ${gcum:username(sessionScope.sessionId)}</a></li>
                         <li><a href="changePassword.jsp">Changer le mot de passe</a></li>
                         <li><a href="changeEmail.jsp">Changer d'adresse email</a></li>
                         <li><a id="disconnect" href="#">Se déconnecter</a></li>
@@ -51,11 +52,7 @@
 </div>
 
 <div style="margin: 20px;">
-    <p>Version 0.9.14</p>
-    <c:if test="${gcum:isLogin(sessionScope.sessionId)}">
-    <p>Connecté en tant que ${gcum:username(sessionScope.sessionId)}</p>
-    </c:if>
-
+    <p>Version 0.9.15</p>
     <p>
         Ce site vous permet librement, gratuitement de publier et partager en direct vos photos de GCUM (Garé Comme Une Merde).
         Vous pouvez y déposer les photos de voitures, camions, scooters, motos et même vélos garés illégalement sur un

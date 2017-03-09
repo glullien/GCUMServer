@@ -39,6 +39,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
+                <li class="showOnMobile"><a href="#" id="accountName">Compte de ${gcum:username(sessionScope.sessionId)}</a></li>
                 <li><a href="changePassword.jsp">Changer le mot de passe</a></li>
                 <li><a id="disconnect" href="#">Se déconnecter</a></li>
             </ul>

@@ -97,3 +97,7 @@ body {
 		display: none;
 	}
 }
+
+#accountName {
+	font-weight: bold;
+}
