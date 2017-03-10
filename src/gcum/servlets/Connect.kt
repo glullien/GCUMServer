@@ -1,9 +1,7 @@
 package gcum.servlets
 
+import gcum.db.*
 import gcum.db.AutoLogin
-import gcum.db.Database
-import gcum.db.User
-import gcum.db.UserExistsException
 import gcum.utils.SecretCode
 import gcum.utils.sendMail
 import java.time.format.DateTimeFormatter
@@ -116,7 +114,7 @@ class SendID : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val email = request.getString("email")
       val user = Database.getUserFromEmail(email) ?: return jsonError("Aucun pseudo n'a été enregistré avec cet Email", "EMAIL_NOT_FOUND")
-      sendMail(listOf("gurvan.lullien@gmail.com"), "Rappel des identifiants", "/gcum/servlets/MailLoginIDs.html", mapOf(
+      sendMail(listOf(email), "Rappel des identifiants", "/gcum/servlets/MailLoginIDs.html", mapOf(
          "username" to user.username,
          "password" to user.password
       ))
@@ -203,6 +201,22 @@ class ChangePassword : JsonServlet() {
       if ((user == null) || (user.password != oldPassword)) return jsonError("Les identifiants sont incorrects", "INCORRECT_IDS")
       val password = request.getString("password")
       Database.changePassword(username, password)
+      return jsonSuccess {}
+   }
+}
+
+@WebServlet(name = "SetNotifications", value = "/setNotifications")
+class SetNotifications : JsonServlet() {
+   override fun doPost(request: HttpServletRequest): Map<String, *> {
+      val isLikedEmail = request.getBoolean("isLikedEmail")
+      val isNewsEmail = request.getBoolean("isNewsEmail")
+      val username = Sessions.username(request.session) ?: return jsonError("Vous devez être connecté")
+      val notifications = if (isLikedEmail && isNewsEmail) getAllNotifications(NotificationMedia.Email)
+      else if (isLikedEmail) setOf(Notification(NotificationCause.Liked, NotificationMedia.Email))
+      else if (isNewsEmail) setOf(Notification(NotificationCause.News, NotificationMedia.Email))
+      else emptySet()
+      Database.addNotifications(username, notifications)
+      Database.removeNotifications(username, getAllNotifications(NotificationMedia.Email).minus(notifications))
       return jsonSuccess {}
    }
 }

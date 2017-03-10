@@ -1,0 +1,20 @@
+.notificationGroup {
+}
+
+.notificationName {
+	padding-top: 7px;
+	font-weight: bold;
+	padding-bottom: 5px;
+	border-bottom: 2px solid lightgrey;
+}
+
+.notificationCheckBox {
+	padding-bottom: 5px;
+	border-bottom: 2px solid lightgrey;
+}
+
+@media (max-width: 800px) {
+	.notificationName {
+		border-bottom: 2px solid transparent;
+	}
+}

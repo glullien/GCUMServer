@@ -32,4 +32,24 @@
             java.lang.String email(java.lang.String)
         </function-signature>
     </function>
+    <function>
+        <name>hasEmail</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>boolean hasEmail(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>isReceivingMailForLiked</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>boolean isReceivingMailForLiked(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>isReceivingMailForNews</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>boolean isReceivingMailForNews(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>versionName</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>java.lang.String versionName()</function-signature>
+    </function>
 </taglib>

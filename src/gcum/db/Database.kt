@@ -22,16 +22,22 @@ class PhotoNotFoundException(id: String) : Exception("Photo not found $id")
 
 object Database {
 
+   val versionName = "0.9.16"
+   val versionCode = 1
+
    val root: Path = Configuration.getPath("root")
    private val users = ConcurrentHashMap<String, User>()
    private val usersLock = ReentrantLock()
    private val autoLogin = ConcurrentHashMap<String, AutoLogin>()
    private val autoLoginLock = ReentrantLock()
+   private val notifications = ConcurrentHashMap<String, Set<Notification>>()
    private val photos = ConcurrentHashMap<String, Photo>()
    private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<String>>()
    private val photosLock = ReentrantLock()
    private val usersFileName = "users.csv"
+   private val notificationsFileName = "notifications.csv"
    private val autoLoginFileName = "autoLogin.csv"
+   private val currentReleaseFileName = "currentRelease"
    private val auxDirName = "aux"
    private val nextPhotoId = SecretCode({code-> photos.contains(code)})
 
@@ -52,6 +58,19 @@ object Database {
             AutoLogin(line [0], line[1], LocalDate.parse(line[2], DateTimeFormatter.ISO_LOCAL_DATE))
          }.associateBy {it.code})
       }
+      val notificationsFile = root.resolve(notificationsFileName).toFile()
+      if (notificationsFile.exists()) {
+         val notificationsFileBrut = notificationsFile.inputStream().use(::readCsv)
+         notifications.putAll(notificationsFileBrut.map {
+            line->
+            line[0] to Notification(NotificationCause.valueOf(line[1]), NotificationMedia.valueOf(line[2]))
+         }.groupBy {it.first}.mapValues {it.value.map {it.second}.toSet()})
+      } else {
+         for (username in users.filterValues {it.email != null}.keys) {
+            val allNotifications = getAllNotifications(NotificationMedia.Email)
+            addNotifications(username, allNotifications)
+         }
+      }
       fun File.isImageFile() = name.toLowerCase().matches(Regex(".*\\.(jpg|jpeg)"))
       root.toFile().listFiles {file: File-> file.isDirectory}.forEach {
          districtDir->
@@ -68,6 +87,8 @@ object Database {
             }
          }
       }
+
+      mailNewReleases()
    }
 
    private fun writeUsersFile() = root.resolve(usersFileName).toFile().printWriter().use {
@@ -83,6 +104,7 @@ object Database {
          if (users.containsKey(username)) throw UserExistsException()
          users.put(username, User(username, password, if (email.isNullOrEmpty()) null else email))
          writeUsersFile()
+         if (email != null) addNotifications(username, getAllNotifications(NotificationMedia.Email))
       }
    }
 
@@ -91,6 +113,9 @@ object Database {
          val user = users[username] ?: throw UserDoesNotExistException(username)
          users.put(username, User(username, user.password, email, user.role))
          writeUsersFile()
+         val allNotifications = getAllNotifications(NotificationMedia.Email)
+         if (email != null) addNotifications(username, allNotifications)
+         else removeNotifications(username, allNotifications)
       }
    }
 
@@ -126,6 +151,37 @@ object Database {
 
    fun getUser(username: String): User? = users[username]
    fun getUserFromEmail(email: String): User? = users.values.firstOrNull {it.email == email}
+
+   fun addNotifications(username: String, notifications: Set<Notification>) {
+      val old = this.notifications[username]
+      if ((old == null) || !old.containsAll(notifications)) {
+         this.notifications[username] = old?.plus(notifications) ?: notifications
+         writeNotificationsFiles()
+      }
+   }
+
+   fun removeNotifications(username: String, notifications: Set<Notification>) {
+      val old = this.notifications[username]
+      if ((old != null) && old.any {notifications.contains(it)}) {
+         this.notifications[username] = old.minus(notifications)
+         writeNotificationsFiles()
+      }
+   }
+
+   fun setNotifications(username: String, notifications: Set<Notification>) {
+      this.notifications[username] = notifications
+      writeNotificationsFiles()
+   }
+
+   fun getNotifications(username: String, cause: NotificationCause): List<Notification> = notifications[username]?.filter {it.cause == cause} ?: emptyList()
+
+   fun getNotified(cause: NotificationCause): Map<User, List<Notification>> = usersLock.withLock {
+      notifications.mapValues {it.value.filter {it.cause == cause}}.filterValues {it.isNotEmpty()}.filterKeys {users.containsKey(it)}.mapKeys {users[it.key] ?: throw Exception("Missing ${it.key}")}
+   }
+
+   fun writeNotificationsFiles() = root.resolve(notificationsFileName).toFile().printWriter().use {
+      writeCsv(it, notifications.flatMap {e-> e.value.map {listOf(e.key, it.cause.toString(), it.media.toString())}})
+   }
 
    private fun add(photo: Photo) {
       if (photos.values.none {it.file.absolutePath == photo.file.absolutePath}) {
@@ -179,10 +235,44 @@ object Database {
       val photo = getPhoto(photoId) ?: throw PhotoNotFoundException(photoId)
       val auxDir = File(photo.file.parent, auxDirName)
       val auxFile = File(auxDir, photo.file.nameWithoutExtension + ".properties")
-      val newLikes = if (photo.likes.contains(username)) photo.likes.minus(username) else photo.likes.plus(username)
+      val wasLiked = photo.likes.contains(username)
+      val newLikes = if (wasLiked) photo.likes.minus(username) else photo.likes.plus(username)
       val newPhoto = Photo(photo.id, photo.moment, photo.location, photo.details, photo.username, newLikes, photo.file)
       photos[photoId] = newPhoto
       newPhoto.saveProperties(auxFile)
+      if (photo.username != null) {
+         getNotifications(photo.username, NotificationCause.Liked).map {it.media}.forEach {
+            when (it) {
+               NotificationMedia.Email-> {
+                  val user = Database.getUser(photo.username)
+                  if (user?.email != null) {
+                     val subject = if (wasLiked) "$username n'aime plus votre photo" else "$username a aimé votre photo"
+                     val body = if (wasLiked) "/gcum/db/DoesNotLike.html" else "/gcum/db/Like.html"
+                     sendMail(listOf(user.email), subject, body, mapOf(
+                        "username" to username,
+                        "date" to photo.moment.date.format(DateTimeFormatter.ISO_LOCAL_DATE),
+                        "time" to (photo.moment.time?.format(DateTimeFormatter.ISO_LOCAL_TIME) ?: ""),
+                        "street" to photo.location.address.street
+                     ))
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   fun mailNewReleases() {
+      val currentReleaseFile = root.resolve(currentReleaseFileName).toFile()
+      val currentRelease = if (currentReleaseFile.exists()) currentReleaseFile.readText().toInt() else 0
+      for (r in (currentRelease + 1)..versionCode) {
+         for (notificationUser in getNotified(NotificationCause.News)) for (notification in notificationUser.value) when (notification.media) {
+            NotificationMedia.Email-> {
+               val email = notificationUser.key.email
+               if (email != null) sendMail(listOf(email), "GCUM : New release", "/gcum/db/Release-$r.html", emptyMap())
+            }
+         }
+         currentReleaseFile.writeText(r.toString())
+      }
    }
 
    fun getPhotos(number: Int, district: Int?, start: PhotosListStart): PhotosList {
@@ -205,6 +295,13 @@ data class User(val username: String, val password: String, val email: String?, 
 data class AutoLogin(val username: String, val code: String, val validTo: LocalDate) {
    fun isValid() = !validTo.isBefore(LocalDate.now())
 }
+
+enum class NotificationCause {Liked, News }
+enum class NotificationMedia {Email }
+data class Notification(val cause: NotificationCause, val media: NotificationMedia)
+
+fun getAllNotifications(media: NotificationMedia) = NotificationCause.values().map {cause-> Notification(cause, media)}.toSet()
+val allNotifications = NotificationCause.values().flatMap {cause-> NotificationMedia.values().map {media-> Notification(cause, media)}}.toSet()
 
 fun main(args: Array<String>) {
    println("by Name ${Voies.searchBest("rue conte").name}")
