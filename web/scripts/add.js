@@ -233,8 +233,9 @@ $(function () {
 			}
 			$('#uploadedProgressBar').css("width", '0%');
 			$("#uploaded").html(content);
-			$("#street").val(result.street);
-			$("#district").val((result.district != -1) ? result.district : "");
+			$("#street").val(result.street + ', dans le ' + result.district + (result.district == 1 ? 'er' : 'e'));
+			street = result.street;
+			district = result.district;
 			$("#date").val(result.date);
 			$("#time").val(result.time);
 			$("#status").html(".");
