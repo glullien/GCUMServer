@@ -5,6 +5,7 @@ import gcum.db.MetaData
 import gcum.db.getMetaData
 import gcum.db.readImage
 import gcum.geo.Point
+import gcum.opendata.Addresses
 import gcum.opendata.Voie
 import gcum.opendata.Voies
 import gcum.opendata.VoiesArrondissements
@@ -26,6 +27,11 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+private fun <T : Any> Collection<T?>.unique(): T? {
+   val nonNulls = filterNotNull().toSet()
+   return if (nonNulls.size == 1) nonNulls.first() else null
+}
+
 private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploaded>) {
    val date: LocalDate? get() {
       val dates = uploaded.map {it.metaData?.originalDateTime}.filterNotNull().map {it.toLocalDate()}.toSet()
@@ -34,17 +40,12 @@ private class Post(val id: Int, val timeStamp: Instant, val uploaded: List<Uploa
    val time: LocalTime? get() {
       return uploaded.map {it.metaData?.originalDateTime}.filterNotNull().map {it.toLocalTime()}.max()
    }
-   val voie: Voie? get() {
-      val voies = uploaded.map {it.voie}.filterNotNull().toSet()
-      return if (voies.size == 1) voies.first() else null
-   }
-   val district: Int? get() {
-      val districts = uploaded.map {it.district}.filterNotNull().toSet()
-      return if (districts.size == 1) districts.first() else null
-   }
+   val number: String? get() = uploaded.map {it.number}.unique()
+   val voie: Voie? get() = uploaded.map {it.voie}.unique()
+   val district: Int? get() = uploaded.map {it.district}.unique()
 }
 
-private class Uploaded(val id: Int, val bytes: ByteArray, val width: Int, val height: Int, val voie: Voie?, val district: Int?, val metaData: MetaData?) {
+private class Uploaded(val id: Int, val bytes: ByteArray, val width: Int, val height: Int, val number: String?, val voie: Voie?, val district: Int?, val metaData: MetaData?) {
    fun writeImage(out: OutputStream, maxSize: Int) {
       if ((width <= maxSize) && (height <= maxSize)) bytes.inputStream().use {it.copyTo(out)}
       else {
@@ -76,9 +77,11 @@ private fun addUpload(bytes: ByteArray): Uploaded {
    val id = nextId.andIncrement
    val metaData = getMetaData(bytes)
    val image = readImage(bytes, metaData)
-   val voie = if (metaData?.location == null) null else Voies.searchClosest(metaData.location)
-   val district = if ((metaData?.location == null) || (voie == null)) null else VoiesArrondissements.district(metaData.location, voie)
-   val uploaded = Uploaded(id, bytes, image.width, image.height, voie, district, metaData)
+   val point = metaData?.location
+   val voie = if (point == null) null else Voies.searchClosest(point)
+   val number = if ((point == null) || (voie == null)) null else Addresses.getNumber(voie.name, point)
+   val district = if ((point == null) || (voie == null)) null else VoiesArrondissements.district(point, voie)
+   val uploaded = Uploaded(id, bytes, image.width, image.height, number, voie, district, metaData)
    uploadedList[id] = uploaded
    return uploaded
 }
@@ -102,6 +105,7 @@ class Upload : JsonServlet() {
          put("id", post.id)
          put("date", post.date?.format(DateTimeFormatter.ISO_DATE) ?: "unknown")
          put("time", post.time?.format(DateTimeFormatter.ISO_TIME) ?: "unknown")
+         put("number", post.number ?: "unknown")
          put("street", post.voie?.name ?: "unknown")
          put("district", post.district ?: -1)
          put("uploaded", uploaded.map {
@@ -115,6 +119,7 @@ class Upload : JsonServlet() {
                put("location", if (p.metaData?.location == null) "unknown" else "known")
                put("latitude", p.metaData?.location?.latitude ?: 0)
                put("longitude", p.metaData?.location?.longitude ?: 0)
+               put("number", p.number ?: "unknown")
                put("street", p.voie?.name ?: "unknown")
                put("district", p.district ?: -1)
             }
@@ -136,24 +141,34 @@ class GetUploadedPhoto : HttpServlet() {
    }
 }
 
-private fun report(images: List<ByteArray>, date: String, time: String?, street: String, district: String, point: Point?, username: String): Map<String, Any> {
+private fun parseDistrict(district: String): Int {
+   val districtMatcher = Pattern.compile("(\\d+)e?.*").matcher(district)
+   if (!districtMatcher.matches()) throw JsonServletException("Mauvais nom d'arrondissement")
+   return districtMatcher.group(1).toInt()
+}
+
+private fun parseDate(date: String): LocalDate {
+   val dateMatcher = Pattern.compile("(20\\d{2})-(\\d{2})-(\\d{2})").matcher(date)
+   if (!dateMatcher.matches()) throw JsonServletException("Mauvaise date")
+   return LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
+}
+
+private fun parseTime(time: String?): LocalTime? {
+   if (time == null) return null
+   val timeMatcher = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})").matcher(time)
+   if (!timeMatcher.matches()) throw JsonServletException("Mauvaise heure")
+   return LocalTime.of(timeMatcher.group(1).toInt(), timeMatcher.group(2).toInt(), timeMatcher.group(3).toInt())
+}
+
+private fun report(images: List<ByteArray>, date: String, time: String?, number: String?, street: String, district: String, point: Point?, username: String): Map<String, Any> {
+   if ((number != null) && !number.matches(Regex("^\\d+[a-zA-Z]*$"))) return jsonError("Mauvais numéro de voie")
    if (Voies.get(street) == null) return jsonError("Mauvais nom de voie")
 
-   val districtMatcher = Pattern.compile("(\\d+)e?.*").matcher(district)
-   if (!districtMatcher.matches()) return jsonError("Mauvais nom d'arrondissement")
-   val districtInt = districtMatcher.group(1).toInt()
+   val districtInt = parseDistrict(district)
+   val localDate = parseDate(date)
+   val localTime = parseTime(time)
 
-   val dateMatcher = Pattern.compile("(20\\d{2})-(\\d{2})-(\\d{2})").matcher(date)
-   if (!dateMatcher.matches()) return jsonError("Mauvaise date")
-   val localDate = LocalDate.of(dateMatcher.group(1).toInt(), dateMatcher.group(2).toInt(), dateMatcher.group(3).toInt())
-
-   val localTime = if (time == null) null else {
-      val timeMatcher = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})").matcher(time)
-      if (!timeMatcher.matches()) return jsonError("Mauvaise heure")
-      LocalTime.of(timeMatcher.group(1).toInt(), timeMatcher.group(2).toInt(), timeMatcher.group(3).toInt())
-   }
-
-   Database.put(street, localDate, localTime, districtInt, point, username, images)
+   Database.put(number, street, localDate, localTime, districtInt, point, username, images)
    return jsonSuccess {}
 }
 
@@ -163,7 +178,7 @@ class ReportUploaded : JsonServlet() {
       val id = request.getInt("id")
       val username = Sessions.username(request.session) ?: return jsonError("Aucune connexion")
       val post = postsList[id] ?: return jsonError("Session perdue")
-      return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getStringOrNull("time"), request.getString("street"), request.getString("district"), null, username)
+      return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getStringOrNull("time"), request.getStringOrNull("number"), request.getString("street"), request.getString("district"), null, username)
    }
 }
 
@@ -176,7 +191,7 @@ class UploadAndReport : JsonServlet() {
       val latitude = request.getLongOrNull("latitude")
       val longitude = request.getLongOrNull("longitude")
       val point = if ((latitude != null) && (longitude != null)) Point(latitude, longitude) else null
-      return report(images, request.getString("date"), request.getStringOrNull("time"), request.getString("street"), request.getString("district"), point, username)
+      return report(images, request.getString("date"), request.getStringOrNull("time"), request.getStringOrNull("number"), request.getString("street"), request.getString("district"), point, username)
    }
 
 }

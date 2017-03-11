@@ -1,5 +1,8 @@
 package gcum.geo
 
+import gcum.utils.square
+import gcum.utils.squareRoot
+
 private fun sqrt(a: Double) = Math.sqrt(a)
 private fun sqr(a: Long) = (1.0 * a) * a
 private fun distanceSquare(a: Point, b: Point) = sqr(a.latitude - b.latitude) + sqr(a.longitude - b.longitude)
@@ -16,9 +19,11 @@ private fun distanceSquare(segmentFrom: Point, segmentTo: Point, point: Point): 
 
 //fun distance(segmentFrom: Point, segmentTo: Point, point: Point) = sqrt(distanceSquare(segmentFrom, segmentTo, point))
 private fun distanceSquare(segments: List<Point>, point: Point) = (1..(segments.size - 1)).map {distanceSquare(segments[it - 1], segments[it], point)}.min() ?: 1E100//throw Exception("No segments")
+
 fun distance(segments: List<Point>, point: Point) = sqrt(distanceSquare(segments, point))
 
 
 data class Point(val latitude: Long, val longitude: Long) {
    fun inside(min: Point, max: Point) = (min.latitude <= latitude) && (min.longitude <= longitude) && (latitude <= max.latitude) && (longitude <= max.longitude)
+   fun distance(o: Point) = ((longitude - o.longitude).toDouble().square() + (latitude - o.latitude).toDouble().square()).squareRoot()
 }

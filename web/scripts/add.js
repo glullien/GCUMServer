@@ -7,6 +7,9 @@ function setStreet(text, newStreet, newDistrict) {
 	street = newStreet;
 	district = newDistrict;
 }
+function setNumber(number) {
+	$("#number").val(number);
+}
 function setDate(date) {
 	$("#date").val(date);
 	$("#dateGroup").removeClass("has-error");
@@ -227,17 +230,24 @@ $(function () {
 				content += '</div>';
 				if (uploaded.date != "unknown") content += '<a href="#" class="photoDate" onclick="setDate(\'' + uploaded.date + '\');return false;">' + uploaded.date + ' ' + uploaded.time + '</a>';
 				if (uploaded.location != "unknown") content += '<span class="photoCoordinates">' + (uploaded.latitude / 1E5) + ' °N/' + (uploaded.longitude / 1E5) + ' °E</span>';
-				if (uploaded.street != "unknown") content += '<a href="#" class="photoStreet" onclick="setStreet(\'' + uploaded.street + '\');setDistrict(\'' + uploaded.district + '\');return false;">' + uploaded.street + '</a>';
+				if (uploaded.number != "unknown") content += '<span class="photoNumber">' + uploaded.number + ', </span>';
+				if (uploaded.street != "unknown") {
+					var text = uploaded.street + ', dans le ' + uploaded.district + (uploaded.district == 1 ? 'er' : 'e');
+					var link = 'setStreet(\'' + text + '\', \'' + uploaded.street + '\', \'' + uploaded.district + '\');return false;';
+					if (uploaded.number != "unknown") link = 'setNumber(\'' + uploaded.number + '\');' + link;
+					content += '<a href="#" class="photoStreet" onclick="' + link + '">' + uploaded.street + '</a>';
+				}
 				if (uploaded.district != -1) content += '<span class="photoDistrict"> dans le ' + uploaded.district + 'e</span>';
 				content += '</div>';
 			}
 			$('#uploadedProgressBar').css("width", '0%');
 			$("#uploaded").html(content);
-			$("#street").val(result.street + ', dans le ' + result.district + (result.district == 1 ? 'er' : 'e'));
+			$("#number").val((result.number != "unknown") ? result.number : "");
+			$("#street").val((result.street != "unknown") ? (result.street + ', dans le ' + result.district + (result.district == 1 ? 'er' : 'e')) : "");
 			street = result.street;
 			district = result.district;
-			$("#date").val(result.date);
-			$("#time").val(result.time);
+			$("#date").val((result.date != "unknown") ? result.date : "");
+			$("#time").val((result.time != "unknown") ? result.time : "");
 			$("#status").html(".");
 		},
 		progressall: function (e, data) {
@@ -250,6 +260,7 @@ $(function () {
 		}
 	});
 	$('#report').click(function () {
+		var number = $("#number").val();
 		var date = $('#date').val();
 		var time = $('#time').val();
 		var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -269,8 +280,8 @@ $(function () {
 			$('#report').prop("disabled", true);
 			$("#status").html("Mise à jour de la base de données");
 			var data;
-			if (time == "") data = {'answerCharset': 'UTF-8', 'id': postId, 'street': street, 'district': district, 'date': date};
-			else data = {'answerCharset': 'UTF-8', 'id': postId, 'street': street, 'district': district, 'date': date, 'time': time};
+			if (time == "") data = {'answerCharset': 'UTF-8', 'id': postId, 'number': number, 'street': street, 'district': district, 'date': date};
+			else data = {'answerCharset': 'UTF-8', 'id': postId, 'number': number, 'street': street, 'district': district, 'date': date, 'time': time};
 			$.ajax({
 				url: 'reportUploaded',
 				type: 'POST',
@@ -279,6 +290,7 @@ $(function () {
 				success: function (json) {
 					if (json.result == 'success') {
 						$("#uploaded").html("");
+						$("#number").val("");
 						$("#street").val("");
 						street = "";
 						district = "";

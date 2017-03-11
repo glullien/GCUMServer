@@ -22,8 +22,8 @@ class PhotoNotFoundException(id: String) : Exception("Photo not found $id")
 
 object Database {
 
-   val versionName = "0.9.16"
-   val versionCode = 1
+   val versionName = "0.9.17"
+   val versionCode = 2
 
    val root: Path = Configuration.getPath("root")
    private val users = ConcurrentHashMap<String, User>()
@@ -209,7 +209,7 @@ object Database {
 
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
-   fun put(street: String, date: LocalDate, time: LocalTime?, district: Int, point: Point?, username: String, images: List<ByteArray>) {
+   fun put(number:String?, street: String, date: LocalDate, time: LocalTime?, district: Int, point: Point?, username: String, images: List<ByteArray>) {
       fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_').replace('.', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
       val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
@@ -224,7 +224,7 @@ object Database {
          val auxFile = aux.resolve(imageFile.nameWithoutExtension + ".properties").toFile()
          imageFile.writeBytes(image)
          val voie = Voies.get(street) ?: throw IllegalArgumentException("Street $street does not exist")
-         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, date, time, point, username)
+         val auxData = buildProperties(nextPhotoId.new(), imageFile, auxFile, district, voie, number, date, time, point, username)
          val photo = createPhoto(imageFile, auxData)
          add(photo)
          tweet(photo)
@@ -313,8 +313,11 @@ fun main(args: Array<String>) {
    println("by Name ${Arrondissements.search(Point(4887202, 235788))}")
    println("CHECK ALL ${Voies.voies.filter {VoiesArrondissements.districtsOrNull(it) == null}.map {it.name}.size}")
    println("CHECK ALL ${Voies.voies.filter {VoiesArrondissements.districtsOrNull(it) == null}.map {it.name}}")
-   time("Database search 1 closest") {for (i in 1..500) Voies.searchClosest(Point(4883377, 238200))}
-   time("Database search closest") {for (i in 1..50) Voies.searchClosest(Point(4883377, 238200), 10)}
-   time("Database search closest2") {for (i in 1..500) Voies.searchClosest2(Point(4883377, 238200), 10)}
-   time("Database loading") {Database.getUser("paf")}
+   println("addresses ${Addresses.addresses.size}")
+   println("address ${Addresses.getNumber("quai de jemmapes", Point(4886892, 236760))}")
+   println("address ${Addresses.getNumber("quai de jemmapes", Point(4887000, 236760))}")
+   /*time("Database search 1 closest") {for (i in 1..500) Voies.searchClosest(Point(4883377, 238200))}
+    time("Database search closest") {for (i in 1..50) Voies.searchClosest(Point(4883377, 238200), 10)}
+    time("Database search closest2") {for (i in 1..500) Voies.searchClosest2(Point(4883377, 238200), 10)}
+    time("Database loading") {Database.getUser("paf")} */
 }

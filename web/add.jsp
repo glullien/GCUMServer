@@ -69,7 +69,8 @@
 <form class="form-inline">
     <div id="reportZone">
         <div class="form-group" id="streetGroup">
-            <label for="street">Rue :</label>
+            <label for="street">Lieu :</label>
+            <input type="text" id="number" class="form-control">
             <input type="text" id="street" class="form-control">
         </div>
         <div class="form-group" id="dateGroup">
@@ -139,26 +140,26 @@
 </div>
 <div id="timeZone">
     <p><span id="timeClose" class="close">&#10006;</span></p>
-        <table style="width: 100%;">
-            <c:forEach var="line" begin="0" end="3">
-                <tr>
-                    <c:forEach var="col" begin="0" end="5">
-                        <td style="text-align: center">
-                            <button type="button" class="btn btn-default" id="hour${line*6+col}" style="width: 100%; border-radius: 0;">${line*6+col}h</button>
-                        </td>
-                    </c:forEach>
-                </tr>
-            </c:forEach>
-        </table>
-        <table style="width: 100%; margin-top: 10px;">
+    <table style="width: 100%;">
+        <c:forEach var="line" begin="0" end="3">
             <tr>
-                <c:forEach var="col" begin="0" end="3">
+                <c:forEach var="col" begin="0" end="5">
                     <td style="text-align: center">
-                        <button type="button" class="btn btn-default" id="minute${col*15}" style="width: 100%; border-radius: 0;">${col*15}mn</button>
+                        <button type="button" class="btn btn-default" id="hour${line*6+col}" style="width: 100%; border-radius: 0;">${line*6+col}h</button>
                     </td>
                 </c:forEach>
             </tr>
-        </table>
+        </c:forEach>
+    </table>
+    <table style="width: 100%; margin-top: 10px;">
+        <tr>
+            <c:forEach var="col" begin="0" end="3">
+                <td style="text-align: center">
+                    <button type="button" class="btn btn-default" id="minute${col*15}" style="width: 100%; border-radius: 0;">${col*15}mn</button>
+                </td>
+            </c:forEach>
+        </tr>
+    </table>
     <button type="button" class="btn btn-primary" id="timeApply" style="width: 100%; margin-top: 10px;">Ok</button>
 </div>
 

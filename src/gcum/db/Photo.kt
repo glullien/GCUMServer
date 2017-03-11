@@ -24,6 +24,7 @@ import javax.imageio.ImageIO
 private val PROPERTIES_ID = "id"
 private val PROPERTIES_DISTRICT = "district"
 private val PROPERTIES_STREET = "street"
+private val PROPERTIES_NUMBER = "number"
 private val PROPERTIES_DATE = "date"
 private val PROPERTIES_TIME = "time"
 private val PROPERTIES_USERNAME = "username"
@@ -49,8 +50,8 @@ data class Moment(val date: LocalDate, val time: LocalTime?) : Comparable<Moment
    }
 }
 
-data class Address(val street: String, val district: Int, val city: String) {
-   val text: String get() = street + ", dans le " + district + (if (district == 1) "er" else "e")
+data class Address(val number: String?, val street: String, val district: Int, val city: String) {
+   val text: String get() = (number?.plus(", ") ?: "") + street + ", dans le " + district + (if (district == 1) "er" else "e")
 }
 
 data class Coordinates(val point: Point, val source: CoordinatesSource)
@@ -119,6 +120,7 @@ data class Photo(val id: String, val moment: Moment, val location: Location, val
       res.setString(PROPERTIES_ID, id)
       res.setInt(PROPERTIES_DISTRICT, location.address.district)
       res.setString(PROPERTIES_STREET, location.address.street)
+      if (location.address.number != null) res.setString(PROPERTIES_STREET, location.address.number)
       res.setDate(PROPERTIES_DATE, moment.date)
       if (moment.time != null) res.setTime(PROPERTIES_TIME, moment.time)
       res.setLong(PROPERTIES_LONGITUDE, location.coordinates.point.longitude)
@@ -136,7 +138,7 @@ data class Photo(val id: String, val moment: Moment, val location: Location, val
 fun createPhoto(imageFile: File, auxData: KProperties): Photo {
    val id = auxData.getString(PROPERTIES_ID)
    val moment = Moment(auxData.getDate(PROPERTIES_DATE), auxData.getTimeOrNull(PROPERTIES_TIME))
-   val address = Address(auxData.getString(PROPERTIES_STREET), auxData.getInt(PROPERTIES_DISTRICT), PARIS)
+   val address = Address(auxData.getStringOrNull(PROPERTIES_NUMBER), auxData.getString(PROPERTIES_STREET), auxData.getInt(PROPERTIES_DISTRICT), PARIS)
    val point = Point(auxData.getLong(PROPERTIES_LATITUDE), auxData.getLong(PROPERTIES_LONGITUDE))
    val coordinates = Coordinates(point, auxData.getEnum(PROPERTIES_COORDINATES_SOURCE))
    val location = Location(address, coordinates)
@@ -165,10 +167,10 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, districtDir: Fil
    val street = streetFromDirName(streetDir.name)
    val date = dateFromDirName(dateDir.name)
    val voie = Voies.searchBest(street)
-   return buildProperties(id, imageFile, auxFile, district, voie, date, null, null, null)
+   return buildProperties(id, imageFile, auxFile, district, voie, null, date, null, null, null)
 }
 
-fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, date: LocalDate, time: LocalTime?, point: Point?, username: String?): KProperties {
+fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, voie: Voie, number: String?, date: LocalDate, time: LocalTime?, point: Point?, username: String?): KProperties {
    val res = KProperties(auxFile)
    val metaData = getMetaData(imageFile)
    val dateTimeFromMetaData = metaData?.originalDateTime
@@ -176,6 +178,7 @@ fun buildProperties(id: String, imageFile: File, auxFile: File, district: Int, v
    res.setString(PROPERTIES_ID, id)
    res.setInt(PROPERTIES_DISTRICT, district)
    res.setString(PROPERTIES_STREET, voie.name)
+   if (number != null) res.setString(PROPERTIES_NUMBER, number)
    res.setDate(PROPERTIES_DATE, date)
    if (time != null) res.setTime(PROPERTIES_TIME, time)
    if (dateTimeFromMetaData != null) {

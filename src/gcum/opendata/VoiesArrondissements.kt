@@ -12,7 +12,7 @@ object VoiesArrondissements {
       val regexUnnamed = Regex("^(passage|voie|Voie|place) [A-Za-z]{1,2}/\\d+$")
       val l = brut.filter {it[0] != "TYPE DE VOIE"}.filterNot {regexUnnamed.matches(it[0])}.map {
          line->
-         Address(line [0].trim(), line[1].toInt(), "Paris")
+         Address(null, line [0].trim(), line[1].toInt(), "Paris")
       }.filterNotNull()
 
       fun String.normalize() = toStdLowerChars().replace('-', ' ')

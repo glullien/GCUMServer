@@ -28,7 +28,9 @@ function fillList() {
 					var dateTime = photo.date;
 					if (photo.time != "unknown") dateTime += " " + photo.time;
 					html += '<span class="photoDate">' + dateTime + '</span>';
-					html += '<span class="photoAddress">' + photo.street + ' dans le ' + photo.district + 'e</span>';
+					var address = photo.street + ' dans le ' + photo.district + "e";
+					if (photo.number != "unknown") address = photo.number + ", " + address;
+					html += '<span class="photoAddress">' + address + '</span>';
 					if (photo.locationSource == "Device") html += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
 					if (photo.username != null) html += '<span class="username">' + photo.username + '</span>';
 					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(\'' + photo.id + '\');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';

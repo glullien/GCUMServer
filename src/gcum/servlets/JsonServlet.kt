@@ -30,6 +30,8 @@ abstract class JsonServlet : HttpServlet() {
          try {
             val jsonResult = doPost(request)
             it.write(jsonToBytes(jsonResult))
+         } catch (e: JsonServletException) {
+            it.write(jsonToBytes(e.json))
          } catch (e: Exception) {
             log.severe("Cannot process request", e)
             it.write(jsonToBytes(jsonError("internalError")))
@@ -45,6 +47,10 @@ abstract class JsonServlet : HttpServlet() {
 
    @Throws(IOException::class)
    protected abstract fun doPost(request: HttpServletRequest): Map<String, *>
+}
+
+class JsonServletException(val errorMessage: String, val code: String? = null) : Exception(errorMessage) {
+   val json: Map<String, Any> get () = jsonError(errorMessage, code)
 }
 
 fun jsonError(errorMessage: String, code: String? = null): Map<String, Any> {

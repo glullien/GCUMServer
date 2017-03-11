@@ -56,10 +56,21 @@
 	font-size: 13px;
 }
 
+.photoNumber {
+	font-size: 14px;
+	font-weight: bold;
+	color: gray;
+}
+
 .photoStreet {
+	position: relative;
 	margin-left: 5px;
 	font-size: 14px;
 	font-weight: bold;
+}
+
+.photoStreet:hover {
+	text-decoration: underline;
 }
 
 .photoDistrict {
@@ -93,8 +104,13 @@
 	border-radius: 15px;
 }
 
+#number {
+	width: 40px;
+	font-size: smaller;
+}
+
 #street {
-	width: 270px;
+	width: 310px;
 }
 
 #streetZone {
@@ -167,4 +183,10 @@
 
 .photoImage {
 	position: relative;
+}
+
+@media (max-width: 480px) {
+	#street {
+		width: 270px;
+	}
 }

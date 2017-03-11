@@ -6,26 +6,24 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d519c121-4280-440e-b5bb-7d50bc5715f8" name="Default" comment="Fix for IE and Edge">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/db/DoesNotLike.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/db/Like.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/db/Release-1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/notifications.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/scripts/notifications.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/stylesheets/notifications.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+    <list default="true" id="d519c121-4280-440e-b5bb-7d50bc5715f8" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/opendata/adresse_paris.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/db/Release-2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gcum/opendata/Adresses.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/db/Database.kt" afterPath="$PROJECT_DIR$/src/gcum/db/Database.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/servlets/Connect.kt" afterPath="$PROJECT_DIR$/src/gcum/servlets/Connect.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/servlets/MailLoginIDs.html" afterPath="$PROJECT_DIR$/src/gcum/servlets/MailLoginIDs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/tld/Session.kt" afterPath="$PROJECT_DIR$/src/gcum/tld/Session.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/gcum.tld" afterPath="$PROJECT_DIR$/web/WEB-INF/gcum.tld" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/changeEmail.jsp" afterPath="$PROJECT_DIR$/web/changeEmail.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/changePassword.jsp" afterPath="$PROJECT_DIR$/web/changePassword.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/extract.jsp" afterPath="$PROJECT_DIR$/web/extract.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/index.jsp" afterPath="$PROJECT_DIR$/web/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/info.jsp" afterPath="$PROJECT_DIR$/web/info.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/list.jsp" afterPath="$PROJECT_DIR$/web/list.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/db/Photo.kt" afterPath="$PROJECT_DIR$/src/gcum/db/Photo.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/geo/Point.kt" afterPath="$PROJECT_DIR$/src/gcum/geo/Point.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/opendata/VoiesArrondissements.kt" afterPath="$PROJECT_DIR$/src/gcum/opendata/VoiesArrondissements.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt" afterPath="$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt" afterPath="$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/servlets/Upload.kt" afterPath="$PROJECT_DIR$/src/gcum/servlets/Upload.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/utils/Introspection.kt" afterPath="$PROJECT_DIR$/src/gcum/utils/Introspection.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gcum/utils/Math.kt" afterPath="$PROJECT_DIR$/src/gcum/utils/Math.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/add.jsp" afterPath="$PROJECT_DIR$/web/add.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/scripts/add.js" afterPath="$PROJECT_DIR$/web/scripts/add.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/scripts/list.js" afterPath="$PROJECT_DIR$/web/scripts/list.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/stylesheets/add.css" afterPath="$PROJECT_DIR$/web/stylesheets/add.css" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,54 +40,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Database.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Upload.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gcum/servlets/Upload.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2567">
+              <caret line="176" column="229" lean-forward="true" selection-start-line="176" selection-start-column="69" selection-end-line="176" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Database.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gcum/db/Database.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Connect.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gcum/servlets/Connect.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="218" column="64" lean-forward="false" selection-start-line="218" selection-start-column="64" selection-end-line="218" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Session.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gcum/tld/Session.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-              <folding>
-                <element signature="e#44#187#0" expanded="true" />
-                <marker date="1489163404000" expanded="false" signature="141:187" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gcum.tld" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/WEB-INF/gcum.tld">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="47" column="39" lean-forward="false" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="info.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/info.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="57" column="34" lean-forward="false" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
+            <state relative-caret-position="187">
+              <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -98,48 +63,88 @@
       <file leaf-file-name="Release-1.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gcum/db/Release-1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="48" lean-forward="false" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+            <state relative-caret-position="51">
+              <caret line="3" column="37" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="13" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StringNumberConversions.kt" pinned="false" current-in-tab="false">
-        <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/kotlin/text/StringNumberConversions.kt">
+      <file leaf-file-name="Release-2.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/gcum/db/Release-2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="86" column="25" lean-forward="false" selection-start-line="86" selection-start-column="25" selection-end-line="86" selection-end-column="25" />
+            <state relative-caret-position="17">
+              <caret line="1" column="75" lean-forward="true" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendMail.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gcum/utils/SendMail.kt">
+      <file leaf-file-name="GetList.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetList.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="47" column="4" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
+            <state relative-caret-position="340">
+              <caret line="24" column="51" lean-forward="false" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Like.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gcum/db/Like.html">
+      <file leaf-file-name="GetPhotoInfo.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="7" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="7" />
+            <state relative-caret-position="289">
+              <caret line="28" column="62" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DoesNotLike.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gcum/db/DoesNotLike.html">
+      <file leaf-file-name="list.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/scripts/list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+            <state relative-caret-position="170">
+              <caret line="31" column="91" lean-forward="false" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
+              <folding>
+                <marker date="1489218387000" expanded="true" signature="132:2191" ph="{...}" />
+                <marker date="1489218387000" expanded="true" signature="343:2188" ph="{&quot;url&quot;: 'getList'...}" />
+                <marker date="1489218387000" expanded="true" signature="442:2113" ph="{...}" />
+                <marker date="1489218387000" expanded="true" signature="477:2063" ph="{...}" />
+                <marker date="1489218387000" expanded="true" signature="648:1986" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/scripts/add.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2465">
+              <caret line="7" column="40" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+              <folding>
+                <marker date="1489218106000" expanded="true" signature="6817:6820" ph="..." />
+                <marker date="1489218106000" expanded="true" signature="6869:6906" ph="..." />
+                <marker date="1489218106000" expanded="true" signature="6869:6910" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/stylesheets/add.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="620">
+              <caret line="191" column="1" lean-forward="false" selection-start-line="191" selection-start-column="1" selection-end-line="191" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/stylesheets/list.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -151,22 +156,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Object" />
-        <option value="Kotlin File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="Jsp File" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>4</find>
-      <find>streetscl</find>
-      <find>&quot;date&quot;</find>
-      <find>dateInput.v</find>
       <find>district</find>
       <find>distr</find>
-      <find>setStreet</find>
       <find>img</find>
       <find>getUploadedPhoto</find>
       <find>.photo</find>
@@ -190,6 +190,11 @@
       <find>class us</find>
       <find>twit</find>
       <find>mail</find>
+      <find>dans le</find>
+      <find>corri</find>
+      <find>uplo	street = newStreet;</find>
+      <find>photoStreet</find>
+      <find>setStreet</find>
     </findStrings>
     <replaceStrings>
       <replace>max</replace>
@@ -219,12 +224,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/gcum/utils/Cache.kt" />
-        <option value="$PROJECT_DIR$/src/gcum/utils/Collections.kt" />
-        <option value="$PROJECT_DIR$/src/gcum/opendata/VoiesArrondissements.kt" />
-        <option value="$PROJECT_DIR$/src/gcum/opendata/Voies.kt" />
-        <option value="$PROJECT_DIR$/src/gcum/conf/KProperties.kt" />
-        <option value="$PROJECT_DIR$/src/gcum/opendata/Arrondissements.kt" />
         <option value="$PROJECT_DIR$/src/gcum/conf/ReadConfiguration.kt" />
         <option value="$PROJECT_DIR$/src/gcum/utils/Twitter.kt" />
         <option value="$PROJECT_DIR$/src/gcum/servlets/GetPointInfo.kt" />
@@ -233,17 +232,11 @@
         <option value="$PROJECT_DIR$/web/stylesheets/info.css" />
         <option value="$PROJECT_DIR$/web/login.jsp" />
         <option value="$PROJECT_DIR$/web/register.jsp" />
-        <option value="$PROJECT_DIR$/src/gcum/db/Photo.kt" />
         <option value="$PROJECT_DIR$/src/gcum/servlets/SearchStreet.kt" />
-        <option value="$PROJECT_DIR$/web/stylesheets/add.css" />
-        <option value="$PROJECT_DIR$/src/gcum/servlets/Upload.kt" />
         <option value="$PROJECT_DIR$/web/stylesheets/index.css" />
         <option value="$PROJECT_DIR$/web/stylesheets/list.css" />
         <option value="$PROJECT_DIR$/web/stylesheets/photo.css" />
         <option value="$PROJECT_DIR$/web/stylesheets/shared.css" />
-        <option value="$PROJECT_DIR$/web/add.jsp" />
-        <option value="$PROJECT_DIR$/web/scripts/list.js" />
-        <option value="$PROJECT_DIR$/web/scripts/add.js" />
         <option value="$PROJECT_DIR$/web/scripts/changeEmail.js" />
         <option value="$PROJECT_DIR$/web/scripts/changePassword.js" />
         <option value="$PROJECT_DIR$/web/scripts/index.js" />
@@ -251,7 +244,6 @@
         <option value="$PROJECT_DIR$/web/scripts/photo.js" />
         <option value="$PROJECT_DIR$/web/scripts/register.js" />
         <option value="$PROJECT_DIR$/web/scripts/shared.js" />
-        <option value="$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt" />
         <option value="$PROJECT_DIR$/web/index.jsp" />
         <option value="$PROJECT_DIR$/web/changeEmail.jsp" />
         <option value="$PROJECT_DIR$/web/changePassword.jsp" />
@@ -259,7 +251,6 @@
         <option value="$PROJECT_DIR$/web/extract.jsp" />
         <option value="$PROJECT_DIR$/web/list.jsp" />
         <option value="$PROJECT_DIR$/web/scripts/notifications.js" />
-        <option value="$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt" />
         <option value="$PROJECT_DIR$/src/gcum/servlets/MailLoginIDs.html" />
         <option value="$PROJECT_DIR$/web/notifications.jsp" />
         <option value="$PROJECT_DIR$/src/gcum/db/Like.html" />
@@ -269,7 +260,21 @@
         <option value="$PROJECT_DIR$/web/WEB-INF/gcum.tld" />
         <option value="$PROJECT_DIR$/web/info.jsp" />
         <option value="$PROJECT_DIR$/src/gcum/servlets/Connect.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/utils/Math.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/geo/Point.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/utils/Introspection.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/opendata/Adresses.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/opendata/VoiesArrondissements.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/db/Photo.kt" />
+        <option value="$PROJECT_DIR$/web/add.jsp" />
+        <option value="$PROJECT_DIR$/src/gcum/servlets/Upload.kt" />
+        <option value="$PROJECT_DIR$/web/scripts/add.js" />
+        <option value="$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt" />
+        <option value="$PROJECT_DIR$/web/scripts/list.js" />
+        <option value="$PROJECT_DIR$/web/stylesheets/add.css" />
         <option value="$PROJECT_DIR$/src/gcum/db/Database.kt" />
+        <option value="$PROJECT_DIR$/src/gcum/db/Release-2.html" />
       </list>
     </option>
   </component>
@@ -540,20 +545,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GCUMServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GCUMServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -566,7 +557,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="SearchEverywhereHistoryKey" value="gcum&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/WEB-INF/gcum.tld&#10;sess&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/tld/Session.kt&#10;info&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/info.jsp&#10;list.&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/list.jsp&#10;list&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/list.js&#10;getli&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetList.kt&#10;shared&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/shared.css&#10;index&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;INDEX.JSP&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;index.js&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/index.js&#10;up&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/Upload.kt&#10;list.js&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/list.js&#10;addj&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/add.js&#10;index.jsp&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;add&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/add.jsp&#10;index.css&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/index.css&#10;list.css&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;list.jsp&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/list.jsp&#10;list.c&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;in&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/login.jsp&#10;index.&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;getl&#9;null&#9;null&#10;list.cs&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;getpho&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetPhoto.kt&#10;lis&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/list.js&#10;data&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/db/Database.kt&#10;regis&#9;null&#9;null&#10;concu&#9;FILE&#9;jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/util/concurrent/ConcurrentLinkedQueue.java&#10;userr&#9;null&#9;null&#10;tiffou&#9;PSI&#9;JAVA://org.apache.sanselan.formats.tiff.write.TiffOutputSet&#10;getpoin&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetPoints.kt&#10;kprop&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="data&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/db/Database.kt&#10;list.cs&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;list.js&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/list.js&#10;list&#9;null&#9;null&#10;jsons&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/JsonServlet.kt&#10;sea&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/SearchStreet.kt&#10;gcum&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/WEB-INF/gcum.tld&#10;sess&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/tld/Session.kt&#10;info&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/info.jsp&#10;list.&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/list.jsp&#10;getli&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetList.kt&#10;shared&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/shared.css&#10;index&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;INDEX.JSP&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;index.js&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/index.js&#10;up&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/Upload.kt&#10;addj&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/add.js&#10;index.jsp&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;add&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/add.jsp&#10;index.css&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/index.css&#10;list.css&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;list.jsp&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/list.jsp&#10;list.c&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/stylesheets/list.css&#10;in&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/login.jsp&#10;index.&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/index.jsp&#10;getl&#9;null&#9;null&#10;getpho&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetPhoto.kt&#10;lis&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/web/scripts/list.js&#10;regis&#9;null&#9;null&#10;concu&#9;FILE&#9;jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/util/concurrent/ConcurrentLinkedQueue.java&#10;userr&#9;null&#9;null&#10;tiffou&#9;PSI&#9;JAVA://org.apache.sanselan.formats.tiff.write.TiffOutputSet&#10;getpoin&#9;FILE&#9;file:///Users/glullien/IdeaProjects/GCUMServer/src/gcum/servlets/GetPoints.kt&#10;kprop&#9;null&#9;null" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.spelling" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
@@ -906,8 +897,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Kotlin.gcum.utils.TwitterKt" />
-        <item index="1" class="java.lang.String" itemvalue="Kotlin.gcum.db.DatabaseKt" />
+        <item index="0" class="java.lang.String" itemvalue="Kotlin.gcum.db.DatabaseKt" />
+        <item index="1" class="java.lang.String" itemvalue="Kotlin.gcum.utils.TwitterKt" />
         <item index="2" class="java.lang.String" itemvalue="Kotlin.gcum.utils.SendMailKt" />
       </list>
     </recent_temporary>
@@ -955,7 +946,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5428195" sideWeight="0.5176559" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32806325" sideWeight="0.48985726" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6587615" sideWeight="0.486852" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.657444" sideWeight="0.486852" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1011,7 +1002,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Twitter" />
     <MESSAGE value="Add photo zoom in list" />
     <MESSAGE value="Add size and download" />
     <MESSAGE value="Better display" />
@@ -1021,7 +1011,6 @@
     <MESSAGE value="Final release" />
     <MESSAGE value="Twitter debug" />
     <MESSAGE value="User improvement" />
-    <MESSAGE value="Bug fix" />
     <MESSAGE value="Mobile version" />
     <MESSAGE value="Auto positioning of popups" />
     <MESSAGE value="Speed opt" />
@@ -1036,14 +1025,16 @@
     <MESSAGE value="Easy account name" />
     <MESSAGE value="New jquery (not yet used)" />
     <MESSAGE value="Fix for IE and Edge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix for IE and Edge" />
+    <MESSAGE value="Email notifications" />
+    <MESSAGE value="Bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="208" />
+      <option name="time" value="211" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JetRunConfigurationType">
@@ -1056,218 +1047,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/gcum/utils/Collections.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/SearchStreet.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/generated/_Collections.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="1528" column="43" lean-forward="false" selection-start-line="1528" selection-start-column="43" selection-end-line="1528" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/time/LocalTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="1412" column="0" lean-forward="false" selection-start-line="1412" selection-start-column="0" selection-end-line="1412" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/time/format/DateTimeFormatter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="863" column="42" lean-forward="false" selection-start-line="863" selection-start-column="42" selection-end-line="863" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/stylesheets/add.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="161" column="9" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/stylesheets/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="71" column="1" lean-forward="false" selection-start-line="71" selection-start-column="1" selection-end-line="71" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/stylesheets/photo.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="671">
-          <caret line="114" column="1" lean-forward="false" selection-start-line="114" selection-start-column="1" selection-end-line="114" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/stylesheets/list.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="118" column="107" lean-forward="true" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/add.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetList.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="9" column="22" lean-forward="false" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/add.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="270" column="62" lean-forward="false" selection-start-line="270" selection-start-column="62" selection-end-line="270" selection-end-column="62" />
-          <folding>
-            <marker date="1489082244000" expanded="true" signature="6759:6762" ph="..." />
-            <marker date="1489082244000" expanded="true" signature="6811:6848" ph="..." />
-            <marker date="1489082244000" expanded="true" signature="6811:6852" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/changeEmail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="42" column="81" lean-forward="true" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
-          <folding>
-            <marker date="1489082244000" expanded="true" signature="14:1886" ph="{...}" />
-            <marker date="1489082244000" expanded="true" signature="442:1270" ph="{...}" />
-            <marker date="1489082244000" expanded="true" signature="651:1267" ph="{...}" />
-            <marker date="1489082244000" expanded="true" signature="763:1261" ph="{&quot;url&quot;: 'changeEmail'...}" />
-            <marker date="1489082244000" expanded="true" signature="1299:1882" ph="{...}" />
-            <marker date="1489082244000" expanded="true" signature="1407:1877" ph="{&quot;url&quot;: 'removeEmail'...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="119" column="4" lean-forward="false" selection-start-line="119" selection-start-column="4" selection-end-line="119" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="51" column="4" lean-forward="false" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="70" column="49" lean-forward="false" selection-start-line="70" selection-start-column="49" selection-end-line="70" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/photo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/register.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="60" column="49" lean-forward="false" selection-start-line="60" selection-start-column="49" selection-end-line="60" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/scripts/shared.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="23" column="37" lean-forward="true" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="95" column="15" lean-forward="true" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="95" column="42" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding>
-            <marker date="1489126076000" expanded="true" signature="4146:5974" ph="..." />
-            <marker date="1489126076000" expanded="true" signature="4214:5737" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/stylesheets/shared.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/kotlin/collections/Maps.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="342" column="42" lean-forward="false" selection-start-line="342" selection-start-column="42" selection-end-line="342" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/generated/_Maps.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="36" column="42" lean-forward="false" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/generated/_Sets.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="102" column="31" lean-forward="false" selection-start-line="102" selection-start-column="31" selection-end-line="102" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/kotlin/Collections.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
@@ -1356,22 +1135,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/Upload.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="155" column="13" lean-forward="true" selection-start-line="155" selection-start-column="13" selection-end-line="155" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gcum/servlets/MailLoginIDs.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1428,14 +1191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gcum/db/Release-1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="48" lean-forward="false" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gcum/tld/Session.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -1471,10 +1226,251 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/SearchStreet.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/opendata/Arrondissements.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/opendata/streets.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/opendata/Voies.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="67" column="114" lean-forward="false" selection-start-line="67" selection-start-column="97" selection-end-line="67" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/utils/Math.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="40" lean-forward="false" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/geo/Point.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding>
+            <element signature="e#18#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="1966" column="0" lean-forward="false" selection-start-line="1966" selection-start-column="0" selection-end-line="1966" selection-end-column="0" />
+          <folding>
+            <element signature="e#22786#22787#0" expanded="false" />
+            <element signature="e#22821#22822#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/json_simple-1.1-src.jar!/org/json/simple/parser/JSONParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/utils/Introspection.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/json_simple-1.1-src.jar!/org/json/simple/JSONObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="67" column="25" lean-forward="false" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/jre/lib/ext/nashorn.jar!/jdk/nashorn/internal/parser/JSONParser.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/util/Properties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="967" column="18" lean-forward="false" selection-start-line="967" selection-start-column="18" selection-end-line="967" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/conf/KProperties.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="26" column="64" lean-forward="false" selection-start-line="26" selection-start-column="64" selection-end-line="26" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/opendata/VoiesArrondissements.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="14" column="64" lean-forward="false" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-runtime-sources.jar!/kotlin/text/regex/Regex.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="101" column="11" lean-forward="false" selection-start-line="101" selection-start-column="11" selection-end-line="101" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/db/Photo.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="169" column="72" lean-forward="false" selection-start-line="169" selection-start-column="72" selection-end-line="169" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/opendata/Adresses.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="52" />
+          <folding>
+            <element signature="e#23#132#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/JsonServlet.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="77" column="19" lean-forward="false" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/add.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="73" column="39" lean-forward="true" selection-start-line="73" selection-start-column="39" selection-end-line="73" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetList.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="24" column="51" lean-forward="false" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/GetPhotoInfo.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="28" column="62" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/scripts/add.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2465">
+          <caret line="7" column="40" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding>
+            <marker date="1489218106000" expanded="true" signature="6817:6820" ph="..." />
+            <marker date="1489218106000" expanded="true" signature="6869:6906" ph="..." />
+            <marker date="1489218106000" expanded="true" signature="6869:6910" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/scripts/list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="31" column="91" lean-forward="false" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
+          <folding>
+            <marker date="1489218387000" expanded="true" signature="132:2191" ph="{...}" />
+            <marker date="1489218387000" expanded="true" signature="343:2188" ph="{&quot;url&quot;: 'getList'...}" />
+            <marker date="1489218387000" expanded="true" signature="442:2113" ph="{...}" />
+            <marker date="1489218387000" expanded="true" signature="477:2063" ph="{...}" />
+            <marker date="1489218387000" expanded="true" signature="648:1986" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/stylesheets/list.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/stylesheets/add.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="191" column="1" lean-forward="false" selection-start-line="191" selection-start-column="1" selection-end-line="191" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/servlets/Upload.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2567">
+          <caret line="176" column="229" lean-forward="true" selection-start-line="176" selection-start-column="69" selection-end-line="176" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gcum/db/Database.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="275" column="0" lean-forward="false" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/db/Release-1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="37" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="13" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gcum/db/Release-2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="75" lean-forward="true" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
           <folding />
         </state>
       </provider>
