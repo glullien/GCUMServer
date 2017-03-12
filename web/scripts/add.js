@@ -252,7 +252,6 @@ $(function () {
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
-			console.debug("progress " + progress);
 			$('#uploadedProgressBar').css("width", progress + '%');
 			if (data.loaded == data.total) {
 				$("#uploaded").html("Analyse des images...");
