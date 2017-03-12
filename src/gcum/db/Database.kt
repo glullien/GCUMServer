@@ -20,6 +20,8 @@ class UserExistsException : Exception("User exists")
 class UserDoesNotExistException(username: String) : Exception("User $username does not exist")
 class PhotoNotFoundException(id: String) : Exception("Photo not found $id")
 
+private val log = getLogger()
+
 object Database {
 
    val versionName = "0.9.17"
@@ -304,6 +306,7 @@ fun getAllNotifications(media: NotificationMedia) = NotificationCause.values().m
 val allNotifications = NotificationCause.values().flatMap {cause-> NotificationMedia.values().map {media-> Notification(cause, media)}}.toSet()
 
 fun main(args: Array<String>) {
+   log.info("Test de log")
    println("by Name ${Voies.searchBest("rue conte").name}")
    println("by Point ${Voies.searchClosest(Point(4883377, 238200)).name}")
    println("by Point ${Voies.searchClosest(Point(4883377, 238200), 10).map {it.name}}")

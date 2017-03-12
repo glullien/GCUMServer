@@ -25,6 +25,8 @@ abstract class JsonServlet : HttpServlet() {
       val charset = request.getStringOrNull("answerCharset") ?: "UTF-16"
       response.contentType = "application/json; charset=$charset"
       response.characterEncoding = charset
+      val device = request.getStringOrNull("device") ?: "<unknown>"
+      log.info("request ${request.requestURI} from $device")
       response.outputStream.use {
          fun jsonToBytes(o: Map<String, *>) = JSONObject.toJSONString(o).toByteArray(Charset.forName(charset))
          try {
