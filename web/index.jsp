@@ -149,10 +149,15 @@
         <div id="photoDetails">
             <p>Photo prise par <span id="photoAuthor"></span></p>
             <p>le <span id="photoDate"></span></p>
-            <p><span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
-            <p>Latitude <span id="photoLatitude"></span></p>
-            <p>Longitude <span id="photoLongitude"></span></p>
-            <p>Taille <span id="photoSize"></span></p>
+            <p><span id="photoNumber"></span> <span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
+            <div id="photoCoordinatesBlock">
+                <p id="photoCoordinatesSource" class="shortParagraph"></p>
+                <div id="photoCoordinates">
+                    <p class="shortParagraph">Latitude <span id="photoLatitude"></span></p>
+                    <p class="shortParagraph">Longitude <span id="photoLongitude"></span></p>
+                </div>
+            </div>
+            <p id="photoSizeBlock">Taille <span id="photoSize"></span></p>
             <p>
                 <a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a>
                 <a href="#" id="photoView"><i class="glyphicon glyphicon-eye-open"></i> View</a>

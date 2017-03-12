@@ -53,6 +53,19 @@
                     </ul>
                 </div>
             </div>
+            <div class="form-group">
+                <span class="hideOnMobile">Tri par</span>
+                <div class="dropdown" style="display: inline;">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span id="sort">date</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a id="sortDate" href="#">date</a></li>
+                        <li><a id="sortClosest" href="#">proximité</a></li>
+                    </ul>
+                </div>
+            </div>
         </form>
     </div>
     <div class="showOnSmallScreen controlBox">
@@ -95,13 +108,20 @@
     <div id="filterPane">
         <form>
             <div class="form-group">
-                <label for="filterDistrict">Arrondissements:</label>
+                <label for="filterDistrict">Arrondissements :</label>
                 <select id="filterDistrict" class="form-control">
                     <option value="All">Tous</option>
                     <option value="1">1er</option>
                     <c:forEach var="d" begin="2" end="20">
                         <option value="${d}">${d}e</option>
                     </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="filterSort">Tri par :</label>
+                <select id="filterSort" class="form-control">
+                    <option value="date">date</option>
+                    <option value="closest">proximité</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-default" id="filterApply">Filtrer</button>
@@ -116,10 +136,15 @@
         <div id="photoDetails">
             <p>Photo prise par <span id="photoAuthor"></span></p>
             <p>le <span id="photoDate"></span></p>
-            <p><span id="photoNumber"></span>  <span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
-            <p>Latitude <span id="photoLatitude"></span></p>
-            <p>Longitude <span id="photoLongitude"></span></p>
-            <p>Taille <span id="photoSize"></span></p>
+            <p><span id="photoNumber"></span> <span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
+            <div id="photoCoordinatesBlock">
+                <p id="photoCoordinatesSource" class="shortParagraph"></p>
+                <div id="photoCoordinates">
+                    <p class="shortParagraph">Latitude <span id="photoLatitude"></span></p>
+                    <p class="shortParagraph">Longitude <span id="photoLongitude"></span></p>
+                </div>
+            </div>
+            <p id="photoSizeBlock">Taille <span id="photoSize"></span></p>
             <p>
                 <a href="#" download="A" id="photoDownload"><i class="glyphicon glyphicon-cloud-download"></i> Download</a>
                 <a href="#" id="photoView"><i class="glyphicon glyphicon-eye-open"></i> View</a>
@@ -128,8 +153,29 @@
         </div>
     </div>
 </div>
-<p>
-    <span id="error"></span>
-</p>
+
+<div class="modal fade" id="requestingPositionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Localisation en cours</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p id="error"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

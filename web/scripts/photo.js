@@ -11,6 +11,8 @@ function openPhoto(id) {
 	$("#photoNumber").html("...");
 	$("#photoStreet").html("...");
 	$("#photoDistrict").html("...");
+	$("#photoCoordinatesSource").html("...");
+	$("#photoCoordinates").show();
 	$("#photoLatitude").html("...");
 	$("#photoLongitude").html("...");
 	$("#photoSize").html("...");
@@ -35,8 +37,15 @@ function openPhoto(id) {
 				$("#photoNumber").html((json.number == "unknown") ? "" : json.number);
 				$("#photoStreet").html(json.street);
 				$("#photoDistrict").html("" + json.district + ((json.district == 1) ? "er" : "e"));
-				$("#photoLatitude").html((json.latitude / 1E5) + ' °N');
-				$("#photoLongitude").html((json.longitude / 1E5) + ' °E');
+				if (json.locationSource == 'Device') {
+					$("#photoCoordinatesSource").html("Localisée par GPS");
+					$("#photoLatitude").html((json.latitude / 1E5) + ' °N');
+					$("#photoLongitude").html((json.longitude / 1E5) + ' °E');
+				}
+				else {
+					$("#photoCoordinatesSource").html("Localisée non par GPS mais avec le nom de rue");
+					$("#photoCoordinates").hide();
+				}
 				$("#photoSize").html("" + json.width + " x " + json.height);
 				var likes = "";
 				for (var i = 0; i < json.likes.length; i++) {

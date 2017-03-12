@@ -1,13 +1,20 @@
 function displayError(error) {
-	$("#error").html("Error: " + error)
+	$("#error").html(error);
+	$("#errorModal").modal("show");
 }
 
 var district = 'All';
+var sort = 'date';
 var latest = null;
+var currentPosition = null;
+
 function fillList() {
-	var params;
-	if (latest == null) params = {'answerCharset': 'UTF-8', 'number': 20, 'district': district};
-	else params = {'answerCharset': 'UTF-8', 'number': 20, 'district': district, after: latest};
+	var params = stdParams({number: 20, district: district, sort: sort});
+	if (currentPosition != null) params = concatMaps(params, {
+		latitude: Math.round(currentPosition.latitude * 1E5),
+		longitude: Math.round(currentPosition.longitude * 1E5)
+	});
+	if (latest != null) params = concatMaps(params, {after: latest});
 	$.ajax({
 		url: 'getList',
 		type: 'POST',
@@ -54,7 +61,7 @@ function toggleLike(photoId) {
 	$.ajax({
 		url: 'toggleLike',
 		type: 'POST',
-		data: {'answerCharset': 'UTF-8', 'photoId': photoId},
+		data: stdParams({photoId: photoId}),
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
@@ -86,6 +93,35 @@ function configureDistrictButton(d) {
 	})
 }
 
+function geoSuccess(position) {
+	$("#requestingPositionModal").modal("hide");
+	currentPosition = position.coords;
+	setSort("closest", "proximité");
+}
+
+function geoError(error) {
+	$("#requestingPositionModal").modal("hide");
+	displayError("Erreur (" + error.code + ") : " + error.message);
+}
+
+function setSort(s, text) {
+	if ((s == "closest") && (currentPosition == null)) {
+		if (navigator.geolocation) {
+			$("#requestingPositionModal").modal("show");
+			navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+		}
+		else {
+			displayError("Votre navigateur ne fournit pas de service de localisation");
+		}
+		return;
+	}
+	$("#sort").html(text);
+	sort = s;
+	latest = null;
+	$("#list").html("");
+	fillList();
+}
+
 $(function () {
 	fillList();
 	$("#photoClose").click(function () {
@@ -101,13 +137,22 @@ $(function () {
 		setDistrict("All", "Tous");
 	});
 	for (var i = 1; i <= 20; i++) configureDistrictButton(i);
+	$("#sortDate").click(function () {
+		setSort("date", "date");
+	});
+	$("#sortClosest").click(function () {
+		setSort("closest", "proximité");
+	});
 	$("#filterOpen").click(function () {
 		$("#filterDistrict").val(district);
+		$("#filterSort").val(sort);
 		$("#filter").show();
 	});
 	$("#filterApply").click(function () {
 		$("#filter").hide();
 		var filterDistrict = $("#filterDistrict");
-		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text())
+		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text());
+		var filterSort = $("#filterSort");
+		setSort(filterSort.val(), filterSort.find("option:selected").text())
 	})
 });

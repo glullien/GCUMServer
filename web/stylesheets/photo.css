@@ -73,6 +73,14 @@
 	font-weight: bold;
 }
 
+#photoCoordinatesBlock {
+	background: lightblue;
+}
+
+#photoSizeBlock {
+	margin-top: 10px;
+}
+
 #photoSize {
 	font-weight: bold;
 }

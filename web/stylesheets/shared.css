@@ -101,3 +101,7 @@ body {
 #accountName {
 	font-weight: bold;
 }
+
+.shortParagraph{
+	margin: 0;
+}
