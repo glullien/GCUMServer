@@ -50,6 +50,11 @@
 	color: darkblue;
 }
 
+#photoNumber {
+	font-weight: bold;
+	color: darkred;
+}
+
 #photoStreet {
 	font-weight: bold;
 	color: darkred;

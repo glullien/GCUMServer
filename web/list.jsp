@@ -116,7 +116,7 @@
         <div id="photoDetails">
             <p>Photo prise par <span id="photoAuthor"></span></p>
             <p>le <span id="photoDate"></span></p>
-            <p><span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
+            <p><span id="photoNumber"></span>  <span id="photoStreet"></span> dans le <span id="photoDistrict"></span></p>
             <p>Latitude <span id="photoLatitude"></span></p>
             <p>Longitude <span id="photoLongitude"></span></p>
             <p>Taille <span id="photoSize"></span></p>

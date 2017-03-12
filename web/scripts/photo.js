@@ -8,6 +8,7 @@ function openPhoto(id) {
 	photoImg.attr('src', 'getPhoto?id=' + id + '&maxWidth=' + width + '&maxHeight=' + height);
 	$("#photoAuthor").html("...");
 	$("#photoDate").html("...");
+	$("#photoNumber").html("...");
 	$("#photoStreet").html("...");
 	$("#photoDistrict").html("...");
 	$("#photoLatitude").html("...");
@@ -31,6 +32,7 @@ function openPhoto(id) {
 				var dateTime = json.date;
 				if (json.time != "unknown") dateTime += " à " + json.time;
 				$("#photoDate").html(dateTime);
+				$("#photoNumber").html((json.number == "unknown") ? "" : json.number);
 				$("#photoStreet").html(json.street);
 				$("#photoDistrict").html("" + json.district + ((json.district == 1) ? "er" : "e"));
 				$("#photoLatitude").html((json.latitude / 1E5) + ' °N');
