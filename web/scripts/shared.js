@@ -78,3 +78,21 @@ function targetSize(sourceWidth, sourceHeight, maxSize) {
 		height: targetHeight
 	};
 }
+
+function addAll(m, a) {
+	for (var key in a) {
+		if (a.hasOwnProperty(key)) {
+			m[key] = a[key];
+		}
+	}
+}
+function concatMaps(m1, m2) {
+	var res = {};
+	addAll(res, m1);
+	addAll(res, m2);
+	return res;
+}
+
+function stdParams(m) {
+	return concatMaps({answerCharset: 'UTF-8', device: 'web'}, m);
+}

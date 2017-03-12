@@ -22,7 +22,7 @@ function openPhoto(id) {
 	$.ajax({
 		url: 'getPhotoInfo',
 		type: 'POST',
-		data: {'answerCharset': 'UTF-8', 'id': id},
+		data: stdParams({id: id}),
 		dataType: 'json',
 		success: function (json) {
 			if (json.result == 'success') {
