@@ -211,7 +211,7 @@ object Database {
 
    private val gcumCode = SecretCode({code-> photos.values.any {it.file.name.contains(code)}}, 10)
 
-   fun put(number:String?, street: String, date: LocalDate, time: LocalTime?, district: Int, point: Point?, username: String, images: List<ByteArray>) {
+   fun put(number: String?, street: String, date: LocalDate, time: LocalTime?, district: Int, point: Point?, username: String, images: List<ByteArray>) {
       fun String.replaceSpecialChars() = toStdChars().replace(' ', '_').replace('/', '_').replace('.', '_')
       fun String.firstCharToLowerCase() = substring(0, 1).toLowerCase() + substring(1)
       val streetDir = street.replaceSpecialChars().firstCharToLowerCase()
@@ -277,9 +277,9 @@ object Database {
       }
    }
 
-   fun getPhotos(number: Int, district: Int?, start: PhotosListStart): PhotosList {
-      val filtered = photosLock.withLock {if (district == null) photos.values.toList() else photos.values.filter {it.location.address.district == district}}
-      val sorted = filtered.sortedBy {it.moment}.reversed()
+   fun getPhotos(number: Int, filter: ((Photo) -> Boolean)?, comparator: Comparator<Photo>, start: PhotosListStart): PhotosList {
+      val filtered = photosLock.withLock {if (filter == null) photos.values.toList() else photos.values.filter(filter)}
+      val sorted = filtered.sortedWith(comparator)
       val fromIndex = (if (start.id == null) 0 else sorted.indexOfFirst {it.id == start.id}.max(0)) + start.offset
       val toIndex = sorted.size.min(fromIndex + number)
       val list = sorted.subList(fromIndex, toIndex)
