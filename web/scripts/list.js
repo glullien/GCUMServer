@@ -177,5 +177,10 @@ $(function () {
 		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text());
 		var filterSort = $("#filterSort");
 		setSort(filterSort.val(), filterSort.find("option:selected").text())
-	})
+	});
+	$(document).keyup(function (e) {
+		if (e.keyCode === 27) {
+			$('#photoClose').click();
+		}
+	});
 });

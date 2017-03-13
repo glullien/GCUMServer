@@ -156,7 +156,10 @@ function initMap() {
 		$("#android").hide();
 	});
 	$(document).keyup(function (e) {
-		if (e.keyCode === 27) $('#photosClose').click();
+		if (e.keyCode === 27) {
+			$('#photosClose').click();
+			$('#photoClose').click();
+		}
 	});
 	$("#dateAll").click(function () {
 		changeTimeFrame("Tout", "All");
