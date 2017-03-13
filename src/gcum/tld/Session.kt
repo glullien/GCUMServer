@@ -2,10 +2,7 @@
 
 package gcum.tld
 
-import gcum.db.Database
-import gcum.db.NotificationCause
-import gcum.db.NotificationMedia
-import gcum.db.UserRole
+import gcum.db.*
 import gcum.servlets.Sessions
 
 fun isLogin(sessionId: String) = Sessions.isLogin(sessionId)
@@ -17,3 +14,8 @@ fun isReceivingMailFor(sessionId: String, cause: NotificationCause) = Database.g
 fun isReceivingMailForLiked(sessionId: String) = isReceivingMailFor(sessionId, NotificationCause.Liked)
 fun isReceivingMailForNews(sessionId: String) = isReceivingMailFor(sessionId, NotificationCause.News)
 fun versionName() = Database.versionName
+fun getRemoveFromMailsUserName(code: String) = Database.getRemoveFromMails(code)?.username
+fun removeFromNews(username: String): Boolean {
+   Database.removeNotifications(username, setOf(Notification(NotificationCause.News, NotificationMedia.Email)))
+   return true
+}

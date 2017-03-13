@@ -52,4 +52,14 @@
         <function-class>gcum.tld.Session</function-class>
         <function-signature>java.lang.String versionName()</function-signature>
     </function>
+    <function>
+        <name>getRemoveFromMailsUserName</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>java.lang.String getRemoveFromMailsUserName(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>removeFromNews</name>
+        <function-class>gcum.tld.Session</function-class>
+        <function-signature>boolean removeFromNews(java.lang.String)</function-signature>
+    </function>
 </taglib>

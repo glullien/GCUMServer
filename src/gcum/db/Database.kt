@@ -24,14 +24,15 @@ private val log = getLogger()
 
 object Database {
 
-   val versionName = "0.9.17"
-   val versionCode = 2
+   val versionName = "0.9.18"
+   val versionCode = 3
 
    val root: Path = Configuration.getPath("root")
    private val users = ConcurrentHashMap<String, User>()
    private val usersLock = ReentrantLock()
    private val autoLogin = ConcurrentHashMap<String, AutoLogin>()
    private val autoLoginLock = ReentrantLock()
+   private val removeFromMailsCodes = ConcurrentHashMap<String, RemoveFromMail>()
    private val notifications = ConcurrentHashMap<String, Set<Notification>>()
    private val photos = ConcurrentHashMap<String, Photo>()
    private val points = ConcurrentHashMap<Point, ConcurrentLinkedQueue<String>>()
@@ -39,6 +40,7 @@ object Database {
    private val usersFileName = "users.csv"
    private val notificationsFileName = "notifications.csv"
    private val autoLoginFileName = "autoLogin.csv"
+   private val removeFromMailsCodesFileName = "removeFromMailsCodes.csv"
    private val currentReleaseFileName = "currentRelease"
    private val auxDirName = "aux"
    private val nextPhotoId = SecretCode({code-> photos.contains(code)})
@@ -59,6 +61,11 @@ object Database {
             line->
             AutoLogin(line [0], line[1], LocalDate.parse(line[2], DateTimeFormatter.ISO_LOCAL_DATE))
          }.associateBy {it.code})
+      }
+      val removeFromMailsCodesFile = root.resolve(removeFromMailsCodesFileName).toFile()
+      if (removeFromMailsCodesFile.exists()) {
+         val removeFromNewsCodesFileBrut = removeFromMailsCodesFile.inputStream().use(::readCsv)
+         removeFromMailsCodes.putAll(removeFromNewsCodesFileBrut.map {line-> line[0] to RemoveFromMail(line[1], NotificationCause.valueOf(line[2]))})
       }
       val notificationsFile = root.resolve(notificationsFileName).toFile()
       if (notificationsFile.exists()) {
@@ -170,11 +177,6 @@ object Database {
       }
    }
 
-   fun setNotifications(username: String, notifications: Set<Notification>) {
-      this.notifications[username] = notifications
-      writeNotificationsFiles()
-   }
-
    fun getNotifications(username: String, cause: NotificationCause): List<Notification> = notifications[username]?.filter {it.cause == cause} ?: emptyList()
 
    fun getNotified(cause: NotificationCause): Map<User, List<Notification>> = usersLock.withLock {
@@ -265,17 +267,27 @@ object Database {
 
    fun mailNewReleases() {
       val currentReleaseFile = root.resolve(currentReleaseFileName).toFile()
-      val currentRelease = if (currentReleaseFile.exists()) currentReleaseFile.readText().toInt() else 0
+      val currentRelease = if (currentReleaseFile.exists()) currentReleaseFile.readText().trim().toInt() else 0
+      val nextCode = SecretCode({code-> removeFromMailsCodes.containsKey(code)})
       for (r in (currentRelease + 1)..versionCode) {
          for (notificationUser in getNotified(NotificationCause.News)) for (notification in notificationUser.value) when (notification.media) {
             NotificationMedia.Email-> {
                val email = notificationUser.key.email
-               if (email != null) sendMail(listOf(email), "GCUM : New release", "/gcum/db/Release-$r.html", emptyMap())
+               if (email != null) {
+                  val code = nextCode.new()
+                  removeFromMailsCodes.put(code, RemoveFromMail(notificationUser.key.username, NotificationCause.News))
+                  sendMail(listOf(email), "GCUM : New release", "/gcum/db/Release-$r.html", mapOf("code" to code))
+               }
             }
          }
          currentReleaseFile.writeText(r.toString())
+         root.resolve(removeFromMailsCodesFileName).toFile().printWriter().use {
+            writeCsv(it, removeFromMailsCodes.map {listOf(it.key, it.value.username, it.value.cause.toString())})
+         }
       }
    }
+
+   fun getRemoveFromMails(code: String) = removeFromMailsCodes[code]
 
    fun getPhotos(number: Int, filter: ((Photo) -> Boolean)?, comparator: Comparator<Photo>, start: PhotosListStart): PhotosList {
       val filtered = photosLock.withLock {if (filter == null) photos.values.toList() else photos.values.filter(filter)}
@@ -301,6 +313,7 @@ data class AutoLogin(val username: String, val code: String, val validTo: LocalD
 enum class NotificationCause {Liked, News }
 enum class NotificationMedia {Email }
 data class Notification(val cause: NotificationCause, val media: NotificationMedia)
+data class RemoveFromMail(val username: String, val cause: NotificationCause)
 
 fun getAllNotifications(media: NotificationMedia) = NotificationCause.values().map {cause-> Notification(cause, media)}.toSet()
 val allNotifications = NotificationCause.values().flatMap {cause-> NotificationMedia.values().map {media-> Notification(cause, media)}}.toSet()
