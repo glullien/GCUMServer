@@ -26,7 +26,7 @@ class GetPointInfo : JsonServlet() {
       val photos = inTimeFrame.filter {locationSources.contains(it.location.coordinates.source)}
       if (photos.isEmpty()) throw IllegalAccessException("Photos not found")
       val sortedPhotos = photos.sortedByDescending {it.moment.date}
-      val username = Sessions.username(request.session)
+      val username = username(request)
       return jsonSuccess {
          put("photos", sortedPhotos.map {sub {putPhotoInfo(it, username)}})
          val minDate = sortedPhotos.last().moment.date.format(DateTimeFormatter.ISO_DATE)

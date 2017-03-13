@@ -12,7 +12,7 @@ class GetPhotoInfo : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val id = request.getString("id")
       val photo = Database.getPhoto(id) ?: throw ServletException("Photo $id not found")
-      return jsonSuccess {putPhotoInfo(photo, Sessions.username(request.session))}
+      return jsonSuccess {putPhotoInfo(photo, username(request))}
    }
 }
 

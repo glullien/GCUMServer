@@ -176,7 +176,7 @@ private fun report(images: List<ByteArray>, date: String, time: String?, number:
 class ReportUploaded : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       val id = request.getInt("id")
-      val username = Sessions.username(request.session) ?: return jsonError("Aucune connexion")
+      val username = username(request) ?: return jsonError("Aucune connexion")
       val post = postsList[id] ?: return jsonError("Session perdue")
       return report(post.uploaded.map {it.bytes}, request.getString("date"), request.getStringOrNull("time"), request.getStringOrNull("number"), request.getString("street"), request.getString("district"), null, username)
    }

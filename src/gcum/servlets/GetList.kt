@@ -29,7 +29,7 @@ class GetList : JsonServlet() {
          if (start == "Latest") firstPhoto else
             if (start != null) PhotosListStart(start, 0) else PhotosListStart(after, 1)
       val photos = Database.getPhotos(number, filter, comparator, photosListStart)
-      val username = Sessions.username(request.session)
+      val username = username(request)
       return jsonSuccess {
          put("photos", photos.list.map {sub {putPhotoInfo(it, username)}})
          put("nbAfter", photos.nbAfter)
