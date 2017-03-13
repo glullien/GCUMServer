@@ -3,7 +3,6 @@ package gcum.opendata
 import gcum.chars.bestLevenshteinIn
 import gcum.db.coordinateToLong
 import gcum.geo.Point
-import gcum.geo.distance
 import gcum.utils.Cache
 import gcum.utils.first
 import java.io.IOException
@@ -17,7 +16,7 @@ data class Voie(val point: Point, val shapes: List<List<Point>>, val name: Strin
    val minLongitude = shapes.map {it.map {it.longitude}.min() ?: throw Exception("Missing point")}.min() ?: throw Exception("Missing point")
    val maxLatitude = shapes.map {it.map {it.latitude}.max() ?: throw Exception("Missing point")}.max() ?: throw Exception("Missing point")
    val maxLongitude = shapes.map {it.map {it.longitude}.max() ?: throw Exception("Missing point")}.max() ?: throw Exception("Missing point")
-   fun distance(point: Point) = shapes.map {distance(it, point)}.min() ?: Double.POSITIVE_INFINITY
+   fun flatDistance(point: Point) = shapes.map {point.flatDistance(it)}.min() ?: Double.POSITIVE_INFINITY
    fun relevant(point: Point) = (minLatitude - margin < point.latitude) && (minLongitude - margin < point.longitude) && (point.latitude < maxLatitude + margin) && (point.longitude < maxLongitude + margin)
 }
 
@@ -67,8 +66,8 @@ object Voies {
 
    fun searchBest(pattern: String, maxNumber: Int) = searchCache.get(pattern + "@" + maxNumber) {bestLevenshteinIn(pattern, voies, {it.name}, maxNumber)}
    fun searchBest(pattern: String) = searchBest(pattern, 1) [0]
-   fun searchClosest(point: Point) = voies.minBy {it.distance(point)} ?: throw Exception("Impossible")
-   fun searchClosest(point: Point, nb: Int) = voies.first(nb) {it.distance(point)}
-   fun searchClosest2(point: Point, nb: Int) = voies.filter {it.relevant(point)}.first(nb) {it.distance(point)}
+   fun searchClosest(point: Point) = voies.minBy {it.flatDistance(point)} ?: throw Exception("Impossible")
+   fun searchClosest(point: Point, nb: Int) = voies.first(nb) {it.flatDistance(point)}
+   fun searchClosest2(point: Point, nb: Int) = voies.filter {it.relevant(point)}.first(nb) {it.flatDistance(point)}
    fun get(street: String) = voies.firstOrNull {it.name == street}
 }
