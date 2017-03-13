@@ -8,6 +8,19 @@ var sort = 'date';
 var latest = null;
 var currentPosition = null;
 
+function convertRad(input) {
+	return (Math.PI * input) / 180;
+}
+
+function distance(lat_a_degre, lon_a_degre, lat_b_degre, lon_b_degre) {
+	var R = 6378000;
+	var lat_a = convertRad(lat_a_degre);
+	var lon_a = convertRad(lon_a_degre);
+	var lat_b = convertRad(lat_b_degre);
+	var lon_b = convertRad(lon_b_degre);
+	return R * (Math.PI / 2 - Math.asin(Math.sin(lat_b) * Math.sin(lat_a) + Math.cos(lon_b - lon_a) * Math.cos(lat_b) * Math.cos(lat_a)))
+}
+
 function fillList() {
 	var params = stdParams({number: 20, district: district, sort: sort});
 	if (currentPosition != null) params = concatMaps(params, {
@@ -38,9 +51,19 @@ function fillList() {
 					var address = photo.street + ' dans le ' + photo.district + "e";
 					if (photo.number != "unknown") address = photo.number + ", " + address;
 					html += '<span class="photoAddress">' + address + '</span>';
-					if (photo.locationSource == "Device") html += '<span class="photoCoordinates">' + (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E</span>';
+					if (photo.locationSource == "Device") {
+						if (currentPosition != null) {
+							var d = distance(photo.latitude * (1.0 / 1E5), photo.longitude * (1.0 / 1E5), currentPosition.latitude, currentPosition.longitude);
+							html += '<span class="photoDistance">' + Math.round(d) + ' m</span>';
+						}
+						html += '<span class="photoCoordinates">';
+						html += (photo.latitude / 1E5) + ' °N/' + (photo.longitude / 1E5) + ' °E';
+						html += '</span>';
+					}
 					if (photo.username != null) html += '<span class="username">' + photo.username + '</span>';
-					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(\'' + photo.id + '\');return false;">' + photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i></a>';
+					html += '<a href="#" id="like' + photo.id + '" class="like' + (photo.isLiked ? ' isLiked' : '') + '" onclick="toggleLike(\'' + photo.id + '\');return false;">';
+					html += photo.likesCount + ' <i class="glyphicon glyphicon-heart"></i>';
+					html += '</a>';
 					html += '</div>';
 					latest = photo.id;
 				}
