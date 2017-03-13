@@ -24,7 +24,7 @@ private class PhotoTwitter {
 
    fun tweet(photo: Photo) {
       val statusUpdate = StatusUpdate(photo.location.address.text + " par " + photo.username + " #GCUM")
-      statusUpdate.setMedia(photo.file)
+      statusUpdate.setMedia(photo.resizedFile(1600))
       twitter.updateStatus(statusUpdate)
    }
 

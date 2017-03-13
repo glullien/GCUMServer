@@ -101,7 +101,7 @@ data class Photo(val id: String, val moment: Moment, val location: Location, val
 
    fun getOriginalBytes() = file.readBytes()
 
-   fun getBytes(maxWidth: Int, maxHeight: Int = maxWidth): ByteArray {
+   fun resizedFile(maxWidth: Int, maxHeight: Int = maxWidth): File {
       val max = Dimension(maxWidth, maxHeight)
       val full = Dimension(details.width, details.height)
       val target = if (full.isSmaller(max)) full else full.targetIn(max)
@@ -112,8 +112,10 @@ data class Photo(val id: String, val moment: Moment, val location: Location, val
          val resizedImage = if (full == target) reOrientedImage else reOrientedImage.resize(target)
          FileOutputStream(resizedFile).use {ImageIO.write(resizedImage, "JPG", it)}
       }
-      return resizedFile.readBytes()
+      return resizedFile
    }
+
+   fun getBytes(maxWidth: Int, maxHeight: Int = maxWidth) = resizedFile(maxWidth, maxHeight).readBytes()
 
    fun saveProperties(auxFile: File) {
       val res = KProperties(auxFile)
