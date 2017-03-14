@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>GCUM Informations techniques</title>
+    <title>Informations techniques</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/info.css">
@@ -55,7 +55,7 @@
 <div style="margin: 20px;">
     <p>Version ${gcum:versionName()}</p>
     <p>
-        Ce site vous permet librement, gratuitement de publier et partager en direct vos photos de GCUM (Garé Comme Une Merde).
+        Ce site vous permet librement, gratuitement de publier et partager en direct vos photos de véhicules mal garées sur Paris.
         Vous pouvez y déposer les photos de voitures, camions, scooters, motos et même vélos garés illégalement sur un
         emplacement qui leur sont interdits : pistes cyclables, trottoir, passage piétons...
     </p>

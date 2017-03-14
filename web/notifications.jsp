@@ -7,7 +7,7 @@
     <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <meta http-equiv="refresh" content="0; url=index.jsp"/>
     </c:if>
-    <title>GCUM Changer les notifications</title>
+    <title>Changer les notifications</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/notifications.css">

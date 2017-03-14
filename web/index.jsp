@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>GCUM</title>
+    <title>Carte</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/photo.css">

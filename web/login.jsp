@@ -4,7 +4,7 @@
 <%@taglib prefix="gcum" uri="http://www.gcum.lol/gcum" %>
 <html>
 <head>
-    <title>GCUM Login</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

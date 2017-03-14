@@ -7,7 +7,7 @@
     <c:if test="${not gcum:isLogin(sessionScope.sessionId)}">
         <meta http-equiv="refresh" content="0; url=index.jsp"/>
     </c:if>
-    <title>GCUM Changer d'adresse email</title>
+    <title>Changer d'adresse email</title>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

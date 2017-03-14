@@ -7,7 +7,7 @@
     <c:if test="${not gcum:isAdmin(sessionScope.sessionId)}">
         <meta http-equiv="refresh" content="0; url=index.jsp"/>
     </c:if>
-    <title>GCUM Extraits</title>
+    <title>Extraction</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/extract.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

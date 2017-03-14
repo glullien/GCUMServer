@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>GCUM Désabonnement</title>
+    <title>Désabonnement</title>
 </head>
 <body>
 <c:choose>
