@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/add.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="lib/jquery.fileupload.js"></script>
@@ -70,7 +70,7 @@
     <div id="reportZone">
         <div class="form-group" id="streetGroup">
             <label for="street">Lieu :</label>
-            <input type="text" id="number" class="form-control">
+            <input type="text" id="number" class="form-control" title="Numéro de voie">
             <input type="text" id="street" class="form-control">
         </div>
         <div class="form-group" id="dateGroup">
