@@ -8,6 +8,8 @@
         <meta http-equiv="refresh" content="0; url=index.jsp"/>
     </c:if>
     <title>Extraction</title>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="icon" type="image/png" href="images/GCUM2-32.png" />
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/extract.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

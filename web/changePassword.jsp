@@ -9,6 +9,7 @@
     </c:if>
     <title>Changer d'adresse email</title>
     <meta name="viewport" content="width=device-width"/>
+    <link rel="icon" type="image/png" href="images/GCUM2-32.png" />
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
