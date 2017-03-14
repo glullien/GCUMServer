@@ -214,8 +214,11 @@ $(function () {
 	var postId = null;
 	$('#fileupload').fileupload({
 		url: "/upload",
+		formData: {answerCharset: 'UTF-8'},
 		singleFileUploads: false,
-		dataType: 'json',
+		fail: function(e, data) {
+			console.log('Fail!');
+		},
 		done: function (e, data) {
 			var result = data.result;
 			postId = result.id;
