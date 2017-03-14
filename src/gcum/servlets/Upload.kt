@@ -98,8 +98,8 @@ private fun addPost(uploaded: List<Uploaded>): Post {
 class Upload : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
       cleanOldUploaded()
-      if (request.parts.any {!it.contentType.startsWith("image/jpeg")}) throw  ServletException("Must be an image")
-      val uploaded = request.parts.map {addUpload(it.inputStream.readBytes())}
+      if (request.parts.any {(it.contentType != null) && !it.contentType.startsWith("image/jpeg")}) throw  ServletException("Must be an image")
+      val uploaded = request.parts.filter {it.contentType?.startsWith("image/jpeg") ?: false}.map {addUpload(it.inputStream.readBytes())}
       val post = addPost(uploaded)
       return jsonSuccess {
          put("id", post.id)
