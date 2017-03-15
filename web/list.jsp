@@ -6,7 +6,7 @@
 <head>
     <title>Liste</title>
     <meta name="viewport" content="width=device-width"/>
-    <link rel="icon" type="image/png" href="images/GCUM2-32.png" />
+    <link rel="icon" type="image/png" href="images/GCUM2-32.png"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/shared.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/photo.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/list.css">
@@ -51,6 +51,24 @@
                         <c:forEach var="d" begin="2" end="20">
                             <li><a id="district${d}" href="#">${d}e</a></li>
                         </c:forEach>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <span class="hideOnMobile">Publiés par :</span>
+                <div class="dropdown" style="display: inline;">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" id="authorsMenu">
+                        <span id="authors">Tous</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a id="authorsAll" href="#">Tous</a></li>
+                        <c:if test="${gcum:isLogin(sessionScope.sessionId)}">
+                            <li><a id="authorsMyself" href="#">Moi-même</a></li>
+                        </c:if>
+                        <li>
+                            <label for="authorsText" class="dropdownMenuLabel">Pseudo</label><input type="text" id="authorsText">
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -116,6 +134,13 @@
                     <c:forEach var="d" begin="2" end="20">
                         <option value="${d}">${d}e</option>
                     </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="filterAuthor">Tri par :</label>
+                <select id="filterAuthor" class="form-control">
+                    <option value="<all>">tous</option>
+                    <option value="<myself>">moi-même</option>
                 </select>
             </div>
             <div class="form-group">

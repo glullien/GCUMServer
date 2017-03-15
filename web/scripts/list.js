@@ -4,6 +4,7 @@ function displayError(error) {
 }
 
 var district = 'All';
+var author = '<all>';
 var sort = 'date';
 var latest = null;
 var currentPosition = null;
@@ -22,7 +23,7 @@ function distance(lat_a_degre, lon_a_degre, lat_b_degre, lon_b_degre) {
 }
 
 function fillList() {
-	var params = stdParams({number: 20, district: district, sort: sort});
+	var params = stdParams({number: 20, district: district, author: author, sort: sort});
 	if (currentPosition != null) params = concatMaps(params, {
 		latitude: Math.round(currentPosition.latitude * 1E5),
 		longitude: Math.round(currentPosition.longitude * 1E5)
@@ -107,6 +108,14 @@ function setDistrict(d, text) {
 	fillList();
 }
 
+function setAuthor(d, text) {
+	$("#authors").html(text);
+	author = d;
+	latest = null;
+	$("#list").html("");
+	fillList();
+}
+
 function configureDistrictButton(d) {
 	$("#district" + d).click(function () {
 		var text;
@@ -160,6 +169,21 @@ $(function () {
 		setDistrict("All", "Tous");
 	});
 	for (var i = 1; i <= 20; i++) configureDistrictButton(i);
+	$("#authorsAll").click(function () {
+		setAuthor("<all>", "Tous");
+	});
+	$("#authorsMyself").click(function () {
+		setAuthor("<myself>", "Moi-même");
+	});
+	$("#authorsText").keyup(function (e) {
+		if (e.keyCode == 13) {
+			var author = $('#authorsText').val();
+			if (author.length > 0) {
+				$("#authorsMenu").dropdown('toggle');
+				setAuthor(author, author);
+			}
+		}
+	});
 	$("#sortDate").click(function () {
 		setSort("date", "date");
 	});
@@ -168,14 +192,17 @@ $(function () {
 	});
 	$("#filterOpen").click(function () {
 		$("#filterDistrict").val(district);
+		$("#filterAuthor").val(author);
 		$("#filterSort").val(sort);
 		$("#filter").show();
 	});
 	$("#filterApply").click(function () {
 		$("#filter").hide();
 		var filterDistrict = $("#filterDistrict");
-		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text());
+		var filterAuthor = $("#filterAuthor");
 		var filterSort = $("#filterSort");
+		setDistrict(filterDistrict.val(), filterDistrict.find("option:selected").text());
+		setAuthor(filterAuthor.val(), filterAuthor.find("option:selected").text());
 		setSort(filterSort.val(), filterSort.find("option:selected").text())
 	});
 	$(document).keyup(function (e) {

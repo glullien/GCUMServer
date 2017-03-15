@@ -10,6 +10,12 @@
 	right: 0;
 }
 
+.dropdownMenuLabel {
+	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
 .frames {
 	position: fixed;
 	top: 30px;
