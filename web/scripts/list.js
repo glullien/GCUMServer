@@ -182,6 +182,7 @@ $(function () {
 				$("#authorsMenu").dropdown('toggle');
 				setAuthor(author, author);
 			}
+			return false;
 		}
 	});
 	$("#sortDate").click(function () {
