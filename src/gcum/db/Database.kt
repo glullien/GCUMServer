@@ -24,8 +24,8 @@ private val log = getLogger()
 
 object Database {
 
-   val versionName = "0.9.18"
-   val versionCode = 3
+   val versionName = "0.9.19"
+   val versionCode = 4
 
    val root: Path = Configuration.getPath("root")
    private val users = ConcurrentHashMap<String, User>()
