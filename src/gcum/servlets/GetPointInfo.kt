@@ -25,7 +25,7 @@ class GetPointInfo : JsonServlet() {
       val locationSources = request.getEnums<CoordinatesSource>("locationSources")
       val photos = inTimeFrame.filter {locationSources.contains(it.location.coordinates.source)}
       if (photos.isEmpty()) throw IllegalAccessException("Photos not found")
-      val sortedPhotos = photos.sortedByDescending {it.moment.date}
+      val sortedPhotos = photos.sortedByDescending {it.moment}
       val username = username(request)
       return jsonSuccess {
          put("photos", sortedPhotos.map {sub {putPhotoInfo(it, username)}})
