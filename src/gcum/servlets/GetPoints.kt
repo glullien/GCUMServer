@@ -5,6 +5,7 @@ import gcum.db.Database
 import gcum.db.Photo
 import gcum.geo.Point
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServletRequest
 
@@ -26,7 +27,7 @@ class GetPoints : JsonServlet() {
       }
       val locationSources = request.getEnums<CoordinatesSource>("locationSources")
       val locationSourceOk = inTimeFrame.filterValues {it.any {locationSources.contains(it.location.coordinates.source)}}
-      return encode(locationSourceOk.keys)
+      return encode(locationSourceOk)
    }
 
    private fun after(date: LocalDate, source: Map<Point, Collection<Photo>>) = source.filterValues {it.any {!it.moment.date.isBefore(date)}}
@@ -41,12 +42,22 @@ class GetPoints : JsonServlet() {
       return source.filterKeys {it.inside(min, max)}
    }
 
-   private fun encode(res: Collection<Point>) = jsonSuccess {
+   private fun encode(res: Map<Point, Collection<Photo>>) = jsonSuccess {
       put("photos", res.map {
-         point->
+         e->
          sub {
+            val point = e.key
+            val photos = e.value
             put("latitude", point.latitude)
             put("longitude", point.longitude)
+            put("nbPhotos", photos.size)
+            put("street", photos.first().location.address.street)
+            put("district", photos.first().location.address.district)
+            val minDate = photos.minBy {it.moment.date}?.moment?.date?.format(DateTimeFormatter.ISO_DATE) ?: "ERROR"
+            val latestPhoto = photos.maxBy {it.moment.date}
+            val maxDate = latestPhoto?.moment?.date?.format(DateTimeFormatter.ISO_DATE) ?: "ERROR"
+            put("dates", minDate + if (maxDate == minDate) "" else " -> $maxDate")
+            put("latestId", latestPhoto?.id ?: "ERROR")
          }
       })
    }
