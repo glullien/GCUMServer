@@ -186,7 +186,7 @@ class ReportUploaded : JsonServlet() {
 @MultipartConfig
 class UploadAndReport : JsonServlet() {
    override fun doPost(request: HttpServletRequest): Map<String, *> {
-      val images = request.parts.filter {it.contentType.startsWith("image/jpeg")}.map {it.inputStream.readBytes()}
+      val images = request.parts.filter {it.contentType?.startsWith("image/jpeg")?:false}.map {it.inputStream.readBytes()}
       val username = username(request) ?: return jsonError("Login non reconnu")
       val latitude = request.getLongOrNull("latitude")
       val longitude = request.getLongOrNull("longitude")
