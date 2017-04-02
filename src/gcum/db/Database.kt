@@ -24,7 +24,7 @@ private val log = getLogger()
 
 object Database {
 
-   val versionName = "0.9.19"
+   val versionName = "0.9.19.2"
    val versionCode = 4
 
    val root: Path = Configuration.getPath("root")
