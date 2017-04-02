@@ -60,5 +60,6 @@ class GetPoints : JsonServlet() {
             put("latestId", latestPhoto?.id ?: "ERROR")
          }
       })
+      put("nbPhotos", res.values.sumBy {it.size})
    }
 }

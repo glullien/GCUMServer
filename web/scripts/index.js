@@ -130,6 +130,7 @@ function refreshMarkers() {
 					markers.push(createMarker(photo.latitude, photo.longitude));
 				}
 				markerCluster.addMarkers(markers);
+				$("#nbPhotos").html(json.nbPhotos);
 			}
 			else {
 				displayError(json.message)

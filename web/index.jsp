@@ -70,6 +70,9 @@
                     </ul>
                 </div>
             </div>
+            <div class="form-group hideOnMobile">
+                <span id="nbPhotos">0</span> photos
+            </div>
         </form>
     </div>
     <div class="showOnSmallScreen controlBox">
